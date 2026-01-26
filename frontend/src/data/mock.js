@@ -228,6 +228,7 @@ export const adProjects = [
 
 export const credits = [
   { year: 2026, title: "Happy Patel: Khatarnak Jasoos", role: "Composer", type: "Feature Film", director: "Vir Das & Kavi Shastri" },
+  { year: 2025, title: "RBI Unlocked: Beyond the Rupee", role: "Composer", type: "Documentary", director: "Chalkboard Entertainment" },
   { year: 2025, title: "Aakhri Ride", role: "Composer", type: "Short Film", director: "Vijesh Rajan & Yashoda Parthasarthy" },
   { year: 2024, title: "Jigra", role: "Composer", type: "Feature Film", director: "Vasan Bala" },
   { year: 2024, title: "Tropicana - Goodness Jo Dikhti Hai", role: "Composer", type: "Commercial", director: "Various" },
