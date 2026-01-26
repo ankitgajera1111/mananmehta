@@ -71,6 +71,40 @@ export const filmProjects = [
       { title: "Goa Chase", duration: "3:55" },
       { title: "The Big Reveal", duration: "2:30" }
     ]
+  },
+  {
+    id: "f3",
+    title: "Aakhri Ride",
+    type: "Short Film",
+    year: 2025,
+    director: "Vijesh Rajan & Yashoda Parthasarthy",
+    genre: "Drama Thriller",
+    description: "A gripping score for this Anurag Kashyap-presented short film about Aman, a migrant ride-share driver in Mumbai who desperately plans to steal from his exploitative boss to secure a dowry for his sister's wedding.",
+    coverImage: "https://img.youtube.com/vi/HMksOFHln1M/maxresdefault.jpg",
+    audioUrl: "/audio/placeholder.mp3",
+    duration: "2:45",
+    tracks: [
+      { title: "The Last Ride", duration: "2:45" },
+      { title: "Mumbai Nights", duration: "1:58" },
+      { title: "Desperate Measures", duration: "2:20" }
+    ]
+  },
+  {
+    id: "f4",
+    title: "Yashoda",
+    type: "Short Film",
+    year: 2023,
+    director: "Praveen Chougule",
+    genre: "Drama",
+    description: "A heartfelt score celebrating motherhood and the essence of humanity, following a writer's discovery of a woman who legally adopted her maid's daughter after tragedy. Featured at IFFI Goa.",
+    coverImage: "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80",
+    audioUrl: "/audio/placeholder.mp3",
+    duration: "3:10",
+    tracks: [
+      { title: "Yashoda - Main Theme", duration: "3:10" },
+      { title: "A Mother's Love", duration: "2:30" },
+      { title: "New Beginnings", duration: "2:15" }
+    ]
   }
 ];
 
