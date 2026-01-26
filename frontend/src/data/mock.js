@@ -74,6 +74,24 @@ export const filmProjects = [
   },
   {
     id: "f3",
+    title: "RBI Unlocked: Beyond the Rupee",
+    type: "Documentary",
+    year: 2025,
+    director: "Chalkboard Entertainment",
+    genre: "Finance Documentary",
+    description: "A compelling score for RBI's first-ever documentary series in its 90-year history, streaming on JioHotstar. The five-part series explores India's central bank's role in monetary policy, currency management, and financial inclusion.",
+    coverImage: "https://img.youtube.com/vi/CktkuYEWkdI/maxresdefault.jpg",
+    audioUrl: "/audio/placeholder.mp3",
+    duration: "4:15",
+    tracks: [
+      { title: "As Good as Gold", duration: "4:15" },
+      { title: "₹ for Rupee", duration: "3:30" },
+      { title: "Banking on RBI", duration: "3:45" },
+      { title: "Financial Inclusion", duration: "2:50" }
+    ]
+  },
+  {
+    id: "f4",
     title: "Aakhri Ride",
     type: "Short Film",
     year: 2025,
@@ -90,7 +108,7 @@ export const filmProjects = [
     ]
   },
   {
-    id: "f4",
+    id: "f5",
     title: "Yashoda",
     type: "Short Film",
     year: 2023,
