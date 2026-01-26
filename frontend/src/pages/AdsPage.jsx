@@ -47,8 +47,8 @@ const AdsPage = () => {
       {/* Brand Logos Showcase */}
       <section className="border-y border-[#f5f5f0]/10 py-8">
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
-          <div className="flex items-center justify-center gap-8 lg:gap-16 opacity-50">
-            {['Nike', 'Apple', 'Mercedes-Benz', 'Google', 'Samsung'].map((brand) => (
+          <div className="flex items-center justify-center gap-8 lg:gap-16 opacity-50 flex-wrap">
+            {['Tropicana', 'Lakmé', 'Volvo', 'Samsung', 'Squarespace', 'Lay\'s', 'Durex'].map((brand) => (
               <span key={brand} className="font-display text-lg lg:text-2xl text-[#f5f5f0] tracking-wider">
                 {brand.toUpperCase()}
               </span>
