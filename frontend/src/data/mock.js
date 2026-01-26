@@ -80,7 +80,7 @@ export const filmProjects = [
     director: "Chalkboard Entertainment",
     genre: "Finance Documentary",
     description: "A compelling score for RBI's first-ever documentary series in its 90-year history, streaming on JioHotstar. The five-part series explores India's central bank's role in monetary policy, currency management, and financial inclusion.",
-    coverImage: "https://img.youtube.com/vi/CktkuYEWkdI/maxresdefault.jpg",
+    coverImage: "https://image.tmdb.org/t/p/w500/jjj5NYuASDNjjQAiAdvgx3N7JJx.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "4:15",
     tracks: [
@@ -105,23 +105,6 @@ export const filmProjects = [
       { title: "The Last Ride", duration: "2:45" },
       { title: "Mumbai Nights", duration: "1:58" },
       { title: "Desperate Measures", duration: "2:20" }
-    ]
-  },
-  {
-    id: "f5",
-    title: "Yashoda",
-    type: "Short Film",
-    year: 2023,
-    director: "Praveen Chougule",
-    genre: "Drama",
-    description: "A heartfelt score celebrating motherhood and the essence of humanity, following a writer's discovery of a woman who legally adopted her maid's daughter after tragedy. Featured at IFFI Goa.",
-    coverImage: "https://images.unsplash.com/photo-1476703993599-0035a21b17a9?w=800&q=80",
-    audioUrl: "/audio/placeholder.mp3",
-    duration: "3:10",
-    tracks: [
-      { title: "Yashoda - Main Theme", duration: "3:10" },
-      { title: "A Mother's Love", duration: "2:30" },
-      { title: "New Beginnings", duration: "2:15" }
     ]
   }
 ];
