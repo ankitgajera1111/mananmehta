@@ -74,6 +74,7 @@ export const filmProjects = [
   }
 ];
 
+// Using YouTube thumbnail URLs (maxresdefault for best quality)
 export const adProjects = [
   {
     id: "a1",
@@ -82,7 +83,7 @@ export const adProjects = [
     type: "TVC",
     year: 2024,
     description: "A fresh, uplifting composition capturing the natural goodness and vitality of Tropicana juice with warm, organic instrumentation.",
-    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Tropicana_Products_logo.svg/1200px-Tropicana_Products_logo.svg.png",
+    coverImage: "https://img.youtube.com/vi/GoNlEWYyBRw/maxresdefault.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:36",
     youtubeId: "GoNlEWYyBRw"
@@ -94,7 +95,7 @@ export const adProjects = [
     type: "TVC",
     year: 2024,
     description: "An elegant, confident score reflecting the modern working woman's style and the premium quality of Lakmé's foundation range.",
-    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Lakm%C3%A9_logo.svg/1200px-Lakm%C3%A9_logo.svg.png",
+    coverImage: "https://img.youtube.com/vi/EJFCKeJqRHc/maxresdefault.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:26",
     youtubeId: "EJFCKeJqRHc"
@@ -106,7 +107,7 @@ export const adProjects = [
     type: "Product Film",
     year: 2024,
     description: "Dynamic, energetic music driving the visual storytelling of this innovative sports equipment brand, blending electronic beats with athletic energy.",
-    coverImage: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800&q=80",
+    coverImage: "https://img.youtube.com/vi/UiHfBFXJuxY/maxresdefault.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:47",
     youtubeId: "UiHfBFXJuxY"
@@ -118,7 +119,7 @@ export const adProjects = [
     type: "Brand Film",
     year: 2024,
     description: "A sophisticated, forward-thinking score for Volvo's electric vehicle launch, combining cinematic orchestration with futuristic electronic textures.",
-    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Volvo_Cars_logo.svg/1200px-Volvo_Cars_logo.svg.png",
+    coverImage: "https://img.youtube.com/vi/O94waW0YE1c/maxresdefault.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "1:07",
     youtubeId: "O94waW0YE1c"
@@ -130,7 +131,7 @@ export const adProjects = [
     type: "TVC",
     year: 2024,
     description: "A trendy, youthful composition featuring Kiara Advani for Samsung's flip phone campaign, capturing style and innovation.",
-    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/1200px-Samsung_Logo.svg.png",
+    coverImage: "https://img.youtube.com/vi/W-iBT1haEwQ/maxresdefault.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:34",
     youtubeId: "W-iBT1haEwQ"
@@ -142,7 +143,7 @@ export const adProjects = [
     type: "Super Bowl Commercial",
     year: 2023,
     description: "An epic, cinematic score for Squarespace's Big Game commercial, blending dramatic orchestral swells with cutting-edge sound design.",
-    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Squarespace_Logo_2019.svg/1200px-Squarespace_Logo_2019.svg.png",
+    coverImage: "https://img.youtube.com/vi/To0xRwjyRLk/maxresdefault.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "1:37",
     youtubeId: "To0xRwjyRLk"
@@ -154,7 +155,7 @@ export const adProjects = [
     type: "TVC",
     year: 2024,
     description: "A fun, flavorful composition with spicy Latin influences, perfectly matching the bold taste profile of Lay's Chili chips.",
-    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Lay%27s_logo_2007.svg/1200px-Lay%27s_logo_2007.svg.png",
+    coverImage: "https://img.youtube.com/vi/1bLR9H_ZRKQ/maxresdefault.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:21",
     youtubeId: "1bLR9H_ZRKQ"
@@ -166,7 +167,7 @@ export const adProjects = [
     type: "TVC",
     year: 2024,
     description: "An intimate, sensual composition creating the perfect mood for Durex's premium product line with subtle, sophisticated tones.",
-    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Durex_logo_%282020%29.svg/1200px-Durex_logo_%282020%29.svg.png",
+    coverImage: "https://img.youtube.com/vi/LPCpvNeTjRY/maxresdefault.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:31",
     youtubeId: "LPCpvNeTjRY"
