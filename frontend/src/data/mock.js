@@ -44,7 +44,7 @@ export const filmProjects = [
     director: "Vasan Bala",
     genre: "Action Thriller",
     description: "An emotionally charged score for this action thriller starring Alia Bhatt, capturing the intense bond between siblings and the raw determination of a sister protecting her brother.",
-    coverImage: "https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=800&q=80",
+    coverImage: "https://filmfare.wwmindia.com/content/2024/sep/aliabhattjigra11725601702.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "4:25",
     tracks: [
@@ -62,7 +62,7 @@ export const filmProjects = [
     director: "Vir Das & Kavi Shastri",
     genre: "Spy Comedy",
     description: "A playful, energetic score blending spy-thriller motifs with comedic timing for this masala entertainer starring Vir Das and produced by Aamir Khan Productions.",
-    coverImage: "https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?w=800&q=80",
+    coverImage: "https://m.media-amazon.com/images/M/MV5BOWUyZTBjYTctMGQyNS00Mjg0LTg5ZTMtZDA1YmEyZDIxZjRlXkEyXkFqcGc@._V1_QL75_UX500_.jpg",
     audioUrl: "/audio/placeholder.mp3",
     duration: "3:18",
     tracks: [
@@ -82,7 +82,7 @@ export const adProjects = [
     type: "TVC",
     year: 2024,
     description: "A fresh, uplifting composition capturing the natural goodness and vitality of Tropicana juice with warm, organic instrumentation.",
-    coverImage: "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=800&q=80",
+    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Tropicana_Products_logo.svg/1200px-Tropicana_Products_logo.svg.png",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:36",
     youtubeId: "GoNlEWYyBRw"
@@ -94,7 +94,7 @@ export const adProjects = [
     type: "TVC",
     year: 2024,
     description: "An elegant, confident score reflecting the modern working woman's style and the premium quality of Lakmé's foundation range.",
-    coverImage: "https://images.unsplash.com/photo-1596462502278-27bfdc403348?w=800&q=80",
+    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Lakm%C3%A9_logo.svg/1200px-Lakm%C3%A9_logo.svg.png",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:26",
     youtubeId: "EJFCKeJqRHc"
@@ -118,7 +118,7 @@ export const adProjects = [
     type: "Brand Film",
     year: 2024,
     description: "A sophisticated, forward-thinking score for Volvo's electric vehicle launch, combining cinematic orchestration with futuristic electronic textures.",
-    coverImage: "https://images.unsplash.com/photo-1617531653332-bd46c24f2068?w=800&q=80",
+    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Volvo_Cars_logo.svg/1200px-Volvo_Cars_logo.svg.png",
     audioUrl: "/audio/placeholder.mp3",
     duration: "1:07",
     youtubeId: "O94waW0YE1c"
@@ -130,7 +130,7 @@ export const adProjects = [
     type: "TVC",
     year: 2024,
     description: "A trendy, youthful composition featuring Kiara Advani for Samsung's flip phone campaign, capturing style and innovation.",
-    coverImage: "https://images.unsplash.com/photo-1610945415295-d9bbf067e59c?w=800&q=80",
+    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Samsung_Logo.svg/1200px-Samsung_Logo.svg.png",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:34",
     youtubeId: "W-iBT1haEwQ"
@@ -142,7 +142,7 @@ export const adProjects = [
     type: "Super Bowl Commercial",
     year: 2023,
     description: "An epic, cinematic score for Squarespace's Big Game commercial, blending dramatic orchestral swells with cutting-edge sound design.",
-    coverImage: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=800&q=80",
+    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Squarespace_Logo_2019.svg/1200px-Squarespace_Logo_2019.svg.png",
     audioUrl: "/audio/placeholder.mp3",
     duration: "1:37",
     youtubeId: "To0xRwjyRLk"
@@ -150,11 +150,11 @@ export const adProjects = [
   {
     id: "a7",
     title: "Spice That's Just Right",
-    brand: "Lay's Chili",
+    brand: "Lay's",
     type: "TVC",
     year: 2024,
     description: "A fun, flavorful composition with spicy Latin influences, perfectly matching the bold taste profile of Lay's Chili chips.",
-    coverImage: "https://images.unsplash.com/photo-1566478989037-eec170784d0b?w=800&q=80",
+    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6f/Lay%27s_logo_2007.svg/1200px-Lay%27s_logo_2007.svg.png",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:21",
     youtubeId: "1bLR9H_ZRKQ"
@@ -166,7 +166,7 @@ export const adProjects = [
     type: "TVC",
     year: 2024,
     description: "An intimate, sensual composition creating the perfect mood for Durex's premium product line with subtle, sophisticated tones.",
-    coverImage: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&q=80",
+    coverImage: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c9/Durex_logo_%282020%29.svg/1200px-Durex_logo_%282020%29.svg.png",
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:31",
     youtubeId: "LPCpvNeTjRY"
