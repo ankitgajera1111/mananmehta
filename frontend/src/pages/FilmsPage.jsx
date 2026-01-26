@@ -115,7 +115,7 @@ const FilmsPage = () => {
                   onClick={() => setSelectedProject(project)}
                   className="group flex flex-col sm:flex-row gap-6 p-4 rounded-xl bg-[#151515] hover:bg-[#1a1a1a] transition-colors cursor-pointer"
                 >
-                  <div className="w-full sm:w-48 h-48 sm:h-32 rounded-lg overflow-hidden flex-shrink-0">
+                  <div className="w-full sm:w-48 h-64 sm:h-64 rounded-lg overflow-hidden flex-shrink-0">
                     <img
                       src={project.coverImage}
                       alt={project.title}
