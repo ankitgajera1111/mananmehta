@@ -87,12 +87,15 @@ const ProjectCard = ({
       onClick={onClick}
     >
       {/* Cover Image */}
-      <div className="aspect-square relative overflow-hidden">
+      <div className={cn(
+        "relative overflow-hidden",
+        type === 'film' ? 'aspect-[3/4]' : 'aspect-video'
+      )}>
         <img
           src={project.coverImage}
           alt={project.title}
           className={cn(
-            'w-full h-full object-cover transition-transform duration-500',
+            'w-full h-full object-cover object-center transition-transform duration-500',
             isHovered && 'scale-110'
           )}
         />
