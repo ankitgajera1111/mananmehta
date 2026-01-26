@@ -210,6 +210,7 @@ export const adProjects = [
 
 export const credits = [
   { year: 2026, title: "Happy Patel: Khatarnak Jasoos", role: "Composer", type: "Feature Film", director: "Vir Das & Kavi Shastri" },
+  { year: 2025, title: "Aakhri Ride", role: "Composer", type: "Short Film", director: "Vijesh Rajan & Yashoda Parthasarthy" },
   { year: 2024, title: "Jigra", role: "Composer", type: "Feature Film", director: "Vasan Bala" },
   { year: 2024, title: "Tropicana - Goodness Jo Dikhti Hai", role: "Composer", type: "Commercial", director: "Various" },
   { year: 2024, title: "Lakmé 9 to 5 Foundation", role: "Composer", type: "Commercial", director: "Various" },
@@ -218,6 +219,7 @@ export const credits = [
   { year: 2024, title: "Samsung - Kiara Joins the Flip Side", role: "Composer", type: "Commercial", director: "Various" },
   { year: 2024, title: "Lay's Chili - Spice That's Just Right", role: "Composer", type: "Commercial", director: "Various" },
   { year: 2024, title: "Durex Real Feel", role: "Composer", type: "Commercial", director: "Various" },
+  { year: 2023, title: "Yashoda", role: "Composer", type: "Short Film", director: "Praveen Chougule" },
   { year: 2023, title: "Squarespace - The Singularity (Super Bowl)", role: "Composer", type: "Commercial", director: "Various" }
 ];
 
