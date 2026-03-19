@@ -231,6 +231,7 @@ export const credits = [
   { year: 2025, title: "RBI Unlocked: Beyond the Rupee", role: "Composer", type: "Documentary", director: "Chalkboard Entertainment" },
   { year: 2025, title: "Aakhri Ride", role: "Composer", type: "Short Film", director: "Vijesh Rajan & Yashoda Parthasarthy" },
   { year: 2024, title: "Jigra", role: "Composer", type: "Feature Film", director: "Vasan Bala" },
+  { year: 2024, title: "Bombay Mon Amour", role: "Composer", type: "Short Film", director: "Independent" },
   { year: 2024, title: "Tropicana - Goodness Jo Dikhti Hai", role: "Composer", type: "Commercial", director: "Various" },
   { year: 2024, title: "Lakmé 9 to 5 Foundation", role: "Composer", type: "Commercial", director: "Various" },
   { year: 2024, title: "Futurworks by Ludic - Sports Bag", role: "Composer", type: "Commercial", director: "Don Philip Antony" },
