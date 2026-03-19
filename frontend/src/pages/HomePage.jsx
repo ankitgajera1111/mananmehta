@@ -56,11 +56,11 @@ const HomePage = () => {
                 </span>
               ))}
             </h1>
-            <p className="text-[#f5f5f0]/70 text-lg lg:text-xl max-w-lg mb-10">
+            <p className="text-[#f5f5f0]/70 text-lg lg:text-xl max-w-lg mb-16">
               {composerInfo.tagline}
             </p>
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 mb-24">
               <Link to="/films">
                 <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
                   Explore Work
