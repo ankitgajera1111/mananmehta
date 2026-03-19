@@ -129,7 +129,7 @@ const Navigation = () => {
           
           <div className="absolute bottom-12 flex items-center gap-6">
             <a
-              href={`https://instagram.com/${composerInfo.instagram}`}
+              href={composerInfo.instagramUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[#f5f5f0]/50 hover:text-amber-500 transition-colors"
