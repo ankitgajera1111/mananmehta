@@ -128,7 +128,7 @@ export const filmProjects = [
     id: "f5",
     title: "Bombay Mon Amour",
     type: "Short Film",
-    year: 2024,
+    year: 2025,
     director: "Independent",
     genre: "Drama",
     description: "An evocative score capturing the rhythm and soul of Mumbai, weaving together the city's vibrant energy with intimate human stories.",
