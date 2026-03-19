@@ -45,16 +45,9 @@ export const filmProjects = [
     year: 2024,
     director: "Vasan Bala",
     genre: "Action Thriller",
+    role: "Additional Music",
     description: "An emotionally charged score for this action thriller starring Alia Bhatt, capturing the intense bond between siblings and the raw determination of a sister protecting her brother.",
-    coverImage: "https://filmfare.wwmindia.com/content/2024/sep/aliabhattjigra11725601702.jpg",
-    audioUrl: "/audio/placeholder.mp3",
-    duration: "4:25",
-    tracks: [
-      { title: "Jigra - Main Theme", duration: "4:25" },
-      { title: "The Prison Break", duration: "3:15" },
-      { title: "Sibling Bond", duration: "3:42" },
-      { title: "Final Confrontation", duration: "4:50" }
-    ]
+    coverImage: "https://filmfare.wwmindia.com/content/2024/sep/aliabhattjigra11725601702.jpg"
   },
   {
     id: "f2",
@@ -63,16 +56,9 @@ export const filmProjects = [
     year: 2026,
     director: "Vir Das & Kavi Shastri",
     genre: "Spy Comedy",
+    role: "Additional Music",
     description: "A playful, energetic score blending spy-thriller motifs with comedic timing for this masala entertainer starring Vir Das and produced by Aamir Khan Productions.",
-    coverImage: "https://m.media-amazon.com/images/M/MV5BOWUyZTBjYTctMGQyNS00Mjg0LTg5ZTMtZDA1YmEyZDIxZjRlXkEyXkFqcGc@._V1_QL75_UX500_.jpg",
-    audioUrl: "/audio/placeholder.mp3",
-    duration: "3:18",
-    tracks: [
-      { title: "Happy's Theme", duration: "3:18" },
-      { title: "Spy Games", duration: "2:45" },
-      { title: "Goa Chase", duration: "3:55" },
-      { title: "The Big Reveal", duration: "2:30" }
-    ]
+    coverImage: "https://m.media-amazon.com/images/M/MV5BOWUyZTBjYTctMGQyNS00Mjg0LTg5ZTMtZDA1YmEyZDIxZjRlXkEyXkFqcGc@._V1_QL75_UX500_.jpg"
   },
   {
     id: "f3",
@@ -81,15 +67,9 @@ export const filmProjects = [
     year: 2024,
     director: "Independent",
     genre: "Action Drama",
+    role: "Composer",
     description: "A high-octane score capturing speed, adrenaline, and the pursuit of dreams, with pulsating rhythms and cinematic intensity.",
-    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/vjcciayl_IMG_3542.JPG",
-    audioUrl: "/audio/placeholder.mp3",
-    duration: "3:45",
-    tracks: [
-      { title: "Raftaar - Main Theme", duration: "3:45" },
-      { title: "The Race", duration: "2:50" },
-      { title: "Victory Lap", duration: "3:10" }
-    ]
+    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/vjcciayl_IMG_3542.JPG"
   },
   {
     id: "f4",
@@ -98,67 +78,42 @@ export const filmProjects = [
     year: 2025,
     director: "Chalkboard Entertainment",
     genre: "Finance Documentary",
+    role: "Additional Music",
     description: "A compelling score for RBI's first-ever documentary series in its 90-year history, streaming on JioHotstar. The five-part series explores India's central bank's role in monetary policy, currency management, and financial inclusion.",
-    coverImage: "https://image.tmdb.org/t/p/w500/jjj5NYuASDNjjQAiAdvgx3N7JJx.jpg",
-    audioUrl: "/audio/placeholder.mp3",
-    duration: "4:15",
-    tracks: [
-      { title: "As Good as Gold", duration: "4:15" },
-      { title: "₹ for Rupee", duration: "3:30" },
-      { title: "Banking on RBI", duration: "3:45" },
-      { title: "Financial Inclusion", duration: "2:50" }
-    ]
+    coverImage: "https://image.tmdb.org/t/p/w500/jjj5NYuASDNjjQAiAdvgx3N7JJx.jpg"
   },
   {
-    id: "f4",
+    id: "f5",
     title: "Aakhri Ride",
     type: "Short Film",
     year: 2025,
     director: "Vijesh Rajan & Yashoda Parthasarthy",
     genre: "Drama Thriller",
+    role: "Additional Music",
     description: "A gripping score for this Anurag Kashyap-presented short film about Aman, a migrant ride-share driver in Mumbai who desperately plans to steal from his exploitative boss to secure a dowry for his sister's wedding.",
-    coverImage: "https://img.youtube.com/vi/HMksOFHln1M/maxresdefault.jpg",
-    audioUrl: "/audio/placeholder.mp3",
-    duration: "2:45",
-    tracks: [
-      { title: "The Last Ride", duration: "2:45" },
-      { title: "Mumbai Nights", duration: "1:58" },
-      { title: "Desperate Measures", duration: "2:20" }
-    ]
+    coverImage: "https://img.youtube.com/vi/HMksOFHln1M/maxresdefault.jpg"
   },
   {
-    id: "f5",
+    id: "f6",
     title: "Bombay Mon Amour",
     type: "Short Film",
     year: 2025,
     director: "Independent",
     genre: "Drama",
+    role: "Music Composer",
     description: "An evocative score capturing the rhythm and soul of Mumbai, weaving together the city's vibrant energy with intimate human stories.",
-    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/zlr4c2br_1.jpg",
-    audioUrl: "/audio/placeholder.mp3",
-    duration: "3:20",
-    tracks: [
-      { title: "Bombay Mon Amour - Main Theme", duration: "3:20" },
-      { title: "City of Dreams", duration: "2:45" },
-      { title: "Monsoon Memories", duration: "2:30" }
-    ]
+    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/zlr4c2br_1.jpg"
   },
   {
-    id: "f6",
+    id: "f7",
     title: "Distance",
     type: "Short Film",
     year: 2025,
     director: "Swapnil S. Sonawane",
     genre: "Drama",
+    role: "Additional Music",
     description: "A poignant score exploring themes of emotional separation and connection, capturing the quiet moments between a mother and son on a rainy journey.",
-    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/imddbx6o_Screenshot%202026-03-19%20at%204.55.13%E2%80%AFPM.png",
-    audioUrl: "/audio/placeholder.mp3",
-    duration: "2:50",
-    tracks: [
-      { title: "Distance - Main Theme", duration: "2:50" },
-      { title: "Rainy Roads", duration: "2:15" },
-      { title: "Unspoken Words", duration: "1:45" }
-    ]
+    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/imddbx6o_Screenshot%202026-03-19%20at%204.55.13%E2%80%AFPM.png"
   }
 ];
 
