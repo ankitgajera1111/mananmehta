@@ -135,20 +135,20 @@ const HomePage = () => {
               </Link>
             </div>
 
-            {/* Stats */}
+            {/* Services */}
             <div className="grid grid-cols-2 gap-6">
               {[
-                { number: '50+', label: 'Projects Completed' },
-                { number: '12', label: 'Awards & Nominations' },
-                { number: '8+', label: 'Years Experience' },
-                { number: '30+', label: 'Brand Partnerships' }
-              ].map((stat, index) => (
+                { title: 'Film & TV', description: 'Original scores for feature films, documentaries, and series' },
+                { title: 'Advertising', description: 'Memorable music for brands and commercial campaigns' },
+                { title: 'Sound Design', description: 'Crafting immersive sonic experiences and textures' },
+                { title: 'Collaboration', description: 'Working closely with directors to realize their vision' }
+              ].map((service, index) => (
                 <div
                   key={index}
                   className="p-6 lg:p-8 rounded-xl bg-gradient-to-br from-[#151515] to-[#1a1a1a] border border-[#f5f5f0]/5"
                 >
-                  <p className="font-display text-4xl lg:text-5xl text-amber-500 mb-2">{stat.number}</p>
-                  <p className="text-[#f5f5f0]/50 font-mono text-xs tracking-wider uppercase">{stat.label}</p>
+                  <p className="font-display text-xl lg:text-2xl text-amber-500 mb-2">{service.title}</p>
+                  <p className="text-[#f5f5f0]/50 text-sm leading-relaxed">{service.description}</p>
                 </div>
               ))}
             </div>
