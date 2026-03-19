@@ -185,14 +185,3 @@ const FilmsPage = () => {
 };
 
 export default FilmsPage;
-                )}
-              </div>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-};
-
-export default FilmsPage;
