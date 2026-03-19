@@ -27,7 +27,6 @@ const Navigation = () => {
     { path: '/ads', label: 'Ads' },
     { path: '/about', label: 'About' },
     { path: '/credits', label: 'Credits' },
-    { path: '/press', label: 'Press' },
     { path: '/contact', label: 'Contact' },
   ];
 
