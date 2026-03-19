@@ -79,7 +79,7 @@ const Footer = () => {
             
             <div className="flex items-center gap-4 mt-4">
               <a
-                href={`https://instagram.com/${composerInfo.instagram}`}
+                href={composerInfo.instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full border border-[#f5f5f0]/20 flex items-center justify-center text-[#f5f5f0]/70 hover:text-amber-500 hover:border-amber-500 transition-all"
