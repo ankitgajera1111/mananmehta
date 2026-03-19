@@ -154,11 +154,11 @@ const FilmsPage = () => {
         <DialogContent className="max-w-4xl bg-[#0a0a0a] border-[#f5f5f0]/10 p-0 overflow-hidden">
           {selectedProject && (
             <>
-              <div className="relative h-64 lg:h-80">
+              <div className="relative h-64 lg:h-96">
                 <img
                   src={selectedProject.coverImage}
                   alt={selectedProject.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-top"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
               </div>
@@ -176,38 +176,17 @@ const FilmsPage = () => {
                   </DialogTitle>
                 </DialogHeader>
                 <p className="text-[#f5f5f0]/70 mt-4 mb-2">Director: {selectedProject.director}</p>
-                <p className="text-[#f5f5f0]/60 mb-8">{selectedProject.description}</p>
+                <p className="text-[#f5f5f0]/60">{selectedProject.description}</p>
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
 
-                {/* Audio Player */}
-                <AudioPlayer
-                  track={selectedProject.tracks?.[0]}
-                  coverImage={selectedProject.coverImage}
-                  projectTitle={selectedProject.title}
-                  projectType={selectedProject.type}
-                  variant="featured"
-                />
-
-                {/* Track List */}
-                {selectedProject.tracks && selectedProject.tracks.length > 1 && (
-                  <div className="mt-6">
-                    <h4 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500 mb-4">All Tracks</h4>
-                    <div className="space-y-2">
-                      {selectedProject.tracks.map((track, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center justify-between p-3 rounded-lg bg-[#151515] hover:bg-[#1a1a1a] transition-colors cursor-pointer"
-                        >
-                          <div className="flex items-center gap-4">
-                            <span className="w-6 h-6 rounded-full bg-amber-500/10 text-amber-500 font-mono text-xs flex items-center justify-center">
-                              {index + 1}
-                            </span>
-                            <span className="text-[#f5f5f0]">{track.title}</span>
-                          </div>
-                          <span className="font-mono text-xs text-[#f5f5f0]/50">{track.duration}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
+export default FilmsPage;
                 )}
               </div>
             </>
