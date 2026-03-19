@@ -130,7 +130,7 @@ export const filmProjects = [
 export const adProjects = [
   {
     id: "a1",
-    title: "Goodness Jo Dikhti Hai",
+    title: "Goodness Jo Dikhti Hai (Spec Ad)",
     brand: "Tropicana",
     type: "TVC",
     year: 2024,
@@ -142,7 +142,7 @@ export const adProjects = [
   },
   {
     id: "a2",
-    title: "9 to 5 Foundation",
+    title: "9 to 5 Foundation (Spec Ad)",
     brand: "Lakmé",
     type: "TVC",
     year: 2024,
@@ -166,7 +166,7 @@ export const adProjects = [
   },
   {
     id: "a4",
-    title: "C40 Recharge",
+    title: "C40 Recharge (Spec Ad)",
     brand: "Volvo",
     type: "Brand Film",
     year: 2024,
@@ -178,7 +178,7 @@ export const adProjects = [
   },
   {
     id: "a5",
-    title: "Kiara Joins the Flip Side",
+    title: "Kiara Joins the Flip Side (Spec Ad)",
     brand: "Samsung",
     type: "TVC",
     year: 2024,
@@ -190,7 +190,7 @@ export const adProjects = [
   },
   {
     id: "a6",
-    title: "The Singularity - Big Game Commercial",
+    title: "The Singularity - Big Game Commercial (Spec Ad)",
     brand: "Squarespace",
     type: "Super Bowl Commercial",
     year: 2023,
@@ -202,7 +202,7 @@ export const adProjects = [
   },
   {
     id: "a7",
-    title: "Spice That's Just Right",
+    title: "Spice That's Just Right (Spec Ad)",
     brand: "Lay's",
     type: "TVC",
     year: 2024,
@@ -214,7 +214,7 @@ export const adProjects = [
   },
   {
     id: "a8",
-    title: "Real Feel",
+    title: "Real Feel (Spec Ad)",
     brand: "Durex",
     type: "TVC",
     year: 2024,
