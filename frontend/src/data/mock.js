@@ -140,6 +140,23 @@ export const filmProjects = [
       { title: "City of Dreams", duration: "2:45" },
       { title: "Monsoon Memories", duration: "2:30" }
     ]
+  },
+  {
+    id: "f6",
+    title: "Distance",
+    type: "Short Film",
+    year: 2025,
+    director: "Swapnil S. Sonawane",
+    genre: "Drama",
+    description: "A poignant score exploring themes of emotional separation and connection, capturing the quiet moments between a mother and son on a rainy journey.",
+    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/imddbx6o_Screenshot%202026-03-19%20at%204.55.13%E2%80%AFPM.png",
+    audioUrl: "/audio/placeholder.mp3",
+    duration: "2:50",
+    tracks: [
+      { title: "Distance - Main Theme", duration: "2:50" },
+      { title: "Rainy Roads", duration: "2:15" },
+      { title: "Unspoken Words", duration: "1:45" }
+    ]
   }
 ];
 
