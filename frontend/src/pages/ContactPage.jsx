@@ -82,7 +82,7 @@ const ContactPage = () => {
                 </a>
 
                 <a
-                  href={`https://instagram.com/${composerInfo.instagram}`}
+                  href={composerInfo.instagramUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-4 p-4 rounded-xl bg-[#151515] hover:bg-[#1a1a1a] transition-colors group"
@@ -102,7 +102,7 @@ const ContactPage = () => {
                   </div>
                   <div>
                     <p className="font-mono text-xs text-[#f5f5f0]/50 uppercase tracking-wider mb-1">Location</p>
-                    <p className="text-[#f5f5f0]">Los Angeles, California</p>
+                    <p className="text-[#f5f5f0]">{composerInfo.location}</p>
                   </div>
                 </div>
               </div>
