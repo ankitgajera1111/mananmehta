@@ -67,7 +67,7 @@ export const filmProjects = [
     year: 2024,
     director: "Independent",
     genre: "Action Drama",
-    role: "Composer",
+    role: "",
     description: "A high-octane score capturing speed, adrenaline, and the pursuit of dreams, with pulsating rhythms and cinematic intensity.",
     coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/vjcciayl_IMG_3542.JPG"
   },
