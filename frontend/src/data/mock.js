@@ -4,7 +4,7 @@ export const composerInfo = {
   name: "Manan Mehta",
   title: "Film & TV Composer",
   tagline: "Crafting Sonic Landscapes for Visual Stories",
-  shortBio: "Award-winning composer creating emotive scores for film, television, and advertising. Based in Mumbai.",
+  shortBio: "",
   email: "hello@mananmehta.com",
   instagram: "mananmehta",
   spotify: "https://spotify.com",
