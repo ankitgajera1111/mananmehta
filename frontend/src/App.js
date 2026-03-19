@@ -8,7 +8,6 @@ import FilmsPage from './pages/FilmsPage';
 import AdsPage from './pages/AdsPage';
 import AboutPage from './pages/AboutPage';
 import CreditsPage from './pages/CreditsPage';
-import PressPage from './pages/PressPage';
 import ContactPage from './pages/ContactPage';
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
             <Route path="/ads" element={<AdsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/credits" element={<CreditsPage />} />
-            <Route path="/press" element={<PressPage />} />
             <Route path="/contact" element={<ContactPage />} />
           </Routes>
         </main>
