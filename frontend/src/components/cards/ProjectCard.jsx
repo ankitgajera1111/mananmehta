@@ -17,6 +17,9 @@ const ProjectCard = ({
     setIsPlaying(!isPlaying);
   };
 
+  // Check if this is an ad (has youtubeId) - only ads are playable
+  const isPlayable = type === 'ad' && project.youtubeId;
+
   if (variant === 'featured') {
     return (
       <div
@@ -58,21 +61,23 @@ const ProjectCard = ({
               </p>
             </div>
 
-            {/* Play Button */}
-            <button
-              onClick={handlePlayClick}
-              className={cn(
-                'w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center transition-all duration-300',
-                'bg-amber-500 hover:bg-amber-400',
-                isHovered ? 'scale-100 opacity-100' : 'scale-90 opacity-80'
-              )}
-            >
-              {isPlaying ? (
-                <Pause className="w-6 h-6 text-[#0a0a0a]" />
-              ) : (
-                <Play className="w-6 h-6 text-[#0a0a0a] ml-1" />
-              )}
-            </button>
+            {/* Play Button - Only for ads */}
+            {isPlayable && (
+              <button
+                onClick={handlePlayClick}
+                className={cn(
+                  'w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center transition-all duration-300',
+                  'bg-amber-500 hover:bg-amber-400',
+                  isHovered ? 'scale-100 opacity-100' : 'scale-90 opacity-80'
+                )}
+              >
+                {isPlaying ? (
+                  <Pause className="w-6 h-6 text-[#0a0a0a]" />
+                ) : (
+                  <Play className="w-6 h-6 text-[#0a0a0a] ml-1" />
+                )}
+              </button>
+            )}
           </div>
         </div>
       </div>
@@ -104,27 +109,38 @@ const ProjectCard = ({
           isHovered ? 'opacity-100' : 'opacity-0'
         )} />
 
-        {/* Play Button */}
-        <button
-          onClick={handlePlayClick}
-          className={cn(
-            'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-            'w-14 h-14 rounded-full bg-amber-500 flex items-center justify-center',
-            'transition-all duration-300',
-            isHovered ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
-          )}
-        >
-          {isPlaying ? (
-            <Pause className="w-5 h-5 text-[#0a0a0a]" />
-          ) : (
-            <Play className="w-5 h-5 text-[#0a0a0a] ml-0.5" />
-          )}
-        </button>
+        {/* Play Button - Only for ads */}
+        {isPlayable && (
+          <button
+            onClick={handlePlayClick}
+            className={cn(
+              'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+              'w-14 h-14 rounded-full bg-amber-500 flex items-center justify-center',
+              'transition-all duration-300',
+              isHovered ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
+            )}
+          >
+            {isPlaying ? (
+              <Pause className="w-5 h-5 text-[#0a0a0a]" />
+            ) : (
+              <Play className="w-5 h-5 text-[#0a0a0a] ml-0.5" />
+            )}
+          </button>
+        )}
 
-        {/* Duration Badge */}
-        <span className="absolute bottom-3 right-3 px-2 py-1 rounded bg-[#0a0a0a]/80 text-[#f5f5f0] font-mono text-xs">
-          {project.duration}
-        </span>
+        {/* Duration Badge - Only for ads */}
+        {isPlayable && project.duration && (
+          <span className="absolute bottom-3 right-3 px-2 py-1 rounded bg-[#0a0a0a]/80 text-[#f5f5f0] font-mono text-xs">
+            {project.duration}
+          </span>
+        )}
+
+        {/* Role Badge - Only for films */}
+        {type === 'film' && project.role && (
+          <span className="absolute bottom-3 left-3 right-3 px-3 py-2 rounded bg-[#0a0a0a]/90 text-amber-500 font-mono text-xs text-center tracking-wider uppercase">
+            {project.role}
+          </span>
+        )}
       </div>
 
       {/* Info */}
