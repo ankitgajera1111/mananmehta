@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Megaphone, Filter, Grid, List } from 'lucide-react';
 import { adProjects } from '../data/mock';
 import ProjectCard from '../components/cards/ProjectCard';
-import AudioPlayer from '../components/audio/AudioPlayer';
 import { cn } from '../lib/utils';
 import {
   Dialog,
