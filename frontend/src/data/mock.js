@@ -147,6 +147,18 @@ export const filmProjects = [
 export const adProjects = [
   {
     id: "a1",
+    title: "Sports Bag - Fuwo World",
+    brand: "Futurworks by Ludic",
+    type: "Product Film",
+    year: 2024,
+    description: "Dynamic, energetic music driving the visual storytelling of this innovative sports equipment brand, blending electronic beats with athletic energy.",
+    coverImage: "https://img.youtube.com/vi/UiHfBFXJuxY/maxresdefault.jpg",
+    audioUrl: "/audio/placeholder.mp3",
+    duration: "0:47",
+    youtubeId: "UiHfBFXJuxY"
+  },
+  {
+    id: "a2",
     title: "Goodness Jo Dikhti Hai (Spec Ad)",
     brand: "Tropicana",
     type: "TVC",
@@ -158,7 +170,7 @@ export const adProjects = [
     youtubeId: "GoNlEWYyBRw"
   },
   {
-    id: "a2",
+    id: "a3",
     title: "9 to 5 Foundation (Spec Ad)",
     brand: "Lakmé",
     type: "TVC",
@@ -168,18 +180,6 @@ export const adProjects = [
     audioUrl: "/audio/placeholder.mp3",
     duration: "0:26",
     youtubeId: "EJFCKeJqRHc"
-  },
-  {
-    id: "a3",
-    title: "Sports Bag - Fuwo World",
-    brand: "Futurworks by Ludic",
-    type: "Product Film",
-    year: 2024,
-    description: "Dynamic, energetic music driving the visual storytelling of this innovative sports equipment brand, blending electronic beats with athletic energy.",
-    coverImage: "https://img.youtube.com/vi/UiHfBFXJuxY/maxresdefault.jpg",
-    audioUrl: "/audio/placeholder.mp3",
-    duration: "0:47",
-    youtubeId: "UiHfBFXJuxY"
   },
   {
     id: "a4",
