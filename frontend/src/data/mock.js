@@ -74,6 +74,23 @@ export const filmProjects = [
   },
   {
     id: "f3",
+    title: "Raftaar",
+    type: "Feature Film",
+    year: 2024,
+    director: "Independent",
+    genre: "Action Drama",
+    description: "A high-octane score capturing speed, adrenaline, and the pursuit of dreams, with pulsating rhythms and cinematic intensity.",
+    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/vjcciayl_IMG_3542.JPG",
+    audioUrl: "/audio/placeholder.mp3",
+    duration: "3:45",
+    tracks: [
+      { title: "Raftaar - Main Theme", duration: "3:45" },
+      { title: "The Race", duration: "2:50" },
+      { title: "Victory Lap", duration: "3:10" }
+    ]
+  },
+  {
+    id: "f4",
     title: "RBI Unlocked: Beyond the Rupee",
     type: "Documentary",
     year: 2025,
