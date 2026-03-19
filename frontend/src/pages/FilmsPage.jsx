@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Film, Filter, Grid, List } from 'lucide-react';
-import { Button } from '../components/ui/button';
 import { filmProjects } from '../data/mock';
 import ProjectCard from '../components/cards/ProjectCard';
-import AudioPlayer from '../components/audio/AudioPlayer';
 import { cn } from '../lib/utils';
 import {
   Dialog,
