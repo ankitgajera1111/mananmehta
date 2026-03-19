@@ -121,9 +121,6 @@ const HomePage = () => {
                 CRAFTING SONIC
                 <span className="block text-amber-500">LANDSCAPES</span>
               </h2>
-              <p className="text-[#f5f5f0]/70 text-lg leading-relaxed mb-6">
-                {composerInfo.shortBio}
-              </p>
               <p className="text-[#f5f5f0]/50 leading-relaxed mb-8">
                 From intimate indie dramas to major advertising campaigns, my music serves the story. Every composition is tailored to enhance the emotional journey of your project.
               </p>
