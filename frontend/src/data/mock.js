@@ -106,6 +106,23 @@ export const filmProjects = [
       { title: "Mumbai Nights", duration: "1:58" },
       { title: "Desperate Measures", duration: "2:20" }
     ]
+  },
+  {
+    id: "f5",
+    title: "Bombay Mon Amour",
+    type: "Short Film",
+    year: 2024,
+    director: "Independent",
+    genre: "Drama",
+    description: "An evocative score capturing the rhythm and soul of Mumbai, weaving together the city's vibrant energy with intimate human stories.",
+    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/zlr4c2br_1.jpg",
+    audioUrl: "/audio/placeholder.mp3",
+    duration: "3:20",
+    tracks: [
+      { title: "Bombay Mon Amour - Main Theme", duration: "3:20" },
+      { title: "City of Dreams", duration: "2:45" },
+      { title: "Monsoon Memories", duration: "2:30" }
+    ]
   }
 ];
 
