@@ -163,18 +163,10 @@ const AdsPage = () => {
 
       {/* Project Detail Modal */}
       <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className="max-w-3xl bg-[#0a0a0a] border-[#f5f5f0]/10 p-0 overflow-hidden">
+        <DialogContent className="max-w-4xl bg-[#0a0a0a] border-[#f5f5f0]/10 p-0 overflow-hidden">
           {selectedProject && (
             <>
-              <div className="relative h-64">
-                <img
-                  src={selectedProject.coverImage}
-                  alt={selectedProject.title}
-                  className="w-full h-full object-cover"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
-              </div>
-              <div className="p-6 lg:p-8 -mt-16 relative">
+              <div className="p-6 lg:p-8">
                 <div className="flex items-center gap-3 mb-4">
                   <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-500 font-mono text-xs tracking-wider uppercase">
                     {selectedProject.brand}
@@ -187,15 +179,21 @@ const AdsPage = () => {
                     {selectedProject.title}
                   </DialogTitle>
                 </DialogHeader>
-                <p className="text-[#f5f5f0]/60 mt-4 mb-8">{selectedProject.description}</p>
+                <p className="text-[#f5f5f0]/60 mt-4 mb-6">{selectedProject.description}</p>
 
-                {/* Audio Player */}
-                <AudioPlayer
-                  track={{ title: selectedProject.title, duration: selectedProject.duration }}
-                  coverImage={selectedProject.coverImage}
-                  projectTitle={selectedProject.title}
-                  projectType={selectedProject.type}
-                />
+                {/* YouTube Video Embed */}
+                {selectedProject.youtubeId && (
+                  <div className="relative w-full aspect-video rounded-xl overflow-hidden">
+                    <iframe
+                      src={`https://www.youtube.com/embed/${selectedProject.youtubeId}?autoplay=1`}
+                      title={selectedProject.title}
+                      className="absolute inset-0 w-full h-full"
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
               </div>
             </>
           )}
