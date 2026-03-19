@@ -31,7 +31,7 @@ const Footer = () => {
               Navigation
             </h4>
             <nav className="flex flex-col gap-3">
-              {['Films', 'Ads', 'About', 'Credits', 'Press', 'Contact'].map((item) => (
+              {['Films', 'Ads', 'About', 'Credits', 'Contact'].map((item) => (
                 <Link
                   key={item}
                   to={`/${item.toLowerCase()}`}
