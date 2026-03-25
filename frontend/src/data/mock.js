@@ -24,12 +24,12 @@ A proud alumnus of True School of Music in Mumbai, Manan honed his craft in a vi
     "Featured Composer - Major Streaming Platforms"
   ],
   skills: [
-    "Orchestral Composition",
+    "Music for Ads & Jingles",
     "Electronic & Hybrid Scoring",
     "Sound Design",
     "Music Production",
     "Live Recording Sessions",
-    "Adaptive Music for Games"
+    "Orchestral Composition"
   ]
 };
 

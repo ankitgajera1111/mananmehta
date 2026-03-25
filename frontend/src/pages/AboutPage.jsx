@@ -11,7 +11,7 @@ const AboutPage = () => {
     'Sound Design': Headphones,
     'Music Production': Music,
     'Live Recording Sessions': Mic2,
-    'Adaptive Music for Games': Headphones
+    'Music for Ads & Jingles': Headphones
   };
 
   return (
