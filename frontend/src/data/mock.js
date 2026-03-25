@@ -14,13 +14,9 @@ export const composerInfo = {
 };
 
 export const aboutData = {
-  fullBio: `Manan Mehta is an award-winning composer whose work spans the realms of film, television, and advertising. With a unique ability to translate visual narratives into powerful sonic experiences, Manan has collaborated with acclaimed directors and brands worldwide.
+  fullBio: `Manan Mehta is a dynamic music composer, producer, and guitarist versatile across genres, based in Mumbai, crafting captivating soundscapes for ads, films, and beyond.
 
-Trained in both Western classical and contemporary electronic music, his compositions blend orchestral grandeur with modern textures, creating scores that resonate deeply with audiences. His work has been featured in major Bollywood films, streaming platforms, and international advertising campaigns.
-
-Manan's approach to composition is deeply collaborative. He believes that the best scores emerge from a profound understanding of the story, the characters, and the director's vision. Each project is a new journey, an opportunity to explore uncharted sonic territories.
-
-When not in the studio, Manan can be found exploring world music traditions, experimenting with modular synthesizers, or mentoring emerging composers.`,
+A proud alumnus of True School of Music in Mumbai, Manan honed his craft in a vibrant creative hub, mastering music theory, production techniques, and genre-blending innovation. His journey has taken him across India, collaborating with acclaimed music composers and film directors to craft scores that elevate storytelling—from high-energy ad jingles to cinematic epics.`,
   achievements: [
     "Composer - Jigra (2024)",
     "Composer - Happy Patel: Khatarnak Jasoos (2026)",
