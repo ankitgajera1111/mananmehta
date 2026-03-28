@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Play, Pause, Volume2 } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { composerInfo, featuredWork, filmProjects, adProjects } from '../data/mock';
 import ProjectCard from '../components/cards/ProjectCard';
@@ -8,17 +8,14 @@ import { cn } from '../lib/utils';
 
 const HomePage = () => {
   const [activeProject, setActiveProject] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(false);
 
   // Auto-rotate featured projects
   useEffect(() => {
     const interval = setInterval(() => {
-      if (!isPlaying) {
-        setActiveProject((prev) => (prev + 1) % featuredWork.length);
-      }
+      setActiveProject((prev) => (prev + 1) % featuredWork.length);
     }, 5000);
     return () => clearInterval(interval);
-  }, [isPlaying]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
@@ -75,28 +72,15 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* Now Playing Indicator - Only for ads */}
-          {featuredWork[activeProject].youtubeId && (
-            <div className="absolute bottom-12 right-6 lg:right-12 hidden lg:block">
-              <div className="flex items-center gap-4 p-4 rounded-lg bg-[#0a0a0a]/80 backdrop-blur-sm border border-[#f5f5f0]/10">
-                <button
-                  onClick={() => setIsPlaying(!isPlaying)}
-                  className="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center hover:bg-amber-400 transition-colors"
-                >
-                  {isPlaying ? (
-                    <Pause className="w-5 h-5 text-[#0a0a0a]" />
-                  ) : (
-                    <Play className="w-5 h-5 text-[#0a0a0a] ml-0.5" />
-                  )}
-                </button>
-                <div>
-                  <p className="text-[#f5f5f0] text-sm font-medium">{featuredWork[activeProject].title}</p>
-                  <p className="text-[#f5f5f0]/50 text-xs">{featuredWork[activeProject].type || featuredWork[activeProject].brand}</p>
-                </div>
-                <Volume2 className="w-4 h-4 text-[#f5f5f0]/50" />
+          {/* Project Title Indicator */}
+          <div className="absolute bottom-12 right-6 lg:right-12 hidden lg:block">
+            <div className="flex items-center gap-4 p-4 rounded-lg bg-[#0a0a0a]/80 backdrop-blur-sm border border-[#f5f5f0]/10">
+              <div>
+                <p className="text-[#f5f5f0] text-sm font-medium">{featuredWork[activeProject].title}</p>
+                <p className="text-[#f5f5f0]/50 text-xs">{featuredWork[activeProject].type || featuredWork[activeProject].brand}</p>
               </div>
             </div>
-          )}
+          </div>
 
           {/* Project Indicators */}
           <div className="absolute bottom-12 left-6 lg:left-12 flex gap-2">
