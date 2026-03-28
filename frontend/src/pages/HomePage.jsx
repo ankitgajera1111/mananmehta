@@ -75,26 +75,28 @@ const HomePage = () => {
             </div>
           </div>
 
-          {/* Now Playing Indicator */}
-          <div className="absolute bottom-12 right-6 lg:right-12 hidden lg:block">
-            <div className="flex items-center gap-4 p-4 rounded-lg bg-[#0a0a0a]/80 backdrop-blur-sm border border-[#f5f5f0]/10">
-              <button
-                onClick={() => setIsPlaying(!isPlaying)}
-                className="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center hover:bg-amber-400 transition-colors"
-              >
-                {isPlaying ? (
-                  <Pause className="w-5 h-5 text-[#0a0a0a]" />
-                ) : (
-                  <Play className="w-5 h-5 text-[#0a0a0a] ml-0.5" />
-                )}
-              </button>
-              <div>
-                <p className="text-[#f5f5f0] text-sm font-medium">{featuredWork[activeProject].title}</p>
-                <p className="text-[#f5f5f0]/50 text-xs">{featuredWork[activeProject].type || featuredWork[activeProject].brand}</p>
+          {/* Now Playing Indicator - Only for ads */}
+          {featuredWork[activeProject].youtubeId && (
+            <div className="absolute bottom-12 right-6 lg:right-12 hidden lg:block">
+              <div className="flex items-center gap-4 p-4 rounded-lg bg-[#0a0a0a]/80 backdrop-blur-sm border border-[#f5f5f0]/10">
+                <button
+                  onClick={() => setIsPlaying(!isPlaying)}
+                  className="w-12 h-12 rounded-full bg-amber-500 flex items-center justify-center hover:bg-amber-400 transition-colors"
+                >
+                  {isPlaying ? (
+                    <Pause className="w-5 h-5 text-[#0a0a0a]" />
+                  ) : (
+                    <Play className="w-5 h-5 text-[#0a0a0a] ml-0.5" />
+                  )}
+                </button>
+                <div>
+                  <p className="text-[#f5f5f0] text-sm font-medium">{featuredWork[activeProject].title}</p>
+                  <p className="text-[#f5f5f0]/50 text-xs">{featuredWork[activeProject].type || featuredWork[activeProject].brand}</p>
+                </div>
+                <Volume2 className="w-4 h-4 text-[#f5f5f0]/50" />
               </div>
-              <Volume2 className="w-4 h-4 text-[#f5f5f0]/50" />
             </div>
-          </div>
+          )}
 
           {/* Project Indicators */}
           <div className="absolute bottom-12 left-6 lg:left-12 flex gap-2">
