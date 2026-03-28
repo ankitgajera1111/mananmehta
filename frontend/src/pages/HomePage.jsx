@@ -11,11 +11,13 @@ const HomePage = () => {
 
   // Auto-rotate featured projects
   useEffect(() => {
+    const lastIndex = featuredWork.length - 1;
+    const duration = activeProject === lastIndex ? 3500 : 5000;
     const interval = setInterval(() => {
       setActiveProject((prev) => (prev + 1) % featuredWork.length);
-    }, 5000);
+    }, duration);
     return () => clearInterval(interval);
-  }, []);
+  }, [activeProject]);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
