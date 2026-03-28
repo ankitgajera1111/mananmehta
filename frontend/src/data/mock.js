@@ -280,5 +280,6 @@ export const featuredWork = [
   filmProjects[0], // Jigra
   filmProjects[1], // Happy Patel
   adProjects[3],   // Volvo
-  adProjects[5]    // Squarespace
+  adProjects[5],   // Squarespace
+  adProjects[0]    // Sports Bag
 ];
