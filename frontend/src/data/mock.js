@@ -46,7 +46,7 @@ export const filmProjects = [
     coverImage: "https://filmfare.wwmindia.com/content/2024/sep/aliabhattjigra11725601702.jpg",
     soundcloudPlaylist: "https://soundcloud.com/user-463032126/sets/jigra/s-EZtrb5Sl7cr",
     tracks: [
-      { title: "Aag Hi Aag War", url: "https://soundcloud.com/user-463032126/aag-hi-aag-war/s-KSmCykwer9y" },
+      { title: "Aag Hi Aag War", url: "https://soundcloud.com/user-463032126/sets/jigra/s-EZtrb5Sl7cr" },
       { title: "Muthus' Theme (JIGRA)", url: "https://soundcloud.com/user-463032126/muthu-theme-jigra/s-eriAJmmUdfN" }
     ]
   },
