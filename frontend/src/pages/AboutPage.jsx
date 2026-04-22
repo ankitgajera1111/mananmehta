@@ -19,8 +19,7 @@ const AboutPage = () => {
       {/* Hero Section */}
       <section className="py-16 lg:py-24">
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-start">
-            {/* Text Content */}
+          <div className="max-w-3xl">
             <div>
               <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-6">
                 About the Composer
@@ -51,59 +50,6 @@ const AboutPage = () => {
                     View Credits
                   </Button>
                 </Link>
-              </div>
-            </div>
-
-            {/* Creative Right Column */}
-            <div className="space-y-8">
-              {/* Cinematic Quote */}
-              <div className="p-8 lg:p-10 rounded-2xl bg-gradient-to-br from-[#151515] to-[#0d0d0d] border border-[#f5f5f0]/5 relative overflow-hidden">
-                <div className="absolute top-4 left-6 font-display text-[120px] leading-none text-amber-500/10 select-none">"</div>
-                <blockquote className="relative z-10 pt-12">
-                  <p className="font-display text-xl lg:text-2xl text-[#f5f5f0]/90 leading-relaxed italic">
-                    Every frame has a heartbeat. My job is to find it and let it sing.
-                  </p>
-                  <footer className="mt-6 font-mono text-xs tracking-[0.15em] uppercase text-amber-500">
-                    — Manan Mehta
-                  </footer>
-                </blockquote>
-              </div>
-
-              {/* Genres & Sonic Palette */}
-              <div className="p-6 lg:p-8 rounded-2xl bg-[#151515] border border-[#f5f5f0]/5">
-                <h3 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500 mb-6">
-                  Sonic Palette
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {['Orchestral', 'Ambient', 'Electronic', 'Cinematic', 'Hybrid', 'World Music', 'Lo-Fi', 'Synthwave', 'Acoustic', 'Experimental'].map((genre) => (
-                    <span
-                      key={genre}
-                      className="px-4 py-2 rounded-full bg-[#0a0a0a] border border-[#f5f5f0]/10 text-[#f5f5f0]/70 text-sm hover:border-amber-500/40 hover:text-amber-500 transition-all cursor-default"
-                    >
-                      {genre}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              {/* Tools of the Trade */}
-              <div className="p-6 lg:p-8 rounded-2xl bg-[#151515] border border-[#f5f5f0]/5">
-                <h3 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500 mb-6">
-                  Tools of the Trade
-                </h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { label: 'DAW', value: 'Logic Pro / Ableton' },
-                    { label: 'Keys', value: 'Native Instruments' },
-                    { label: 'Strings', value: 'Spitfire Audio' },
-                    { label: 'Guitar', value: 'Live Recording' }
-                  ].map((tool) => (
-                    <div key={tool.label} className="space-y-1">
-                      <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#f5f5f0]/40">{tool.label}</p>
-                      <p className="text-[#f5f5f0]/80 text-sm">{tool.value}</p>
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
           </div>
