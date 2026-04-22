@@ -57,11 +57,12 @@ const AboutPage = () => {
             {/* Image & Stats */}
             <div className="space-y-8">
               {/* Composer Photo */}
-              <div className="rounded-2xl overflow-hidden">
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden">
                 <img
-                  src="https://customer-assets.emergentagent.com/job_f98fea15-dcfe-485a-89bc-8cdc29039055/artifacts/5vg6r59m_Website%20cover%20.jpg"
+                  src="https://customer-assets.emergentagent.com/job_f98fea15-dcfe-485a-89bc-8cdc29039055/artifacts/5b1p52hz_Website%20cover%20image%202.jpg"
                   alt="Manan Mehta"
-                  className="w-full h-auto object-cover rounded-2xl"
+                  className="w-full h-full object-cover"
+                  style={{ objectPosition: 'center 75%' }}
                 />
               </div>
 
