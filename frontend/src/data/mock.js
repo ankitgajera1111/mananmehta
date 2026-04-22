@@ -43,7 +43,12 @@ export const filmProjects = [
     genre: "Action Thriller",
     role: "Additional Music",
     description: "An emotionally charged score for this action thriller starring Alia Bhatt, capturing the intense bond between siblings and the raw determination of a sister protecting her brother.",
-    coverImage: "https://filmfare.wwmindia.com/content/2024/sep/aliabhattjigra11725601702.jpg"
+    coverImage: "https://filmfare.wwmindia.com/content/2024/sep/aliabhattjigra11725601702.jpg",
+    soundcloudPlaylist: "https://soundcloud.com/user-463032126/sets/jigra/s-EZtrb5Sl7cr",
+    tracks: [
+      { title: "Aag Hi Aag War", url: "https://soundcloud.com/user-463032126/aag-hi-aag-war/s-KSmCykwer9y" },
+      { title: "Muthus' Theme (JIGRA)", url: "https://soundcloud.com/user-463032126/muthu-theme-jigra/s-eriAJmmUdfN" }
+    ]
   },
   {
     id: "f2",
