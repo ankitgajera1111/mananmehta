@@ -226,7 +226,10 @@ const FilmsPage = () => {
                           scrolling="no"
                           frameBorder="no"
                           allow="autoplay"
-                          src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(selectedProject.tracks[playingTrack].url)}&color=%23d97706&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`}
+                          src={selectedProject.soundcloudEmbed
+                            ? `${selectedProject.soundcloudEmbed}&color=%23d97706&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`
+                            : `https://w.soundcloud.com/player/?url=${encodeURIComponent(selectedProject.tracks[playingTrack].url)}&color=%23d97706&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`
+                          }
                         />
                       </div>
                     )}
