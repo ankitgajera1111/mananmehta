@@ -7,7 +7,7 @@ export const composerInfo = {
   shortBio: "",
   email: "connect@manankmehta.com",
   instagram: "manankmehta",
-  instagramUrl: "https://www.instagram.com/manankmehta?igsh=M3V5aWY3Y3FlbjJj&utm_source=qr",
+  instagramUrl: "https://www.instagram.com/manankmehta/",
   spotify: "https://spotify.com",
   imdb: "https://imdb.com",
   location: "Mumbai, India"
