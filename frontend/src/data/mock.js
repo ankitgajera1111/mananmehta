@@ -93,7 +93,12 @@ export const filmProjects = [
     genre: "Drama Thriller",
     role: "Additional Music",
     description: "A gripping score for this Anurag Kashyap-presented short film about Aman, a migrant ride-share driver in Mumbai who desperately plans to steal from his exploitative boss to secure a dowry for his sister's wedding.",
-    coverImage: "https://img.youtube.com/vi/HMksOFHln1M/maxresdefault.jpg"
+    coverImage: "https://img.youtube.com/vi/HMksOFHln1M/maxresdefault.jpg",
+    soundcloudPlaylist: "https://soundcloud.com/user-463032126/sets/aakhari-ride-horror-comedy/s-PNwcYixSgC3",
+    tracks: [
+      { title: "Com Truise", embedUrl: "https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1946078263&secret_token=s-lE0VVJipDlE" },
+      { title: "Handcuffed", embedUrl: "https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F1946066251&secret_token=s-KV3ZLj52erU" }
+    ]
   },
   {
     id: "f6",
