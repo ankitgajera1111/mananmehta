@@ -56,14 +56,13 @@ const AboutPage = () => {
 
             {/* Image & Stats */}
             <div className="space-y-8">
-              {/* Placeholder for composer image */}
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden bg-gradient-to-br from-amber-500/20 to-[#151515] flex items-center justify-center">
-                <div className="text-center">
-                  <div className="w-32 h-32 mx-auto rounded-full bg-amber-500/20 flex items-center justify-center mb-4">
-                    <Music className="w-16 h-16 text-amber-500" />
-                  </div>
-                  <p className="text-[#f5f5f0]/40 font-mono text-xs">[Composer Photo]</p>
-                </div>
+              {/* Composer Photo */}
+              <div className="aspect-[4/5] rounded-2xl overflow-hidden">
+                <img
+                  src="https://customer-assets.emergentagent.com/job_f98fea15-dcfe-485a-89bc-8cdc29039055/artifacts/5vg6r59m_Website%20cover%20.jpg"
+                  alt="Manan Mehta"
+                  className="w-full h-full object-cover"
+                />
               </div>
 
               {/* Achievements */}
