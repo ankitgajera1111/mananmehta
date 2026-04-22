@@ -5,7 +5,7 @@ export const composerInfo = {
   title: "Film & TV Composer",
   tagline: "Crafting Sonic Landscapes for Visual Stories",
   shortBio: "",
-  email: "manankmehta2299@gmail.com",
+  email: "connect@manankmehta.com",
   instagram: "manankmehta",
   instagramUrl: "https://www.instagram.com/manankmehta?igsh=M3V5aWY3Y3FlbjJj&utm_source=qr",
   spotify: "https://spotify.com",
