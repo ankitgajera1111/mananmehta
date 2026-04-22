@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Award, Music, Headphones, Mic2, Piano, Waves } from 'lucide-react';
+import { ArrowRight, Music, Headphones, Mic2, Piano, Waves } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { composerInfo, aboutData } from '../data/mock';
 
@@ -54,34 +54,56 @@ const AboutPage = () => {
               </div>
             </div>
 
-            {/* Image & Stats */}
+            {/* Creative Right Column */}
             <div className="space-y-8">
-              {/* Composer Photo */}
-              <div className="aspect-[4/5] rounded-2xl overflow-hidden">
-                <img
-                  src="https://customer-assets.emergentagent.com/job_f98fea15-dcfe-485a-89bc-8cdc29039055/artifacts/5b1p52hz_Website%20cover%20image%202.jpg"
-                  alt="Manan Mehta"
-                  className="w-full h-full object-cover"
-                  style={{ objectPosition: 'center 75%' }}
-                />
+              {/* Cinematic Quote */}
+              <div className="p-8 lg:p-10 rounded-2xl bg-gradient-to-br from-[#151515] to-[#0d0d0d] border border-[#f5f5f0]/5 relative overflow-hidden">
+                <div className="absolute top-4 left-6 font-display text-[120px] leading-none text-amber-500/10 select-none">"</div>
+                <blockquote className="relative z-10 pt-12">
+                  <p className="font-display text-xl lg:text-2xl text-[#f5f5f0]/90 leading-relaxed italic">
+                    Every frame has a heartbeat. My job is to find it and let it sing.
+                  </p>
+                  <footer className="mt-6 font-mono text-xs tracking-[0.15em] uppercase text-amber-500">
+                    — Manan Mehta
+                  </footer>
+                </blockquote>
               </div>
 
-              {/* Achievements */}
-              <div className="p-6 rounded-xl bg-[#151515] border border-[#f5f5f0]/5">
-                <div className="flex items-center gap-3 mb-6">
-                  <Award className="w-5 h-5 text-amber-500" />
-                  <h3 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500">
-                    Awards & Recognition
-                  </h3>
-                </div>
-                <ul className="space-y-3">
-                  {aboutData.achievements.map((achievement, index) => (
-                    <li key={index} className="flex items-start gap-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-2 flex-shrink-0" />
-                      <span className="text-[#f5f5f0]/70 text-sm">{achievement}</span>
-                    </li>
+              {/* Genres & Sonic Palette */}
+              <div className="p-6 lg:p-8 rounded-2xl bg-[#151515] border border-[#f5f5f0]/5">
+                <h3 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500 mb-6">
+                  Sonic Palette
+                </h3>
+                <div className="flex flex-wrap gap-2">
+                  {['Orchestral', 'Ambient', 'Electronic', 'Cinematic', 'Hybrid', 'World Music', 'Lo-Fi', 'Synthwave', 'Acoustic', 'Experimental'].map((genre) => (
+                    <span
+                      key={genre}
+                      className="px-4 py-2 rounded-full bg-[#0a0a0a] border border-[#f5f5f0]/10 text-[#f5f5f0]/70 text-sm hover:border-amber-500/40 hover:text-amber-500 transition-all cursor-default"
+                    >
+                      {genre}
+                    </span>
                   ))}
-                </ul>
+                </div>
+              </div>
+
+              {/* Tools of the Trade */}
+              <div className="p-6 lg:p-8 rounded-2xl bg-[#151515] border border-[#f5f5f0]/5">
+                <h3 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500 mb-6">
+                  Tools of the Trade
+                </h3>
+                <div className="grid grid-cols-2 gap-4">
+                  {[
+                    { label: 'DAW', value: 'Logic Pro / Ableton' },
+                    { label: 'Keys', value: 'Native Instruments' },
+                    { label: 'Strings', value: 'Spitfire Audio' },
+                    { label: 'Guitar', value: 'Live Recording' }
+                  ].map((tool) => (
+                    <div key={tool.label} className="space-y-1">
+                      <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-[#f5f5f0]/40">{tool.label}</p>
+                      <p className="text-[#f5f5f0]/80 text-sm">{tool.value}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
