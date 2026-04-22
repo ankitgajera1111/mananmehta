@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Film, Filter, Grid, List } from 'lucide-react';
+import { Film, Filter, Grid, List, Music, Play } from 'lucide-react';
 import { filmProjects } from '../data/mock';
 import ProjectCard from '../components/cards/ProjectCard';
 import { cn } from '../lib/utils';
@@ -12,6 +12,7 @@ import {
 
 const FilmsPage = () => {
   const [selectedProject, setSelectedProject] = useState(null);
+  const [playingTrack, setPlayingTrack] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
   const [filter, setFilter] = useState('all');
 
@@ -148,8 +149,8 @@ const FilmsPage = () => {
       </section>
 
       {/* Project Detail Modal */}
-      <Dialog open={!!selectedProject} onOpenChange={() => setSelectedProject(null)}>
-        <DialogContent className="max-w-4xl bg-[#0a0a0a] border-[#f5f5f0]/10 p-0 overflow-hidden">
+      <Dialog open={!!selectedProject} onOpenChange={() => { setSelectedProject(null); setPlayingTrack(null); }}>
+        <DialogContent className="max-w-4xl bg-[#0a0a0a] border-[#f5f5f0]/10 p-0 overflow-hidden max-h-[90vh] overflow-y-auto">
           {selectedProject && (
             <>
               <div className="relative h-64 lg:h-96">
@@ -175,6 +176,76 @@ const FilmsPage = () => {
                 </DialogHeader>
                 <p className="text-[#f5f5f0]/70 mt-4 mb-2">Director: {selectedProject.director}</p>
                 <p className="text-[#f5f5f0]/60">{selectedProject.description}</p>
+
+                {/* Tracklist */}
+                {selectedProject.tracks && selectedProject.tracks.length > 0 && (
+                  <div className="mt-8">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Music className="w-4 h-4 text-amber-500" />
+                      <h3 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500">
+                        Original Score
+                      </h3>
+                    </div>
+                    <div className="space-y-1">
+                      {selectedProject.tracks.map((track, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setPlayingTrack(playingTrack === index ? null : index)}
+                          data-testid={`track-${index}`}
+                          className={cn(
+                            "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left",
+                            playingTrack === index
+                              ? "bg-amber-500/15 border border-amber-500/30"
+                              : "bg-[#151515] hover:bg-[#1a1a1a] border border-transparent"
+                          )}
+                        >
+                          <span className="w-6 text-center font-mono text-xs text-[#f5f5f0]/40">
+                            {playingTrack === index ? (
+                              <Play className="w-3.5 h-3.5 text-amber-500 mx-auto" />
+                            ) : (
+                              index + 1
+                            )}
+                          </span>
+                          <span className={cn(
+                            "text-sm flex-1",
+                            playingTrack === index ? "text-amber-500" : "text-[#f5f5f0]/80"
+                          )}>
+                            {track.title}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* SoundCloud Embed Player */}
+                    {playingTrack !== null && (
+                      <div className="mt-4 rounded-lg overflow-hidden">
+                        <iframe
+                          title={selectedProject.tracks[playingTrack].title}
+                          width="100%"
+                          height="166"
+                          scrolling="no"
+                          frameBorder="no"
+                          allow="autoplay"
+                          src={`https://w.soundcloud.com/player/?url=${encodeURIComponent(selectedProject.tracks[playingTrack].url)}&color=%23d97706&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`}
+                        />
+                      </div>
+                    )}
+
+                    {/* Full Album Link */}
+                    {selectedProject.soundcloudPlaylist && (
+                      <a
+                        href={selectedProject.soundcloudPlaylist}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 mt-4 text-amber-500 hover:text-amber-400 font-mono text-xs tracking-wider uppercase transition-colors"
+                        data-testid="soundcloud-link"
+                      >
+                        Listen on SoundCloud
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                      </a>
+                    )}
+                  </div>
+                )}
               </div>
             </>
           )}

@@ -98,7 +98,16 @@ export const filmProjects = [
     genre: "Drama",
     role: "Music Composer",
     description: "An evocative score capturing the rhythm and soul of Mumbai, weaving together the city's vibrant energy with intimate human stories.",
-    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/zlr4c2br_1.jpg"
+    coverImage: "https://customer-assets.emergentagent.com/job_audio-portfolio-4/artifacts/zlr4c2br_1.jpg",
+    soundcloudPlaylist: "https://soundcloud.com/user-463032126/sets/bombay-mon-amour",
+    tracks: [
+      { title: "Bombay Mon Amour", url: "https://soundcloud.com/user-463032126/bombay-mon-amour-1" },
+      { title: "Ketan's Theme", url: "https://soundcloud.com/user-463032126/amriths-theme-2" },
+      { title: "Mind Skipping Frames", url: "https://soundcloud.com/user-463032126/mind-skipping-frames-3" },
+      { title: "Down the Memory Lane", url: "https://soundcloud.com/user-463032126/down-the-memory-lane-4" },
+      { title: "Karishma's Theme", url: "https://soundcloud.com/user-463032126/karishmas-theme-5" },
+      { title: "Trail of Footsteps", url: "https://soundcloud.com/user-463032126/trail-of-footsteps-6" }
+    ]
   },
   {
     id: "f7",
