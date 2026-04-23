@@ -60,7 +60,14 @@ export const filmProjects = [
     genre: "Spy Comedy",
     role: "Additional Music",
     description: "A playful, energetic score blending spy-thriller motifs with comedic timing for this masala entertainer starring Vir Das and produced by Aamir Khan Productions.",
-    coverImage: "https://m.media-amazon.com/images/M/MV5BOWUyZTBjYTctMGQyNS00Mjg0LTg5ZTMtZDA1YmEyZDIxZjRlXkEyXkFqcGc@._V1_QL75_UX500_.jpg"
+    coverImage: "https://m.media-amazon.com/images/M/MV5BOWUyZTBjYTctMGQyNS00Mjg0LTg5ZTMtZDA1YmEyZDIxZjRlXkEyXkFqcGc@._V1_QL75_UX500_.jpg",
+    soundcloudPlaylist: "https://soundcloud.com/user-463032126/sets/happy-patel",
+    tracks: [
+      { title: "Sanjeev Kapoor's Theme", embedUrl: "https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F2307623792" },
+      { title: "Mama Ke Gunde", embedUrl: "https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F2307625874" },
+      { title: "Rupa's Theme", embedUrl: "https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F2307625244" },
+      { title: "Cook Off Theme", embedUrl: "https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F2307624332" }
+    ]
   },
   {
     id: "f3",
