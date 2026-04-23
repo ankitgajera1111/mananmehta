@@ -164,7 +164,7 @@ const HomePage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filmProjects.slice(0, 3).map((project) => (
+            {filmProjects.map((project) => (
               <ProjectCard key={project.id} project={project} type="film" onClick={() => setSelectedProject(project)} />
             ))}
           </div>
@@ -195,7 +195,7 @@ const HomePage = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {adProjects.slice(0, 4).map((project) => (
+            {adProjects.map((project) => (
               <ProjectCard key={project.id} project={project} type="ad" onClick={() => setSelectedProject(project)} />
             ))}
           </div>
