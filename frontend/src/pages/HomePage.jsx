@@ -1,13 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Music, Play } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { composerInfo, featuredWork, filmProjects, adProjects } from '../data/mock';
 import ProjectCard from '../components/cards/ProjectCard';
 import { cn } from '../lib/utils';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from '../components/ui/dialog';
 
 const HomePage = () => {
   const [activeProject, setActiveProject] = useState(0);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [playingTrack, setPlayingTrack] = useState(null);
 
   // Auto-rotate featured projects
   useEffect(() => {
@@ -157,7 +165,7 @@ const HomePage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filmProjects.slice(0, 3).map((project) => (
-              <ProjectCard key={project.id} project={project} type="film" />
+              <ProjectCard key={project.id} project={project} type="film" onClick={() => setSelectedProject(project)} />
             ))}
           </div>
 
@@ -188,7 +196,7 @@ const HomePage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {adProjects.slice(0, 4).map((project) => (
-              <ProjectCard key={project.id} project={project} type="ad" />
+              <ProjectCard key={project.id} project={project} type="ad" onClick={() => setSelectedProject(project)} />
             ))}
           </div>
 
@@ -222,6 +230,155 @@ const HomePage = () => {
           </Link>
         </div>
       </section>
+
+      {/* Project Detail Modal */}
+      <Dialog open={!!selectedProject} onOpenChange={() => { setSelectedProject(null); setPlayingTrack(null); }}>
+        <DialogContent className="max-w-4xl bg-[#0a0a0a] border-[#f5f5f0]/10 p-0 overflow-hidden max-h-[90vh] overflow-y-auto">
+          {selectedProject && (
+            <>
+              <div className="relative h-64 lg:h-96">
+                <img
+                  src={selectedProject.coverImage}
+                  alt={selectedProject.title}
+                  className="w-full h-full object-cover object-top"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] to-transparent" />
+              </div>
+              <div className="p-6 lg:p-8 -mt-20 relative">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="px-3 py-1 rounded-full bg-amber-500/20 text-amber-500 font-mono text-xs tracking-wider uppercase">
+                    {selectedProject.type || selectedProject.brand}
+                  </span>
+                  <span className="text-[#f5f5f0]/50 font-mono text-xs">{selectedProject.year}</span>
+                  {selectedProject.genre && (
+                    <span className="text-[#f5f5f0]/50 font-mono text-xs">• {selectedProject.genre}</span>
+                  )}
+                </div>
+                <DialogHeader>
+                  <DialogTitle className="font-display text-3xl lg:text-4xl text-[#f5f5f0]">
+                    {selectedProject.title}
+                  </DialogTitle>
+                </DialogHeader>
+                {selectedProject.director && (
+                  <p className="text-[#f5f5f0]/70 mt-4 mb-2">Director: {selectedProject.director}</p>
+                )}
+                <p className="text-[#f5f5f0]/60">{selectedProject.description}</p>
+
+                {/* YouTube Embed for Ads */}
+                {selectedProject.youtubeId && (
+                  <div className="mt-6 rounded-lg overflow-hidden aspect-video">
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={`https://www.youtube.com/embed/${selectedProject.youtubeId}`}
+                      title={selectedProject.title}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                )}
+
+                {/* Original Song - YouTube Embed */}
+                {selectedProject.originalSong && (
+                  <div className="mt-8">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Music className="w-4 h-4 text-amber-500" />
+                      <h3 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500">
+                        Original Song
+                      </h3>
+                    </div>
+                    <div className="rounded-lg overflow-hidden aspect-video">
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${selectedProject.originalSong.youtubeId}`}
+                        title={selectedProject.originalSong.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {/* Tracklist */}
+                {selectedProject.tracks && selectedProject.tracks.length > 0 && (
+                  <div className="mt-8">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Music className="w-4 h-4 text-amber-500" />
+                      <h3 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500">
+                        Original Score
+                      </h3>
+                    </div>
+                    <div className="space-y-1">
+                      {selectedProject.tracks.map((track, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setPlayingTrack(playingTrack === index ? null : index)}
+                          data-testid={`home-track-${index}`}
+                          className={cn(
+                            "w-full flex items-center gap-3 px-4 py-3 rounded-lg transition-all text-left",
+                            playingTrack === index
+                              ? "bg-amber-500/15 border border-amber-500/30"
+                              : "bg-[#151515] hover:bg-[#1a1a1a] border border-transparent"
+                          )}
+                        >
+                          <span className="w-6 text-center font-mono text-xs text-[#f5f5f0]/40">
+                            {playingTrack === index ? (
+                              <Play className="w-3.5 h-3.5 text-amber-500 mx-auto" />
+                            ) : (
+                              index + 1
+                            )}
+                          </span>
+                          <span className={cn(
+                            "text-sm flex-1",
+                            playingTrack === index ? "text-amber-500" : "text-[#f5f5f0]/80"
+                          )}>
+                            {track.title}
+                          </span>
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* SoundCloud Embed Player */}
+                    {playingTrack !== null && (
+                      <div className="mt-4 rounded-lg overflow-hidden">
+                        <iframe
+                          title={selectedProject.tracks[playingTrack].title}
+                          width="100%"
+                          height="166"
+                          scrolling="no"
+                          frameBorder="no"
+                          allow="autoplay"
+                          src={
+                            selectedProject.tracks[playingTrack].embedUrl
+                              ? `${selectedProject.tracks[playingTrack].embedUrl}&color=%23d97706&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`
+                              : `https://w.soundcloud.com/player/?url=${encodeURIComponent(selectedProject.tracks[playingTrack].url)}&color=%23d97706&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`
+                          }
+                        />
+                      </div>
+                    )}
+
+                    {/* Full Album Link */}
+                    {selectedProject.soundcloudPlaylist && (
+                      <a
+                        href={selectedProject.soundcloudPlaylist}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 mt-4 text-amber-500 hover:text-amber-400 font-mono text-xs tracking-wider uppercase transition-colors"
+                      >
+                        Listen on SoundCloud
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                      </a>
+                    )}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
