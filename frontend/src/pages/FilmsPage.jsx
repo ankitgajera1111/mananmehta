@@ -177,6 +177,29 @@ const FilmsPage = () => {
                 <p className="text-[#f5f5f0]/70 mt-4 mb-2">Director: {selectedProject.director}</p>
                 <p className="text-[#f5f5f0]/60">{selectedProject.description}</p>
 
+                {/* Original Song - YouTube Embed */}
+                {selectedProject.originalSong && (
+                  <div className="mt-8">
+                    <div className="flex items-center gap-2 mb-4">
+                      <Music className="w-4 h-4 text-amber-500" />
+                      <h3 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500">
+                        Original Song
+                      </h3>
+                    </div>
+                    <div className="rounded-lg overflow-hidden aspect-video">
+                      <iframe
+                        width="100%"
+                        height="100%"
+                        src={`https://www.youtube.com/embed/${selectedProject.originalSong.youtubeId}`}
+                        title={selectedProject.originalSong.title}
+                        frameBorder="0"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  </div>
+                )}
+
                 {/* Tracklist */}
                 {selectedProject.tracks && selectedProject.tracks.length > 0 && (
                   <div className="mt-8">

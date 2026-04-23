@@ -61,6 +61,7 @@ export const filmProjects = [
     role: "Additional Music",
     description: "A playful, energetic score blending spy-thriller motifs with comedic timing for this masala entertainer starring Vir Das and produced by Aamir Khan Productions.",
     coverImage: "https://m.media-amazon.com/images/M/MV5BOWUyZTBjYTctMGQyNS00Mjg0LTg5ZTMtZDA1YmEyZDIxZjRlXkEyXkFqcGc@._V1_QL75_UX500_.jpg",
+    originalSong: { title: "Happy Patel Original Song", youtubeId: "Me8fyA6inTo" },
     soundcloudPlaylist: "https://soundcloud.com/user-463032126/sets/happy-patel",
     tracks: [
       { title: "Sanjeev Kapoor's Theme", embedUrl: "https://w.soundcloud.com/player/?url=https%3A%2F%2Fapi.soundcloud.com%2Ftracks%2F2307623792" },
