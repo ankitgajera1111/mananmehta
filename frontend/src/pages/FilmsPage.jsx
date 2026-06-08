@@ -212,7 +212,7 @@ const FilmsPage = () => {
                     <div className="space-y-1">
                       {selectedProject.tracks.map((track, index) => (
                         <button
-                          key={index}
+                          key={track.title}
                           onClick={() => setPlayingTrack(playingTrack === index ? null : index)}
                           data-testid={`track-${index}`}
                           className={cn(

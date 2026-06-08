@@ -57,8 +57,8 @@ const HomePage = () => {
               Film & Television Composer
             </p>
             <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl xl:text-9xl text-[#f5f5f0] leading-[0.9] mb-6">
-              {composerInfo.name.split(' ').map((word, i) => (
-                <span key={i} className="block">
+              {composerInfo.name.split(' ').map((word) => (
+                <span key={word} className="block">
                   {word.toUpperCase()}
                 </span>
               ))}
@@ -135,9 +135,9 @@ const HomePage = () => {
                 { title: 'Advertising', description: 'Memorable music for brands and commercial campaigns' },
                 { title: 'Sound Design', description: 'Crafting immersive sonic experiences and textures' },
                 { title: 'Collaboration', description: 'Working closely with directors to realize their vision' }
-              ].map((service, index) => (
+              ].map((service) => (
                 <div
-                  key={index}
+                  key={service.title}
                   className="p-6 lg:p-8 rounded-xl bg-gradient-to-br from-[#151515] to-[#1a1a1a] border border-[#f5f5f0]/5"
                 >
                   <p className="font-display text-xl lg:text-2xl text-amber-500 mb-2">{service.title}</p>
@@ -314,7 +314,7 @@ const HomePage = () => {
                     <div className="space-y-1">
                       {selectedProject.tracks.map((track, index) => (
                         <button
-                          key={index}
+                          key={track.title}
                           onClick={() => setPlayingTrack(playingTrack === index ? null : index)}
                           data-testid={`home-track-${index}`}
                           className={cn(

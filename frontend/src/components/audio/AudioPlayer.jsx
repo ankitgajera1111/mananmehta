@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Play, Pause, Volume2, VolumeX, SkipBack, SkipForward } from 'lucide-react';
 import { Slider } from '../ui/slider';
 import { cn } from '../../lib/utils';
@@ -20,16 +20,15 @@ const AudioPlayer = ({
   const [isMuted, setIsMuted] = useState(false);
   const audioRef = useRef(null);
 
-  // Simulated duration for demo (since we don't have real audio files)
   useEffect(() => {
-    const [mins, secs] = (track?.duration || '3:30').split(':').map(Number);
-    setDuration(mins * 60 + secs);
+    const parts = (track?.duration || '3:30').split(':').map(Number);
+    setDuration(parts[0] * 60 + parts[1]);
   }, [track]);
 
   const formatTime = (time) => {
-    const mins = Math.floor(time / 60);
-    const secs = Math.floor(time % 60);
-    return `${mins}:${secs.toString().padStart(2, '0')}`;
+    const m = Math.floor(time / 60);
+    const s = Math.floor(time % 60);
+    return `${m}:${s.toString().padStart(2, '0')}`;
   };
 
   const handlePlayPause = () => {
@@ -49,7 +48,6 @@ const AudioPlayer = ({
     setIsMuted(!isMuted);
   };
 
-  // Simulate playback progress
   useEffect(() => {
     let interval;
     if (isPlaying && currentTime < duration) {
@@ -65,6 +63,9 @@ const AudioPlayer = ({
     }
     return () => clearInterval(interval);
   }, [isPlaying, duration, currentTime]);
+
+  const progressValue = useMemo(() => [currentTime], [currentTime]);
+  const volumeValue = useMemo(() => [isMuted ? 0 : volume], [isMuted, volume]);
 
   if (variant === 'compact') {
     return (
@@ -145,7 +146,7 @@ const AudioPlayer = ({
           {/* Progress Bar */}
           <div className="mt-6 space-y-2">
             <Slider
-              value={[currentTime]}
+              value={progressValue}
               max={duration}
               step={1}
               onValueChange={handleProgressChange}
@@ -195,7 +196,7 @@ const AudioPlayer = ({
                   {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
                 </button>
                 <Slider
-                  value={[isMuted ? 0 : volume]}
+                  value={volumeValue}
                   max={1}
                   step={0.01}
                   onValueChange={handleVolumeChange}

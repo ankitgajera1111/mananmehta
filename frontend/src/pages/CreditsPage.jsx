@@ -138,11 +138,11 @@ const CreditsPage = () => {
                   expandedYear === year ? 'max-h-[2000px]' : 'max-h-0'
                 )}>
                   <div className="p-6 space-y-4">
-                    {creditsByYear[year].map((credit, index) => {
+                    {creditsByYear[year].map((credit) => {
                       const Icon = getTypeIcon(credit.type);
                       return (
                         <div
-                          key={index}
+                          key={credit.title}
                           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-lg bg-[#0a0a0a] hover:bg-[#0d0d0d] transition-colors"
                         >
                           <div className="flex items-start gap-4">

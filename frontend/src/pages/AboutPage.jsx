@@ -25,16 +25,16 @@ const AboutPage = () => {
                 About the Composer
               </p>
               <h1 className="font-display text-5xl lg:text-7xl text-[#f5f5f0] mb-8">
-                {composerInfo.name.split(' ').map((word, i) => (
-                  <span key={i} className="block">
+                {composerInfo.name.split(' ').map((word) => (
+                  <span key={word} className="block">
                     {word.toUpperCase()}
                   </span>
                 ))}
               </h1>
               
               <div className="space-y-6 text-[#f5f5f0]/70 leading-relaxed">
-                {aboutData.fullBio.split('\n\n').map((paragraph, index) => (
-                  <p key={index}>{paragraph}</p>
+                {aboutData.fullBio.split('\n\n').map((paragraph) => (
+                  <p key={paragraph.slice(0, 30)}>{paragraph}</p>
                 ))}
               </div>
 
@@ -65,11 +65,11 @@ const AboutPage = () => {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {aboutData.skills.map((skill, index) => {
+            {aboutData.skills.map((skill) => {
               const Icon = skillIcons[skill] || Music;
               return (
                 <div
-                  key={index}
+                  key={skill}
                   className="group p-8 rounded-xl bg-[#151515] border border-[#f5f5f0]/5 hover:border-amber-500/30 transition-all duration-300"
                 >
                   <div className="w-14 h-14 rounded-full bg-amber-500/10 flex items-center justify-center mb-6 group-hover:bg-amber-500/20 transition-colors">
@@ -101,7 +101,7 @@ const AboutPage = () => {
               { step: '03', title: 'Creation', description: 'Composing, recording, and producing the score with meticulous attention to detail.' },
               { step: '04', title: 'Delivery', description: 'Final mixing, mastering, and delivery in all required formats.' }
             ].map((item, index) => (
-              <div key={index} className="relative">
+              <div key={item.step} className="relative">
                 <div className="p-8 rounded-xl bg-gradient-to-br from-[#151515] to-[#1a1a1a] border border-[#f5f5f0]/5 h-full">
                   <span className="font-display text-6xl text-amber-500/20">{item.step}</span>
                   <h3 className="font-display text-xl text-[#f5f5f0] mt-4 mb-3">{item.title}</h3>

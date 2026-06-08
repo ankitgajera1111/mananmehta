@@ -250,9 +250,9 @@ const ContactPage = () => {
                 q: 'Do you handle music licensing?',
                 a: 'Yes, all music I create comes with clear licensing terms. We\'ll discuss usage rights based on your distribution plans.'
               }
-            ].map((faq, index) => (
+            ].map((faq) => (
               <div
-                key={index}
+                key={faq.q}
                 className="p-6 rounded-xl bg-[#151515] border border-[#f5f5f0]/5"
               >
                 <h3 className="font-display text-lg text-[#f5f5f0] mb-3">{faq.q}</h3>

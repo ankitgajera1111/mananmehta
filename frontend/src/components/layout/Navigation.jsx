@@ -15,11 +15,11 @@ const Navigation = () => {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [setScrolled]);
 
   useEffect(() => {
     setIsOpen(false);
-  }, [location]);
+  }, [location, setIsOpen]);
 
   const navLinks = [
     { path: '/', label: 'Home' },

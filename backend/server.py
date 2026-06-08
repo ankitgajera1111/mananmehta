@@ -6,24 +6,24 @@ import os
 import logging
 from pathlib import Path
 from pydantic import BaseModel, Field, ConfigDict
-from typing import List
+from typing import List, Dict, Any
 import uuid
 from datetime import datetime, timezone
 
 
-ROOT_DIR = Path(__file__).parent
+ROOT_DIR: Path = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
 # MongoDB connection
-mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
+mongo_url: str = os.environ['MONGO_URL']
+client: AsyncIOMotorClient = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
 # Create the main app without a prefix
-app = FastAPI()
+app: FastAPI = FastAPI()
 
 # Create a router with the /api prefix
-api_router = APIRouter(prefix="/api")
+api_router: APIRouter = APIRouter(prefix="/api")
 
 
 # Define Models
@@ -39,25 +39,25 @@ class StatusCheckCreate(BaseModel):
 
 # Add your routes to the router instead of directly to app
 @api_router.get("/")
-async def root():
+async def root() -> Dict[str, str]:
     return {"message": "Hello World"}
 
 @api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.model_dump()
-    status_obj = StatusCheck(**status_dict)
+async def create_status_check(input: StatusCheckCreate) -> StatusCheck:
+    status_dict: Dict[str, Any] = input.model_dump()
+    status_obj: StatusCheck = StatusCheck(**status_dict)
     
     # Convert to dict and serialize datetime to ISO string for MongoDB
-    doc = status_obj.model_dump()
+    doc: Dict[str, Any] = status_obj.model_dump()
     doc['timestamp'] = doc['timestamp'].isoformat()
     
     _ = await db.status_checks.insert_one(doc)
     return status_obj
 
 @api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
+async def get_status_checks() -> List[StatusCheck]:
     # Exclude MongoDB's _id field from the query results
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
+    status_checks: List[Dict[str, Any]] = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
     
     # Convert ISO string timestamps back to datetime objects
     for check in status_checks:
@@ -71,7 +71,7 @@ app.include_router(api_router)
 
 # Health check endpoint for deployment
 @app.get("/health")
-async def health_check():
+async def health_check() -> Dict[str, str]:
     return {"status": "healthy"}
 
 app.add_middleware(
