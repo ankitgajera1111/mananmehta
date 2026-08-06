@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# The CMS is behind a login, but there is no reason for it to appear in
+# search results either.
+Disallow: /admin
+
+Sitemap: https://mananmehta.vercel.app/sitemap.xml
