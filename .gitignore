@@ -31,6 +31,14 @@ dist/
 dist
 
 # Environment files (comprehensive coverage)
+# These hold the MongoDB password, JWT secret, Cloudinary secret and Resend key.
+# .env.example is the tracked template and must stay committed.
+.env
+.env.*
+!.env.example
+**/.env
+**/.env.*
+!**/.env.example
 
 *token.json*
 *credentials.json*
@@ -77,4 +85,5 @@ agenthub/agents/youtube/db
 .cache/
 
 # Mobile development
-android-sdk/ 
+android-sdk/ frontend/node_modules/.cache/default-development/0.pack
+frontend/node_modules/.cache/default-development/0.pack
