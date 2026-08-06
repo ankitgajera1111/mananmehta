@@ -1,0 +1,41 @@
+const { createProxyMiddleware, fixRequestBody } = require('http-proxy-middleware');
+
+/**
+ * Development-only proxy from /api to the local FastAPI server.
+ *
+ * This file exists instead of the simpler `"proxy"` field in package.json
+ * because of a conflict with the visual-edits plugin: it calls
+ * `devServer.app.use(express.json())` (plugins/visual-edits/dev-server-setup.js),
+ * which consumes the request body stream before the proxy runs. The upstream
+ * request then waits forever for a body that has already been read, so every
+ * POST/PUT/PATCH hangs while GETs work fine.
+ *
+ * `fixRequestBody` re-serialises the parsed body onto the proxied request,
+ * which is the supported remedy for a body parser registered ahead of the proxy.
+ *
+ * None of this affects production: on Vercel the static site and the Python
+ * function share an origin, so `/api` needs no proxy at all.
+ */
+module.exports = function setupProxy(app) {
+  app.use(
+    '/api',
+    createProxyMiddleware({
+      target: process.env.DEV_API_URL || 'http://127.0.0.1:8001',
+      changeOrigin: true,
+      // Keep the /api prefix - FastAPI's routes already include it.
+      onProxyReq: fixRequestBody,
+      logLevel: 'warn',
+      onError: (err, _req, res) => {
+        // A readable message beats a hung request when the API is not running.
+        res.writeHead(503, { 'Content-Type': 'application/json' });
+        res.end(
+          JSON.stringify({
+            detail:
+              'Cannot reach the API server. Start it with: ' +
+              'cd backend && .venv/bin/uvicorn server:app --port 8001',
+          })
+        );
+      },
+    })
+  );
+};

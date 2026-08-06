@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Mail, Instagram, MapPin, Send, CheckCircle } from 'lucide-react';
+import { Mail, Instagram, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
@@ -11,10 +11,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '../components/ui/select';
-import { composerInfo } from '../data/mock';
+import { useSection } from '../context/ContentContext';
+import AccentHeading from '../components/AccentHeading';
+import { submitContact, errorMessage } from '../lib/api';
 import { cn } from '../lib/utils';
 
 const ContactPage = () => {
+  const composerInfo = useSection('settings');
+  const page = useSection('contact');
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,6 +28,7 @@ const ContactPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [submitError, setSubmitError] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -36,13 +42,18 @@ const ContactPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-    
-    // Simulate form submission (will be replaced with backend)
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setIsSubmitting(false);
-    setIsSubmitted(true);
-    setFormData({ name: '', email: '', projectType: '', message: '' });
+    setSubmitError(null);
+
+    try {
+      await submitContact(formData);
+      setIsSubmitted(true);
+      setFormData({ name: '', email: '', projectType: '', message: '' });
+    } catch (err) {
+      // Keep what they typed on screen so a failure never costs them the message.
+      setSubmitError(errorMessage(err, 'Could not send your message.'));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -57,13 +68,13 @@ const ContactPage = () => {
                 <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
                   <Mail className="w-6 h-6 text-amber-500" />
                 </div>
-                <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500">Get in Touch</p>
+                <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500">{page.kicker}</p>
               </div>
               <h1 className="font-display text-5xl lg:text-7xl text-[#f5f5f0] mb-6">
-                LET'S <span className="text-amber-500">TALK</span>
+                <AccentHeading text={page.heading} accent={page.accentWord} />
               </h1>
               <p className="text-[#f5f5f0]/60 text-lg lg:text-xl leading-relaxed mb-12">
-                Have a project in mind? I'd love to hear about it. Fill out the form or reach out directly through email or social media.
+                {page.intro}
               </p>
 
               {/* Contact Info */}
@@ -116,9 +127,9 @@ const ContactPage = () => {
                     <div className="w-16 h-16 rounded-full bg-green-500/20 flex items-center justify-center mx-auto mb-6">
                       <CheckCircle className="w-8 h-8 text-green-500" />
                     </div>
-                    <h3 className="font-display text-2xl text-[#f5f5f0] mb-4">Message Sent!</h3>
+                    <h3 className="font-display text-2xl text-[#f5f5f0] mb-4">{page.successHeading}</h3>
                     <p className="text-[#f5f5f0]/60 mb-8">
-                      Thank you for reaching out. I'll get back to you within 24-48 hours.
+                      {page.successBody}
                     </p>
                     <Button
                       onClick={() => setIsSubmitted(false)}
@@ -130,6 +141,25 @@ const ContactPage = () => {
                   </div>
                 ) : (
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    {submitError && (
+                      <div
+                        role="alert"
+                        className="flex items-start gap-3 p-4 rounded-lg bg-red-500/10 border border-red-500/30"
+                      >
+                        <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
+                        <p className="text-red-200 text-sm">
+                          {submitError} You can also email{' '}
+                          <a
+                            href={`mailto:${composerInfo.email}`}
+                            className="underline hover:text-red-100"
+                          >
+                            {composerInfo.email}
+                          </a>
+                          .
+                        </p>
+                      </div>
+                    )}
+
                     <div>
                       <Label htmlFor="name" className="text-[#f5f5f0]/70 font-mono text-xs tracking-wider uppercase mb-2 block">
                         Your Name *
@@ -170,12 +200,11 @@ const ContactPage = () => {
                           <SelectValue placeholder="Select project type" />
                         </SelectTrigger>
                         <SelectContent className="bg-[#151515] border-[#f5f5f0]/10">
-                          <SelectItem value="feature-film">Feature Film</SelectItem>
-                          <SelectItem value="documentary">Documentary</SelectItem>
-                          <SelectItem value="short-film">Short Film</SelectItem>
-                          <SelectItem value="tv-series">TV Series</SelectItem>
-                          <SelectItem value="commercial">Commercial / Advertising</SelectItem>
-                          <SelectItem value="other">Other</SelectItem>
+                          {(page.projectTypeOptions || []).map((option) => (
+                            <SelectItem key={option.value} value={option.value}>
+                              {option.label}
+                            </SelectItem>
+                          ))}
                         </SelectContent>
                       </Select>
                     </div>
@@ -228,29 +257,12 @@ const ContactPage = () => {
       <section className="py-16 lg:py-24 bg-[#0d0d0d]">
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
           <div className="text-center mb-16">
-            <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">Common Questions</p>
-            <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">FAQ</h2>
+            <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">{page.faqKicker}</p>
+            <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">{page.faqHeading}</h2>
           </div>
 
           <div className="max-w-3xl mx-auto space-y-6">
-            {[
-              {
-                q: 'What is your typical turnaround time?',
-                a: 'Depending on the scope, most projects take 4-12 weeks. I always discuss timeline expectations during our initial consultation.'
-              },
-              {
-                q: 'Do you work with indie filmmakers?',
-                a: 'Absolutely! I love working on projects of all sizes. Budget considerations can be discussed during our initial conversation.'
-              },
-              {
-                q: 'What does your process look like?',
-                a: 'It starts with understanding your vision, followed by theme development, composition, recording, and final delivery with revisions included.'
-              },
-              {
-                q: 'Do you handle music licensing?',
-                a: 'Yes, all music I create comes with clear licensing terms. We\'ll discuss usage rights based on your distribution plans.'
-              }
-            ].map((faq) => (
+            {(page.faqs || []).map((faq) => (
               <div
                 key={faq.q}
                 className="p-6 rounded-xl bg-[#151515] border border-[#f5f5f0]/5"

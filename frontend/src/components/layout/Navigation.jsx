@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Instagram, Music, Film } from 'lucide-react';
-import { composerInfo } from '../../data/mock';
+import { useSection } from '../../context/ContentContext';
 import { cn } from '../../lib/utils';
 
 const Navigation = () => {
+  const composerInfo = useSection('settings');
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -49,7 +50,7 @@ const Navigation = () => {
                 <Music className="w-5 h-5 text-[#0a0a0a]" />
               </div>
               <span className="font-display text-xl tracking-wider text-[#f5f5f0] group-hover:text-amber-500 transition-colors">
-                {composerInfo.name.split(' ')[0].toUpperCase()}
+                {(composerInfo.name || '').split(' ')[0].toUpperCase()}
               </span>
             </Link>
 

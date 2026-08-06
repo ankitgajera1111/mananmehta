@@ -1,0 +1,46 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+
+  "//": "Frontend and API deploy as ONE Vercel project so they share an origin. That removes CORS entirely and lets the admin session live in a Secure httpOnly cookie.",
+
+  "buildCommand": "cd frontend && yarn install --frozen-lockfile && yarn build",
+  "outputDirectory": "frontend/build",
+  "installCommand": "echo 'Frontend dependencies are installed by buildCommand'",
+  "framework": null,
+
+  "//functions": "The whole FastAPI app is served by the single function at api/index.py. Hobby allows 12 functions per deployment; a per-route layout would waste them. 10s is the Hobby ceiling.",
+  "functions": {
+    "api/index.py": {
+      "maxDuration": 10
+    }
+  },
+
+  "//rewrites": "Order matters. /api/* reaches the Python function; everything else falls back to index.html for client-side routing. Vercel checks the filesystem before applying a rewrite, so real static assets are served directly and never hit the SPA fallback.",
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/index" },
+    { "source": "/((?!api/).*)", "destination": "/index.html" }
+  ],
+
+  "headers": [
+    {
+      "//": "API responses are per-user and must never be cached by a CDN or browser.",
+      "source": "/api/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    },
+    {
+      "//": "CRA fingerprints these filenames, so they are safe to cache forever.",
+      "source": "/static/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" }
+      ]
+    }
+  ]
+}

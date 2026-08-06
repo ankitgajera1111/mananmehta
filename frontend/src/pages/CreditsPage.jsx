@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { FileText, Film, Tv, Megaphone, ChevronDown } from 'lucide-react';
-import { credits } from '../data/mock';
+import { useSection, useCollection } from '../context/ContentContext';
 import { cn } from '../lib/utils';
 
 const CreditsPage = () => {
+  const page = useSection('creditsPage');
+  const credits = useCollection('credits');
   const [filter, setFilter] = useState('all');
   const [expandedYear, setExpandedYear] = useState(null);
 
@@ -47,13 +49,13 @@ const CreditsPage = () => {
               <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
                 <FileText className="w-6 h-6 text-amber-500" />
               </div>
-              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500">Filmography</p>
+              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500">{page.kicker}</p>
             </div>
             <h1 className="font-display text-5xl lg:text-7xl text-[#f5f5f0] mb-6">
-              CREDITS
+              {page.heading}
             </h1>
             <p className="text-[#f5f5f0]/60 text-lg lg:text-xl leading-relaxed">
-              A comprehensive list of film, television, and commercial projects. Each score represents a unique collaboration and creative journey.
+              {page.intro}
             </p>
           </div>
         </div>
@@ -142,7 +144,7 @@ const CreditsPage = () => {
                       const Icon = getTypeIcon(credit.type);
                       return (
                         <div
-                          key={credit.title}
+                          key={credit.id || credit.title}
                           className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 rounded-lg bg-[#0a0a0a] hover:bg-[#0d0d0d] transition-colors"
                         >
                           <div className="flex items-start gap-4">

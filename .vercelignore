@@ -1,0 +1,12 @@
+# Keep the upload (and the Python function's cold start) small.
+# Note: frontend/plugins/ is deliberately NOT excluded — craco.config.js
+# references it, and although those requires are dev-only, the risk of breaking
+# the build outweighs the few KB saved.
+backend/.venv/
+**/__pycache__/
+**/*.pyc
+tests/
+memory/
+.emergent/
+frontend/node_modules/
+frontend/build/

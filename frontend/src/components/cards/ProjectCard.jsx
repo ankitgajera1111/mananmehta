@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Play, Pause, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '../../lib/utils';
+import { imageUrl } from '../../lib/media';
 
 const ProjectCard = ({ 
   project, 
@@ -31,7 +32,7 @@ const ProjectCard = ({
         {/* Background Image */}
         <div className="aspect-[16/9] relative overflow-hidden">
           <img
-            src={project.coverImage}
+            src={imageUrl(project.coverImage)}
             alt={project.title}
             className={cn(
               'w-full h-full object-cover transition-transform duration-700',
@@ -97,7 +98,7 @@ const ProjectCard = ({
         type === 'film' ? 'aspect-[3/4]' : 'aspect-video'
       )}>
         <img
-          src={project.coverImage}
+          src={imageUrl(project.coverImage)}
           alt={project.title}
           className={cn(
             'w-full h-full object-cover object-center transition-transform duration-500',

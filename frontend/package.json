@@ -60,6 +60,7 @@
     "build": "craco build",
     "test": "craco test"
   },
+  "//proxy": "Dev-only /api proxying lives in src/setupProxy.js, not here: the visual-edits plugin installs a body parser that makes the simple \"proxy\" field hang on POST requests. See that file for details.",
   "browserslist": {
     "production": [
       ">0.2%",

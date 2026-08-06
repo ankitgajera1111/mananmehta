@@ -1,9 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Mail, Music, ArrowUpRight } from 'lucide-react';
-import { composerInfo } from '../../data/mock';
+import { useSection } from '../../context/ContentContext';
 
 const Footer = () => {
+  const composerInfo = useSection('settings');
   const currentYear = new Date().getFullYear();
 
   return (
@@ -17,7 +18,7 @@ const Footer = () => {
                 <Music className="w-6 h-6 text-[#0a0a0a]" />
               </div>
               <span className="font-display text-2xl tracking-wider text-[#f5f5f0]">
-                {composerInfo.name.toUpperCase()}
+                {(composerInfo.name || '').toUpperCase()}
               </span>
             </Link>
             <p className="text-[#f5f5f0]/50 text-sm leading-relaxed max-w-sm">

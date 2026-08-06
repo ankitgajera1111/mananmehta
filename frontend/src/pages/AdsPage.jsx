@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Megaphone, Filter, Grid, List } from 'lucide-react';
-import { adProjects } from '../data/mock';
+import { useSection, useCollection } from '../context/ContentContext';
+import AccentHeading from '../components/AccentHeading';
 import ProjectCard from '../components/cards/ProjectCard';
 import { cn } from '../lib/utils';
 import {
@@ -9,8 +10,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../components/ui/dialog';
+import { imageUrl } from '../lib/media';
 
 const AdsPage = () => {
+  const page = useSection('adsPage');
+  const adProjects = useCollection('ads');
   const [selectedProject, setSelectedProject] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
   const [filter, setFilter] = useState('all');
@@ -31,13 +35,13 @@ const AdsPage = () => {
               <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
                 <Megaphone className="w-6 h-6 text-amber-500" />
               </div>
-              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500">Commercial Work</p>
+              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500">{page.kicker}</p>
             </div>
             <h1 className="font-display text-5xl lg:text-7xl text-[#f5f5f0] mb-6">
-              ADVERTISING
+              <AccentHeading text={page.heading} accent={page.accentWord} />
             </h1>
             <p className="text-[#f5f5f0]/60 text-lg lg:text-xl leading-relaxed">
-              Music for global brands and advertising campaigns. From product launches to brand anthems, creating memorable sonic identities that resonate with audiences.
+              {page.intro}
             </p>
           </div>
         </div>
@@ -47,7 +51,9 @@ const AdsPage = () => {
       <section className="border-y border-[#f5f5f0]/10 py-8">
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-center gap-8 lg:gap-16 opacity-50 flex-wrap">
-            {['Tropicana', 'Lakmé', 'Volvo', 'Samsung', 'Squarespace', 'Lay\'s', 'Durex'].map((brand) => (
+            {/* Derived from the ads themselves, so adding a brand in the admin
+                panel surfaces it here with no extra step. */}
+            {[...new Set(adProjects.map((p) => p.brand).filter(Boolean))].map((brand) => (
               <span key={brand} className="font-display text-lg lg:text-2xl text-[#f5f5f0] tracking-wider">
                 {brand.toUpperCase()}
               </span>
@@ -128,7 +134,7 @@ const AdsPage = () => {
                 >
                   <div className="w-full sm:w-64 h-36 sm:h-36 rounded-lg overflow-hidden flex-shrink-0">
                     <img
-                      src={project.coverImage}
+                      src={imageUrl(project.coverImage)}
                       alt={project.title}
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                     />

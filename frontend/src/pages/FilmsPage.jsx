@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Film, Filter, Grid, List, Music, Play } from 'lucide-react';
-import { filmProjects } from '../data/mock';
+import { useSection, useCollection } from '../context/ContentContext';
+import AccentHeading from '../components/AccentHeading';
 import ProjectCard from '../components/cards/ProjectCard';
 import { cn } from '../lib/utils';
 import {
@@ -9,8 +10,11 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../components/ui/dialog';
+import { imageUrl } from '../lib/media';
 
 const FilmsPage = () => {
+  const page = useSection('filmsPage');
+  const filmProjects = useCollection('films');
   const [selectedProject, setSelectedProject] = useState(null);
   const [playingTrack, setPlayingTrack] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
@@ -32,13 +36,13 @@ const FilmsPage = () => {
               <div className="w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center">
                 <Film className="w-6 h-6 text-amber-500" />
               </div>
-              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500">Film Compositions</p>
+              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500">{page.kicker}</p>
             </div>
             <h1 className="font-display text-5xl lg:text-7xl text-[#f5f5f0] mb-6">
-              FILM <span className="text-amber-500">&</span> TV
+              <AccentHeading text={page.heading} accent={page.accentWord} />
             </h1>
             <p className="text-[#f5f5f0]/60 text-lg lg:text-xl leading-relaxed">
-              Original scores for feature films, documentaries, and television. Each composition is crafted to serve the unique emotional landscape of the story.
+              {page.intro}
             </p>
           </div>
         </div>
@@ -116,7 +120,7 @@ const FilmsPage = () => {
                 >
                   <div className="w-full sm:w-48 h-64 sm:h-64 rounded-lg overflow-hidden flex-shrink-0">
                     <img
-                      src={project.coverImage}
+                      src={imageUrl(project.coverImage)}
                       alt={project.title}
                       className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                     />
@@ -155,7 +159,7 @@ const FilmsPage = () => {
             <>
               <div className="relative h-64 lg:h-96">
                 <img
-                  src={selectedProject.coverImage}
+                  src={imageUrl(selectedProject.coverImage)}
                   alt={selectedProject.title}
                   className="w-full h-full object-cover object-top"
                 />

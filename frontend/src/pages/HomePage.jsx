@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Music, Play } from 'lucide-react';
 import { Button } from '../components/ui/button';
-import { composerInfo, featuredWork, filmProjects, adProjects } from '../data/mock';
+import { useSection, useCollection } from '../context/ContentContext';
 import ProjectCard from '../components/cards/ProjectCard';
 import { cn } from '../lib/utils';
 import {
@@ -11,21 +11,54 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../components/ui/dialog';
+import { imageUrl } from '../lib/media';
 
 const HomePage = () => {
+  const composerInfo = useSection('settings');
+  const home = useSection('home');
+  const filmProjects = useCollection('films');
+  const adProjects = useCollection('ads');
+
   const [activeProject, setActiveProject] = useState(0);
   const [selectedProject, setSelectedProject] = useState(null);
   const [playingTrack, setPlayingTrack] = useState(null);
 
-  // Auto-rotate featured projects
+  /**
+   * The hero rotation the client picked in the admin panel.
+   *
+   * home.featuredWork holds {kind, projectId} references rather than copies, so
+   * editing a project updates its slide automatically. References to a deleted
+   * or unpublished project are dropped here; if that leaves nothing, we fall
+   * back to the first few films so the hero is never blank.
+   */
+  const featuredWork = useMemo(() => {
+    const byId = {
+      film: new Map(filmProjects.map((p) => [p.id, p])),
+      ad: new Map(adProjects.map((p) => [p.id, p])),
+    };
+    const picked = (home.featuredWork || [])
+      .map((ref) => byId[ref.kind]?.get(ref.projectId))
+      .filter(Boolean);
+    return picked.length ? picked : filmProjects.slice(0, 5);
+  }, [home.featuredWork, filmProjects, adProjects]);
+
+  // Auto-rotate the hero. The final slide is held slightly shorter so the loop
+  // back to the first does not feel like a stall.
   useEffect(() => {
-    const lastIndex = featuredWork.length - 1;
-    const duration = activeProject === lastIndex ? 3500 : 5000;
-    const interval = setInterval(() => {
-      setActiveProject((prev) => (prev + 1) % featuredWork.length);
-    }, duration);
+    if (featuredWork.length < 2) return undefined;
+    const base = home.rotationMs || 5000;
+    const isLast = activeProject === featuredWork.length - 1;
+    const interval = setInterval(
+      () => setActiveProject((prev) => (prev + 1) % featuredWork.length),
+      isLast ? Math.round(base * 0.7) : base
+    );
     return () => clearInterval(interval);
-  }, [activeProject]);
+  }, [activeProject, featuredWork.length, home.rotationMs]);
+
+  // A shortened rotation list must never leave the index out of bounds.
+  useEffect(() => {
+    if (activeProject >= featuredWork.length) setActiveProject(0);
+  }, [activeProject, featuredWork.length]);
 
   return (
     <div className="min-h-screen bg-[#0a0a0a]">
@@ -41,7 +74,7 @@ const HomePage = () => {
             )}
           >
             <img
-              src={project.coverImage}
+              src={imageUrl(project.coverImage)}
               alt={project.title}
               className="w-full h-full object-cover"
             />
@@ -54,43 +87,45 @@ const HomePage = () => {
         <div className="relative z-10 max-w-[1920px] mx-auto px-6 lg:px-12 w-full">
           <div className="max-w-3xl">
             <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-6 animate-fade-in">
-              Film & Television Composer
+              {home.heroKicker}
             </p>
             <h1 className="font-display text-5xl sm:text-7xl lg:text-8xl xl:text-9xl text-[#f5f5f0] leading-[0.9] mb-6">
-              {composerInfo.name.split(' ').map((word) => (
+              {(composerInfo.name || '').split(' ').map((word) => (
                 <span key={word} className="block">
                   {word.toUpperCase()}
                 </span>
               ))}
             </h1>
             <p className="text-[#f5f5f0]/70 text-lg lg:text-xl max-w-lg mb-16">
-              {composerInfo.tagline}
+              {home.heroTagline || composerInfo.tagline}
             </p>
 
             <div className="flex flex-wrap items-center gap-4 mb-24">
               <Link to="/films">
                 <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
-                  Explore Work
+                  {home.heroPrimaryCta}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
               <Link to="/contact">
                 <Button variant="outline" className="border-[#f5f5f0]/30 text-[#f5f5f0] hover:bg-[#f5f5f0]/10 rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
-                  Get in Touch
+                  {home.heroSecondaryCta}
                 </Button>
               </Link>
             </div>
           </div>
 
           {/* Project Title Indicator */}
-          <div className="absolute bottom-12 right-6 lg:right-12 hidden lg:block">
-            <div className="flex items-center gap-4 p-4 rounded-lg bg-[#0a0a0a]/80 backdrop-blur-sm border border-[#f5f5f0]/10">
-              <div>
-                <p className="text-[#f5f5f0] text-sm font-medium">{featuredWork[activeProject].title}</p>
-                <p className="text-[#f5f5f0]/50 text-xs">{featuredWork[activeProject].type || featuredWork[activeProject].brand}</p>
+          {featuredWork[activeProject] && (
+            <div className="absolute bottom-12 right-6 lg:right-12 hidden lg:block">
+              <div className="flex items-center gap-4 p-4 rounded-lg bg-[#0a0a0a]/80 backdrop-blur-sm border border-[#f5f5f0]/10">
+                <div>
+                  <p className="text-[#f5f5f0] text-sm font-medium">{featuredWork[activeProject].title}</p>
+                  <p className="text-[#f5f5f0]/50 text-xs">{featuredWork[activeProject].type || featuredWork[activeProject].brand}</p>
+                </div>
               </div>
             </div>
-          </div>
+          )}
 
           {/* Project Indicators */}
           <div className="absolute bottom-12 left-6 lg:left-12 flex gap-2">
@@ -114,15 +149,15 @@ const HomePage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <div>
               <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0] mb-6">
-                CRAFTING SONIC
-                <span className="block text-amber-500">LANDSCAPES</span>
+                {home.introHeadingLine1}
+                <span className="block text-amber-500">{home.introHeadingLine2}</span>
               </h2>
               <p className="text-[#f5f5f0]/50 leading-relaxed mb-8">
-                From intimate indie dramas to major advertising campaigns, my music serves the story. Every composition is tailored to enhance the emotional journey of your project.
+                {home.introBody}
               </p>
               <Link to="/about">
                 <Button variant="outline" className="border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-[#0a0a0a] rounded-full px-6 py-5 font-mono text-xs tracking-wider uppercase">
-                  Learn More About Me
+                  {home.introCtaLabel}
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Button>
               </Link>
@@ -130,12 +165,7 @@ const HomePage = () => {
 
             {/* Services */}
             <div className="grid grid-cols-2 gap-6">
-              {[
-                { title: 'Film & TV', description: 'Original scores for feature films, documentaries, and series' },
-                { title: 'Advertising', description: 'Memorable music for brands and commercial campaigns' },
-                { title: 'Sound Design', description: 'Crafting immersive sonic experiences and textures' },
-                { title: 'Collaboration', description: 'Working closely with directors to realize their vision' }
-              ].map((service) => (
+              {(home.services || []).map((service) => (
                 <div
                   key={service.title}
                   className="p-6 lg:p-8 rounded-xl bg-gradient-to-br from-[#151515] to-[#1a1a1a] border border-[#f5f5f0]/5"
@@ -154,8 +184,8 @@ const HomePage = () => {
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">Featured Work</p>
-              <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">FILM SCORES</h2>
+              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">{home.filmsKicker}</p>
+              <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">{home.filmsHeading}</h2>
             </div>
             <Link to="/films" className="hidden sm:inline-flex items-center gap-2 text-[#f5f5f0]/70 hover:text-amber-500 transition-colors font-mono text-xs tracking-wider uppercase">
               View All Films
@@ -185,8 +215,8 @@ const HomePage = () => {
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
           <div className="flex items-end justify-between mb-12">
             <div>
-              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">Commercial Work</p>
-              <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">ADVERTISING</h2>
+              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">{home.adsKicker}</p>
+              <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">{home.adsHeading}</h2>
             </div>
             <Link to="/ads" className="hidden sm:inline-flex items-center gap-2 text-[#f5f5f0]/70 hover:text-amber-500 transition-colors font-mono text-xs tracking-wider uppercase">
               View All Ads
@@ -214,17 +244,17 @@ const HomePage = () => {
       {/* CTA Section */}
       <section className="py-24 lg:py-32 bg-gradient-to-br from-[#151515] to-[#0a0a0a]">
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12 text-center">
-          <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-6">Let's Create Together</p>
+          <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-6">{home.ctaKicker}</p>
           <h2 className="font-display text-4xl lg:text-6xl xl:text-7xl text-[#f5f5f0] mb-6">
-            HAVE A PROJECT
-            <span className="block text-amber-500">IN MIND?</span>
+            {home.ctaHeadingLine1}
+            <span className="block text-amber-500">{home.ctaHeadingLine2}</span>
           </h2>
           <p className="text-[#f5f5f0]/60 text-lg max-w-2xl mx-auto mb-10">
-            I'm always excited to collaborate on new projects. Whether it's a feature film, documentary, or advertising campaign, let's discuss how we can bring your vision to life through music.
+            {home.ctaBody}
           </p>
           <Link to="/contact">
             <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-10 py-6 font-mono text-sm tracking-wider uppercase">
-              Start a Conversation
+              {home.ctaButtonLabel}
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
           </Link>
@@ -238,7 +268,7 @@ const HomePage = () => {
             <>
               <div className="relative h-64 lg:h-96">
                 <img
-                  src={selectedProject.coverImage}
+                  src={imageUrl(selectedProject.coverImage)}
                   alt={selectedProject.title}
                   className="w-full h-full object-cover object-top"
                 />
