@@ -1,6 +1,6 @@
 import React from 'react';
 import { AlertTriangle, RefreshCw } from 'lucide-react';
-import { useContent } from '../../context/ContentContext';
+import { useContent, useDocumentHead } from '../../context/ContentContext';
 import { Button } from '../ui/button';
 
 /**
@@ -12,6 +12,8 @@ import { Button } from '../ui/button';
  */
 const ContentGate = ({ children }) => {
   const { content, loading, error, refresh } = useContent();
+  // Applies the client's Settings -> Search engines values to the tab title.
+  useDocumentHead();
 
   if (content) return children;
 

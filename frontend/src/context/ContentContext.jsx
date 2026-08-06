@@ -91,6 +91,40 @@ export const useContent = () => {
 };
 
 /**
+ * Keep the browser tab title and meta description in sync with Settings.
+ *
+ * public/index.html carries sensible defaults so crawlers and the first paint
+ * see a real title before any JavaScript runs; this then applies whatever the
+ * client has set under Settings -> Search engines. Blank fields fall back to
+ * the composer's name and tagline rather than wiping the tab title.
+ */
+export const useDocumentHead = () => {
+  const { content } = useContent();
+  const settings = content?.settings;
+
+  useEffect(() => {
+    if (!settings) return;
+
+    const title =
+      settings.seoTitle ||
+      [settings.name, settings.title].filter(Boolean).join(' | ') ||
+      document.title;
+    document.title = title;
+
+    const description = settings.seoDescription || settings.tagline;
+    if (description) {
+      let tag = document.querySelector('meta[name="description"]');
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute('name', 'description');
+        document.head.appendChild(tag);
+      }
+      tag.setAttribute('content', description);
+    }
+  }, [settings]);
+};
+
+/**
  * Section-level accessor with a guaranteed-object result.
  *
  * Pages call e.g. `useSection('home')` and can then read fields without
