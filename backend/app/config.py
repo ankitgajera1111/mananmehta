@@ -75,10 +75,28 @@ class Settings:
             o.strip() for o in os.environ.get("CORS_ORIGINS", "*").split(",") if o.strip()
         ]
 
+    # Any of these present means we are running on a hosting platform, not a
+    # laptop. Checking several because relying on VERCEL alone proved
+    # unreliable - the deployed API was still serving /docs, which meant the
+    # JWT-secret guard below was also being skipped in production.
+    _HOSTED_MARKERS = (
+        "VERCEL",
+        "VERCEL_ENV",
+        "VERCEL_URL",
+        "VERCEL_REGION",
+        "AWS_LAMBDA_FUNCTION_NAME",
+    )
+
     @property
     def is_dev(self) -> bool:
-        # Vercel sets VERCEL=1 on every deployment.
-        return not _bool("VERCEL") and os.environ.get("APP_ENV", "dev") == "dev"
+        if any(os.environ.get(marker) for marker in self._HOSTED_MARKERS):
+            return False
+        # APP_ENV is the explicit override, for hosts we do not recognise.
+        return os.environ.get("APP_ENV", "dev").strip().lower() in {
+            "dev",
+            "development",
+            "local",
+        }
 
     @property
     def cloudinary_configured(self) -> bool:
