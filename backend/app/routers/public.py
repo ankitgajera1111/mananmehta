@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import logging
 
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, Request, status
 
 from ..db import (
     ABOUT_PAGE,
@@ -34,6 +34,7 @@ from ..models import (
 )
 from ..repository import get_singleton, list_documents
 from ..services.email import send_contact_notification
+from ..services.ratelimit import check_rate_limit, client_ip
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api", tags=["public"])
@@ -60,8 +61,16 @@ async def get_content() -> PublicContent:
     )
 
 
+# Five enquiries an hour per address. A real person sends one, maybe two if
+# they mistype an email. Without this, a bot can flood the inbox and burn the
+# daily email quota - which would mean genuine enquiries silently stop being
+# delivered.
+CONTACT_MAX_PER_HOUR = 5
+CONTACT_WINDOW_SECONDS = 60 * 60
+
+
 @router.post("/contact", status_code=201)
-async def submit_contact(payload: ContactMessageCreate) -> dict:
+async def submit_contact(payload: ContactMessageCreate, request: Request) -> dict:
     """Store the enquiry, then notify by email.
 
     The database write happens first: once it succeeds the message is safe, so
@@ -72,6 +81,18 @@ async def submit_contact(payload: ContactMessageCreate) -> dict:
     silently drop a queued task. Resend responds in a few hundred ms, far inside
     the 10s function budget, and send_contact_notification never raises.
     """
+    ip = client_ip(request)
+    allowed, retry_after = await check_rate_limit(
+        f"contact:{ip}", CONTACT_MAX_PER_HOUR, CONTACT_WINDOW_SECONDS
+    )
+    if not allowed:
+        logger.warning("Rate-limited contact submissions from %s", ip)
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="You have sent several messages already. Please try again later.",
+            headers={"Retry-After": str(retry_after)},
+        )
+
     message = ContactMessage(
         name=payload.name.strip(),
         email=str(payload.email).lower().strip(),

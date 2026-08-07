@@ -91,3 +91,5 @@ async def ensure_indexes() -> None:
         await db[name].create_index("id", unique=True)
         await db[name].create_index("order")
     await db[CONTACT_MESSAGES].create_index("createdAt")
+    # Expired rate-limit counters delete themselves rather than accumulating.
+    await db["rate_limits"].create_index("expiresAt", expireAfterSeconds=0)

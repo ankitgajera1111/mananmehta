@@ -45,8 +45,17 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 
 def create_app() -> FastAPI:
     settings = get_settings()
+    # Interactive docs enumerate every admin route, its parameters and schemas.
+    # Useful while building, pure reconnaissance once deployed, so they are
+    # served only in development.
+    docs_enabled = settings.is_dev
     app = FastAPI(
-        title="Manan Mehta Portfolio API", version="1.0.0", lifespan=lifespan
+        title="Manan Mehta Portfolio API",
+        version="1.0.0",
+        lifespan=lifespan,
+        docs_url="/docs" if docs_enabled else None,
+        redoc_url="/redoc" if docs_enabled else None,
+        openapi_url="/openapi.json" if docs_enabled else None,
     )
 
     # auth is included before admin so /api/admin/login and /api/admin/me
@@ -57,13 +66,29 @@ def create_app() -> FastAPI:
 
     # Same-origin on Vercel makes CORS a no-op there; it matters only for local
     # dev, where CRA serves the frontend on :3000 and the API runs on :8001.
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=settings.cors_origins,
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
+    #
+    # Credentials are never combined with a wildcard origin. Browsers reject
+    # that pairing anyway, but shipping it invites a real hole the day someone
+    # relaxes the cookie's SameSite setting. An unset CORS_ORIGINS in
+    # production therefore means "same-origin only", not "anyone".
+    origins = [o for o in settings.cors_origins if o != "*"]
+    if origins:
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=origins,
+            allow_credentials=True,
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
+    elif settings.cors_origins:
+        # Wildcard was explicitly requested: allow it, but without credentials.
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=["*"],
+            allow_credentials=False,
+            allow_methods=["GET", "POST", "OPTIONS"],
+            allow_headers=["*"],
+        )
 
     @app.exception_handler(PyMongoError)
     async def _db_error(_: Request, exc: PyMongoError) -> JSONResponse:

@@ -4,13 +4,14 @@ from __future__ import annotations
 import logging
 from functools import lru_cache
 
-from fastapi import APIRouter, Depends, HTTPException, Response, status
+from fastapi import APIRouter, Depends, HTTPException, Request, Response, status
 
 from ..config import get_settings
 from ..db import ADMIN_USERS, get_db
 from ..deps import current_admin
 from ..models import ChangePasswordRequest, LoginRequest
 from ..security import create_access_token, hash_password, verify_password
+from ..services.ratelimit import check_rate_limit, client_ip
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/admin", tags=["auth"])
@@ -44,8 +45,27 @@ def _dummy_hash() -> str:
     return hash_password("not-a-real-password")
 
 
+# Ten attempts per 15 minutes per address. Generous enough that a person
+# fumbling their password is never locked out, tight enough that guessing is
+# hopeless: an attacker gets ~960 tries a day against a random password.
+LOGIN_MAX_ATTEMPTS = 10
+LOGIN_WINDOW_SECONDS = 15 * 60
+
+
 @router.post("/login")
-async def login(payload: LoginRequest, response: Response) -> dict:
+async def login(payload: LoginRequest, request: Request, response: Response) -> dict:
+    ip = client_ip(request)
+    allowed, retry_after = await check_rate_limit(
+        f"login:{ip}", LOGIN_MAX_ATTEMPTS, LOGIN_WINDOW_SECONDS
+    )
+    if not allowed:
+        logger.warning("Rate-limited login attempts from %s", ip)
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Too many sign-in attempts. Please try again shortly.",
+            headers={"Retry-After": str(retry_after)},
+        )
+
     email = payload.email.lower().strip()
     user = await get_db()[ADMIN_USERS].find_one({"email": email})
 
