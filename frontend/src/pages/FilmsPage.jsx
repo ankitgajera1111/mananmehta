@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../components/ui/dialog';
-import { imageUrl } from '../lib/media';
+import { imageUrl, youtubeEmbedUrl } from '../lib/media';
 
 const FilmsPage = () => {
   const page = useSection('filmsPage');
@@ -194,7 +194,7 @@ const FilmsPage = () => {
                       <iframe
                         width="100%"
                         height="100%"
-                        src={`https://www.youtube.com/embed/${selectedProject.originalSong.youtubeId}`}
+                        src={youtubeEmbedUrl(selectedProject.originalSong.youtubeId)}
                         title={selectedProject.originalSong.title}
                         frameBorder="0"
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"

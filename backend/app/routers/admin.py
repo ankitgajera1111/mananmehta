@@ -37,7 +37,12 @@ from ..repository import (
     save_singleton,
     update_document,
 )
-from ..services.media import build_upload_signature, delete_asset, normalise_image
+from ..services.media import (
+    build_upload_signature,
+    delete_asset,
+    normalise_image,
+    normalise_youtube_id,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -69,10 +74,16 @@ def _singleton_model(key: str) -> Type[Base]:
     return model
 
 
-def _clean_images(payload: Dict[str, Any]) -> Dict[str, Any]:
-    """Coerce coverImage into {url, publicId} whichever form the client sent."""
+def _clean_payload(payload: Dict[str, Any]) -> Dict[str, Any]:
+    """Normalise the fields where users reasonably paste the wrong shape."""
     if "coverImage" in payload:
         payload["coverImage"] = normalise_image(payload["coverImage"])
+    if "youtubeId" in payload:
+        payload["youtubeId"] = normalise_youtube_id(payload["youtubeId"])
+    # Films carry the same field nested under their original song.
+    song = payload.get("originalSong")
+    if isinstance(song, dict) and "youtubeId" in song:
+        song["youtubeId"] = normalise_youtube_id(song["youtubeId"])
     return payload
 
 
@@ -110,7 +121,7 @@ async def read_all(resource: str) -> Any:
 @router.post("/content/{resource}", status_code=status.HTTP_201_CREATED)
 async def create(resource: str, payload: Dict[str, Any]) -> Any:
     collection, model = _resource(resource)
-    return await create_document(collection, model, _clean_images(payload))
+    return await create_document(collection, model, _clean_payload(payload))
 
 
 @router.put("/content/{resource}/reorder")
@@ -123,7 +134,7 @@ async def reorder(resource: str, payload: ReorderRequest) -> Dict[str, bool]:
 @router.put("/content/{resource}/{doc_id}")
 async def update(resource: str, doc_id: str, payload: Dict[str, Any]) -> Any:
     collection, model = _resource(resource)
-    updated = await update_document(collection, model, doc_id, _clean_images(payload))
+    updated = await update_document(collection, model, doc_id, _clean_payload(payload))
     if not updated:
         raise HTTPException(status_code=404, detail="Not found")
     return updated

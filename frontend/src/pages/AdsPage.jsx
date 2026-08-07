@@ -10,7 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '../components/ui/dialog';
-import { imageUrl } from '../lib/media';
+import { imageUrl, youtubeEmbedUrl } from '../lib/media';
 
 const AdsPage = () => {
   const page = useSection('adsPage');
@@ -190,7 +190,7 @@ const AdsPage = () => {
                 {selectedProject.youtubeId && (
                   <div className="relative w-full aspect-video rounded-xl overflow-hidden">
                     <iframe
-                      src={`https://www.youtube.com/embed/${selectedProject.youtubeId}?autoplay=1`}
+                      src={`${youtubeEmbedUrl(selectedProject.youtubeId)}?autoplay=1`}
                       title={selectedProject.title}
                       className="absolute inset-0 w-full h-full"
                       frameBorder="0"

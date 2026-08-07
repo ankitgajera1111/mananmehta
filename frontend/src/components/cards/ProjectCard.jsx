@@ -1,24 +1,20 @@
 import React, { useState } from 'react';
-import { Play, Pause, ArrowUpRight } from 'lucide-react';
+import { ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { cn } from '../../lib/utils';
 import { imageUrl } from '../../lib/media';
 
-const ProjectCard = ({ 
-  project, 
+const ProjectCard = ({
+  project,
   type = 'film',
   variant = 'default',
-  onClick 
+  onClick
 }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
 
-  const handlePlayClick = (e) => {
-    e.stopPropagation();
-    setIsPlaying(!isPlaying);
-  };
-
-  // Check if this is an ad (has youtubeId) - only ads are playable
+  // Ads carry a video; the whole card opens it, so there is no separate play
+  // control. A button in the middle of a clickable card gave two targets for
+  // one action and left a dead zone around it.
   const isPlayable = type === 'ad' && project.youtubeId;
 
   if (variant === 'featured') {
@@ -28,6 +24,14 @@ const ProjectCard = ({
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
         onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
       >
         {/* Background Image */}
         <div className="aspect-[16/9] relative overflow-hidden">
@@ -62,23 +66,6 @@ const ProjectCard = ({
               </p>
             </div>
 
-            {/* Play Button - Only for ads */}
-            {isPlayable && (
-              <button
-                onClick={handlePlayClick}
-                className={cn(
-                  'w-14 h-14 lg:w-16 lg:h-16 rounded-full flex items-center justify-center transition-all duration-300',
-                  'bg-amber-500 hover:bg-amber-400',
-                  isHovered ? 'scale-100 opacity-100' : 'scale-90 opacity-80'
-                )}
-              >
-                {isPlaying ? (
-                  <Pause className="w-6 h-6 text-[#0a0a0a]" />
-                ) : (
-                  <Play className="w-6 h-6 text-[#0a0a0a] ml-1" />
-                )}
-              </button>
-            )}
           </div>
         </div>
       </div>
@@ -91,6 +78,14 @@ const ProjectCard = ({
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick?.();
+        }
+      }}
     >
       {/* Cover Image */}
       <div className={cn(
@@ -109,25 +104,6 @@ const ProjectCard = ({
           'absolute inset-0 bg-[#0a0a0a]/60 transition-opacity duration-300',
           isHovered ? 'opacity-100' : 'opacity-0'
         )} />
-
-        {/* Play Button - Only for ads */}
-        {isPlayable && (
-          <button
-            onClick={handlePlayClick}
-            className={cn(
-              'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
-              'w-14 h-14 rounded-full bg-amber-500 flex items-center justify-center',
-              'transition-all duration-300',
-              isHovered ? 'scale-100 opacity-100' : 'scale-75 opacity-0'
-            )}
-          >
-            {isPlaying ? (
-              <Pause className="w-5 h-5 text-[#0a0a0a]" />
-            ) : (
-              <Play className="w-5 h-5 text-[#0a0a0a] ml-0.5" />
-            )}
-          </button>
-        )}
 
         {/* Duration Badge - Only for ads */}
         {isPlayable && project.duration && (
