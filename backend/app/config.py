@@ -56,9 +56,19 @@ class Settings:
         self.cloudinary_folder: str = os.environ.get("CLOUDINARY_FOLDER", "manan-portfolio")
 
         # --- Email --------------------------------------------------------
+        # Two delivery routes. SMTP wins when configured because it is the one
+        # a user explicitly opted into; Resend is the HTTP fallback.
         self.resend_api_key: str = os.environ.get("RESEND_API_KEY", "")
         self.mail_from: str = os.environ.get("MAIL_FROM", "onboarding@resend.dev")
         self.contact_notify_email: str = os.environ.get("CONTACT_NOTIFY_EMAIL", "")
+
+        self.smtp_host: str = os.environ.get("SMTP_HOST", "")
+        self.smtp_port: int = int(os.environ.get("SMTP_PORT", "587"))
+        self.smtp_user: str = os.environ.get("SMTP_USER", "")
+        self.smtp_password: str = os.environ.get("SMTP_PASSWORD", "")
+        # Kept well under Vercel's 10s function ceiling so a stalled SMTP
+        # connection still leaves time to return a response to the visitor.
+        self.smtp_timeout: int = int(os.environ.get("SMTP_TIMEOUT", "7"))
 
         # --- HTTP ---------------------------------------------------------
         self.cors_origins: list[str] = [
@@ -79,8 +89,14 @@ class Settings:
         )
 
     @property
+    def smtp_configured(self) -> bool:
+        return bool(self.smtp_host and self.smtp_user and self.smtp_password)
+
+    @property
     def email_configured(self) -> bool:
-        return bool(self.resend_api_key and self.contact_notify_email)
+        if not self.contact_notify_email:
+            return False
+        return self.smtp_configured or bool(self.resend_api_key)
 
 
 @lru_cache(maxsize=1)
