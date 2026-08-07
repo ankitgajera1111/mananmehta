@@ -5,4 +5,4 @@ Allow: /
 # search results either.
 Disallow: /admin
 
-Sitemap: https://mananmehta.vercel.app/sitemap.xml
+Sitemap: https://www.manankmehta.com/sitemap.xml
