@@ -75,28 +75,31 @@ class Settings:
             o.strip() for o in os.environ.get("CORS_ORIGINS", "*").split(",") if o.strip()
         ]
 
-    # Any of these present means we are running on a hosting platform, not a
-    # laptop. Checking several because relying on VERCEL alone proved
-    # unreliable - the deployed API was still serving /docs, which meant the
-    # JWT-secret guard below was also being skipped in production.
-    _HOSTED_MARKERS = (
-        "VERCEL",
-        "VERCEL_ENV",
-        "VERCEL_URL",
-        "VERCEL_REGION",
-        "AWS_LAMBDA_FUNCTION_NAME",
-    )
-
     @property
     def is_dev(self) -> bool:
-        if any(os.environ.get(marker) for marker in self._HOSTED_MARKERS):
-            return False
-        # APP_ENV is the explicit override, for hosts we do not recognise.
-        return os.environ.get("APP_ENV", "dev").strip().lower() in {
+        """Development is opted into, never assumed.
+
+        This deliberately defaults to production. Two earlier attempts inferred
+        the environment from platform variables (VERCEL, VERCEL_ENV, ...) and
+        both failed: none of them reach Vercel's Python runtime, so the
+        deployed API believed it was in development. That silently disabled the
+        guard against booting with the default JWT_SECRET.
+
+        A security control that fails open when it cannot tell where it is
+        running is worse than no control, because it reads as protection. So
+        the default is the safe one, and backend/.env opts local development
+        back in.
+        """
+        return os.environ.get("APP_ENV", "production").strip().lower() in {
             "dev",
             "development",
             "local",
         }
+
+    @property
+    def docs_enabled(self) -> bool:
+        """Interactive API docs. Off unless explicitly switched on."""
+        return _bool("ENABLE_API_DOCS") and self.is_dev
 
     @property
     def cloudinary_configured(self) -> bool:

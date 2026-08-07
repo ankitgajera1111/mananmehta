@@ -46,9 +46,9 @@ async def lifespan(_: FastAPI) -> AsyncIterator[None]:
 def create_app() -> FastAPI:
     settings = get_settings()
     # Interactive docs enumerate every admin route, its parameters and schemas.
-    # Useful while building, pure reconnaissance once deployed, so they are
-    # served only in development.
-    docs_enabled = settings.is_dev
+    # Useful while building, pure reconnaissance once deployed. Opt-in only:
+    # see Settings.docs_enabled for why this is not inferred.
+    docs_enabled = settings.docs_enabled
     app = FastAPI(
         title="Manan Mehta Portfolio API",
         version="1.0.0",
