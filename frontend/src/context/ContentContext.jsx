@@ -6,6 +6,7 @@ import React, {
   useMemo,
   useState,
 } from 'react';
+import { useLocation } from 'react-router-dom';
 import { fetchContent } from '../lib/api';
 
 const ContentContext = createContext(null);
@@ -91,7 +92,22 @@ export const useContent = () => {
 };
 
 /**
- * Keep the browser tab title and meta description in sync with Settings.
+ * Per-page titles. Search results list one entry per URL, so shipping the same
+ * title on all six looks like duplicate pages and wastes the most valuable line
+ * of the listing. The home page keeps the full site title; the rest get a
+ * specific label in front of the composer's name.
+ */
+const PAGE_TITLES = {
+  '/films': 'Film & TV Scores',
+  '/ads': 'Advertising & Brand Work',
+  '/about': 'About',
+  '/credits': 'Credits & Filmography',
+  '/contact': 'Contact',
+};
+
+/**
+ * Keep the browser tab title and meta description in sync with Settings and
+ * the current route.
  *
  * public/index.html carries sensible defaults so crawlers and the first paint
  * see a real title before any JavaScript runs; this then applies whatever the
@@ -100,16 +116,21 @@ export const useContent = () => {
  */
 export const useDocumentHead = () => {
   const { content } = useContent();
+  const { pathname } = useLocation();
   const settings = content?.settings;
 
   useEffect(() => {
     if (!settings) return;
 
-    const title =
+    const siteTitle =
       settings.seoTitle ||
       [settings.name, settings.title].filter(Boolean).join(' | ') ||
       document.title;
-    document.title = title;
+
+    const section = PAGE_TITLES[pathname];
+    document.title = section
+      ? `${section} | ${settings.name || 'Manan Mehta'}`
+      : siteTitle;
 
     const description = settings.seoDescription || settings.tagline;
     if (description) {
@@ -121,7 +142,7 @@ export const useDocumentHead = () => {
       }
       tag.setAttribute('content', description);
     }
-  }, [settings]);
+  }, [settings, pathname]);
 };
 
 /**
