@@ -274,6 +274,15 @@ CREDITS_PAGE: Dict[str, Any] = {
     ),
 }
 
+# A fresh site shows every page; the client hides what they are not ready for.
+PAGE_VISIBILITY: Dict[str, Any] = {
+    "films": True,
+    "ads": True,
+    "about": True,
+    "credits": True,
+    "contact": True,
+}
+
 FILM_PROJECTS: List[Dict[str, Any]] = [
     {
         "id": "f1",
@@ -679,4 +688,5 @@ SINGLETONS: Dict[str, Dict[str, Any]] = {
     "films_page": FILMS_PAGE,
     "ads_page": ADS_PAGE,
     "credits_page": CREDITS_PAGE,
+    "page_visibility": PAGE_VISIBILITY,
 }

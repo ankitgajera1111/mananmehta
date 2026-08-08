@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Instagram, Music, Film } from 'lucide-react';
-import { useSection } from '../../context/ContentContext';
+import { useSection, usePageVisibility } from '../../context/ContentContext';
+import { PUBLIC_PAGES } from '../../lib/pages';
 import { cn } from '../../lib/utils';
 
 const Navigation = () => {
   const composerInfo = useSection('settings');
+  const visible = usePageVisibility();
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
@@ -22,13 +24,11 @@ const Navigation = () => {
     setIsOpen(false);
   }, [location, setIsOpen]);
 
+  // Home is always present; the rest follow whatever the client left switched
+  // on, so the menu can never offer a page that no longer has a route.
   const navLinks = [
     { path: '/', label: 'Home' },
-    { path: '/films', label: 'Films' },
-    { path: '/ads', label: 'Ads' },
-    { path: '/about', label: 'About' },
-    { path: '/credits', label: 'Credits' },
-    { path: '/contact', label: 'Contact' },
+    ...PUBLIC_PAGES.filter(({ key }) => visible[key]),
   ];
 
   return (

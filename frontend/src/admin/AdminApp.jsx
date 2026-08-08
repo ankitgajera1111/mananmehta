@@ -12,6 +12,7 @@ import SettingsPage from './pages/SettingsPage';
 import MessagesPage from './pages/MessagesPage';
 import ProjectsEditor from './pages/ProjectsEditor';
 import ListingPageEditor from './pages/ListingPageEditor';
+import PageVisibilityEditor from './pages/PageVisibilityEditor';
 
 /** Blocks a route until the session check finishes, then redirects if signed out. */
 const RequireAuth = ({ children }) => {
@@ -100,6 +101,7 @@ const AdminRoutes = () => {
                   path="messages"
                   element={<MessagesPage onUnreadChange={setUnread} />}
                 />
+                <Route path="visibility" element={<PageVisibilityEditor />} />
                 <Route path="settings" element={<SettingsPage />} />
                 <Route path="*" element={<Navigate to="/admin" replace />} />
               </Routes>

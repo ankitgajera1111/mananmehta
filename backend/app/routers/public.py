@@ -16,6 +16,7 @@ from ..db import (
     FILM_PROJECTS,
     FILMS_PAGE,
     HOME_PAGE,
+    PAGE_VISIBILITY,
     SITE_SETTINGS,
     get_db,
 )
@@ -29,6 +30,7 @@ from ..models import (
     FilmProject,
     HomePage,
     ListingPage,
+    PageVisibility,
     PublicContent,
     SiteSettings,
 )
@@ -58,6 +60,7 @@ async def get_content() -> PublicContent:
         films=await list_documents(FILM_PROJECTS, FilmProject, published_only=True),
         ads=await list_documents(AD_PROJECTS, AdProject, published_only=True),
         credits=await list_documents(CREDITS, Credit, published_only=True),
+        pageVisibility=await get_singleton(PAGE_VISIBILITY, PageVisibility),
     )
 
 

@@ -213,6 +213,24 @@ class ListingPage(Base):
     intro: str = ""
 
 
+class PageVisibility(Base):
+    """Which public pages the client has switched on.
+
+    Every field defaults to True, and ``get_singleton`` falls back to these
+    defaults when the document is missing, so an existing database keeps showing
+    the whole site until someone deliberately hides a page.
+
+    Home is absent on purpose: it is the root route and the fallback a hidden
+    page redirects to, so hiding it would leave the site with nowhere to land.
+    """
+
+    films: bool = True
+    ads: bool = True
+    about: bool = True
+    credits: bool = True
+    contact: bool = True
+
+
 # --------------------------------------------------------------------------
 # Messages
 # --------------------------------------------------------------------------
@@ -266,6 +284,8 @@ class PublicContent(Base):
     films: List[FilmProject]
     ads: List[AdProject]
     credits: List[Credit]
+    # Defaulted so a payload built without it still validates to "show everything".
+    pageVisibility: PageVisibility = Field(default_factory=PageVisibility)
 
 
 # Maps a singleton document key to its model, so the admin router stays generic
@@ -278,4 +298,5 @@ SINGLETON_MODELS: Dict[str, Type[Base]] = {
     "films_page": ListingPage,
     "ads_page": ListingPage,
     "credits_page": ListingPage,
+    "page_visibility": PageVisibility,
 }

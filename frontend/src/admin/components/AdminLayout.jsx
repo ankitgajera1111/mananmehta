@@ -10,6 +10,7 @@ import {
   Mail,
   Inbox,
   Settings,
+  Eye,
   LogOut,
   Menu,
   X,
@@ -27,6 +28,7 @@ const NAV = [
   { to: '/admin/about', label: 'About Page', icon: User },
   { to: '/admin/contact', label: 'Contact Page', icon: Mail },
   { to: '/admin/messages', label: 'Messages', icon: Inbox },
+  { to: '/admin/visibility', label: 'Page Visibility', icon: Eye },
   { to: '/admin/settings', label: 'Settings', icon: Settings },
 ];
 
