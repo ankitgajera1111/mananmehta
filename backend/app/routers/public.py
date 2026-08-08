@@ -4,7 +4,9 @@ from __future__ import annotations
 import logging
 
 from fastapi import APIRouter, HTTPException, Request, status
+from fastapi.responses import Response
 
+from ..config import get_settings
 from ..db import (
     ABOUT_PAGE,
     AD_PROJECTS,
@@ -16,6 +18,7 @@ from ..db import (
     FILM_PROJECTS,
     FILMS_PAGE,
     HOME_PAGE,
+    PAGE_VISIBILITY,
     SITE_SETTINGS,
     get_db,
 )
@@ -29,6 +32,7 @@ from ..models import (
     FilmProject,
     HomePage,
     ListingPage,
+    PageVisibility,
     PublicContent,
     SiteSettings,
 )
@@ -38,6 +42,12 @@ from ..services.ratelimit import check_rate_limit, client_ip
 
 logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api", tags=["public"])
+
+# Served at the site root rather than under /api, because that is where
+# crawlers and robots.txt look for it. vercel.json rewrites /sitemap.xml to
+# this function; the original path reaches FastAPI unchanged, which is the same
+# mechanism the /api/* rewrite relies on.
+seo_router = APIRouter(tags=["seo"])
 
 
 @router.get("/content", response_model=PublicContent)
@@ -58,6 +68,57 @@ async def get_content() -> PublicContent:
         films=await list_documents(FILM_PROJECTS, FilmProject, published_only=True),
         ads=await list_documents(AD_PROJECTS, AdProject, published_only=True),
         credits=await list_documents(CREDITS, Credit, published_only=True),
+        pageVisibility=await get_singleton(PAGE_VISIBILITY, PageVisibility),
+    )
+
+
+# Home is always listed; the rest appear only while switched on. Keys match
+# PageVisibility's fields, and each page's path is "/" + its key.
+_SITEMAP_PRIORITIES = {
+    "films": "0.9",
+    "ads": "0.9",
+    "about": "0.8",
+    "credits": "0.8",
+    "contact": "0.7",
+}
+
+
+@seo_router.get("/sitemap.xml", include_in_schema=False)
+async def sitemap() -> Response:
+    """List the pages that are actually reachable right now.
+
+    Generated rather than shipped as a static file so hiding a page under Page
+    Visibility stops advertising it to search engines. A stale sitemap is not
+    merely untidy: it keeps sending crawlers, and then visitors, to a URL that
+    now redirects to the home page.
+
+    Iterating PageVisibility's own fields means a page added to that model
+    cannot be silently left out of here.
+    """
+    base = get_settings().site_url
+    visibility = await get_singleton(PAGE_VISIBILITY, PageVisibility)
+
+    entries = [(base + "/", "1.0")]
+    for key in PageVisibility.model_fields:
+        if getattr(visibility, key, False):
+            entries.append((f"{base}/{key}", _SITEMAP_PRIORITIES.get(key, "0.5")))
+
+    urls = "\n".join(
+        f"  <url>\n    <loc>{loc}</loc>\n    <priority>{priority}</priority>\n  </url>"
+        for loc, priority in entries
+    )
+    body = (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{urls}\n"
+        "</urlset>\n"
+    )
+    return Response(
+        content=body,
+        media_type="application/xml",
+        # Crawlers revisit a sitemap on their own schedule, measured in days, so
+        # an hour of caching costs nothing and keeps bots off the database.
+        headers={"Cache-Control": "public, max-age=3600"},
     )
 
 

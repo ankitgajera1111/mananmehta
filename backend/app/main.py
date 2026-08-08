@@ -63,6 +63,8 @@ def create_app() -> FastAPI:
     app.include_router(auth.router)
     app.include_router(admin.router)
     app.include_router(public.router)
+    # Root-level, not under /api: crawlers expect /sitemap.xml exactly there.
+    app.include_router(public.seo_router)
 
     # Same-origin on Vercel makes CORS a no-op there; it matters only for local
     # dev, where CRA serves the frontend on :3000 and the API runs on :8001.

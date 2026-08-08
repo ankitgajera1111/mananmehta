@@ -2,11 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Music, Headphones, Mic2, Piano, Waves } from 'lucide-react';
 import { Button } from '../components/ui/button';
-import { useSection } from '../context/ContentContext';
+import { useSection, usePageVisibility } from '../context/ContentContext';
 
 const AboutPage = () => {
   const composerInfo = useSection('settings');
   const aboutData = useSection('about');
+  const visible = usePageVisibility();
 
   // Icons stay in code, keyed by skill name: they are design, not content. A
   // skill the client adds later simply gets the default note icon.
@@ -44,17 +45,21 @@ const AboutPage = () => {
               </div>
 
               <div className="mt-10 flex flex-wrap gap-4">
-                <Link to="/contact">
-                  <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
-                    Get in Touch
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </Link>
-                <Link to="/credits">
-                  <Button variant="outline" className="border-[#f5f5f0]/30 text-[#f5f5f0] hover:bg-[#f5f5f0]/10 rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
-                    View Credits
-                  </Button>
-                </Link>
+                {visible.contact && (
+                  <Link to="/contact">
+                    <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
+                      Get in Touch
+                      <ArrowRight className="w-4 h-4 ml-2" />
+                    </Button>
+                  </Link>
+                )}
+                {visible.credits && (
+                  <Link to="/credits">
+                    <Button variant="outline" className="border-[#f5f5f0]/30 text-[#f5f5f0] hover:bg-[#f5f5f0]/10 rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
+                      View Credits
+                    </Button>
+                  </Link>
+                )}
               </div>
             </div>
           </div>
@@ -114,24 +119,26 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-24 bg-gradient-to-br from-amber-500/10 to-[#0a0a0a]">
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12 text-center">
-          <h2 className="font-display text-4xl lg:text-6xl text-[#f5f5f0] mb-6">
-            {aboutData.ctaHeadingLine1}
-            <span className="block text-amber-500">{aboutData.ctaHeadingLine2}</span>
-          </h2>
-          <p className="text-[#f5f5f0]/60 text-lg max-w-2xl mx-auto mb-10">
-            {aboutData.ctaBody}
-          </p>
-          <Link to="/contact">
-            <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-10 py-6 font-mono text-sm tracking-wider uppercase">
-              {aboutData.ctaButtonLabel}
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
-        </div>
-      </section>
+      {/* CTA. Nothing here but a push to /contact, so it goes with that page. */}
+      {visible.contact && (
+        <section className="py-24 bg-gradient-to-br from-amber-500/10 to-[#0a0a0a]">
+          <div className="max-w-[1920px] mx-auto px-6 lg:px-12 text-center">
+            <h2 className="font-display text-4xl lg:text-6xl text-[#f5f5f0] mb-6">
+              {aboutData.ctaHeadingLine1}
+              <span className="block text-amber-500">{aboutData.ctaHeadingLine2}</span>
+            </h2>
+            <p className="text-[#f5f5f0]/60 text-lg max-w-2xl mx-auto mb-10">
+              {aboutData.ctaBody}
+            </p>
+            <Link to="/contact">
+              <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-10 py-6 font-mono text-sm tracking-wider uppercase">
+                {aboutData.ctaButtonLabel}
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </Link>
+          </div>
+        </section>
+      )}
     </div>
   );
 };

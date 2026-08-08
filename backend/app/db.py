@@ -24,6 +24,7 @@ CONTACT_PAGE = "contact_page"
 FILMS_PAGE = "films_page"
 ADS_PAGE = "ads_page"
 CREDITS_PAGE = "credits_page"
+PAGE_VISIBILITY = "page_visibility"
 
 SINGLETON_KEYS = [
     SITE_SETTINGS,
@@ -33,6 +34,7 @@ SINGLETON_KEYS = [
     FILMS_PAGE,
     ADS_PAGE,
     CREDITS_PAGE,
+    PAGE_VISIBILITY,
 ]
 
 # Ordered, repeatable collections.

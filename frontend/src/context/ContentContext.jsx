@@ -162,3 +162,32 @@ export const useCollection = (key) => {
   const value = content?.[key];
   return Array.isArray(value) ? value : [];
 };
+
+/**
+ * The public pages the client has switched on, under Page Visibility.
+ *
+ * Read every flag as "visible unless explicitly stored as false". That
+ * direction matters: `useSection` returns `{}` when content has not loaded, so
+ * a plain truthiness check would read `undefined` and hide the entire site
+ * whenever the API is slow, the cached payload predates this feature, or the
+ * request fails outright. Failing open costs nothing - the pages were already
+ * public - while failing closed would take the site down.
+ *
+ * Home is not listed. It is the root route and the destination a hidden page
+ * redirects to, so it is always visible; see PUBLIC_PAGES in App.js.
+ */
+export const usePageVisibility = () => {
+  const { content } = useContent();
+  const stored = content?.pageVisibility;
+
+  return useMemo(() => {
+    const visible = (key) => stored?.[key] !== false;
+    return {
+      films: visible('films'),
+      ads: visible('ads'),
+      about: visible('about'),
+      credits: visible('credits'),
+      contact: visible('contact'),
+    };
+  }, [stored]);
+};

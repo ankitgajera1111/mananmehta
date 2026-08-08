@@ -2,7 +2,11 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Music, Play } from 'lucide-react';
 import { Button } from '../components/ui/button';
-import { useSection, useCollection } from '../context/ContentContext';
+import {
+  useSection,
+  useCollection,
+  usePageVisibility,
+} from '../context/ContentContext';
 import ProjectCard from '../components/cards/ProjectCard';
 import { cn } from '../lib/utils';
 import {
@@ -18,6 +22,12 @@ const HomePage = () => {
   const home = useSection('home');
   const filmProjects = useCollection('films');
   const adProjects = useCollection('ads');
+  const visible = usePageVisibility();
+
+  // "Explore Work" is generic enough to send visitors to whichever work page is
+  // still switched on; with both hidden there is nowhere to go and the button
+  // drops out entirely.
+  const exploreWorkPath = visible.films ? '/films' : visible.ads ? '/ads' : null;
 
   const [activeProject, setActiveProject] = useState(0);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -101,17 +111,21 @@ const HomePage = () => {
             </p>
 
             <div className="flex flex-wrap items-center gap-4 mb-24">
-              <Link to="/films">
-                <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
-                  {home.heroPrimaryCta}
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-              <Link to="/contact">
-                <Button variant="outline" className="border-[#f5f5f0]/30 text-[#f5f5f0] hover:bg-[#f5f5f0]/10 rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
-                  {home.heroSecondaryCta}
-                </Button>
-              </Link>
+              {exploreWorkPath && (
+                <Link to={exploreWorkPath}>
+                  <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
+                    {home.heroPrimaryCta}
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              )}
+              {visible.contact && (
+                <Link to="/contact">
+                  <Button variant="outline" className="border-[#f5f5f0]/30 text-[#f5f5f0] hover:bg-[#f5f5f0]/10 rounded-full px-8 py-6 font-mono text-xs tracking-wider uppercase">
+                    {home.heroSecondaryCta}
+                  </Button>
+                </Link>
+              )}
             </div>
           </div>
 
@@ -155,12 +169,14 @@ const HomePage = () => {
               <p className="text-[#f5f5f0]/50 leading-relaxed mb-8">
                 {home.introBody}
               </p>
-              <Link to="/about">
-                <Button variant="outline" className="border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-[#0a0a0a] rounded-full px-6 py-5 font-mono text-xs tracking-wider uppercase">
-                  {home.introCtaLabel}
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
+              {visible.about && (
+                <Link to="/about">
+                  <Button variant="outline" className="border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-[#0a0a0a] rounded-full px-6 py-5 font-mono text-xs tracking-wider uppercase">
+                    {home.introCtaLabel}
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </Button>
+                </Link>
+              )}
             </div>
 
             {/* Services */}
@@ -179,87 +195,94 @@ const HomePage = () => {
         </div>
       </section>
 
-      {/* Featured Films */}
-      <section className="py-24 lg:py-32 bg-[#0d0d0d]">
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">{home.filmsKicker}</p>
-              <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">{home.filmsHeading}</h2>
-            </div>
-            <Link to="/films" className="hidden sm:inline-flex items-center gap-2 text-[#f5f5f0]/70 hover:text-amber-500 transition-colors font-mono text-xs tracking-wider uppercase">
-              View All Films
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filmProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} type="film" onClick={() => setSelectedProject(project)} />
-            ))}
-          </div>
-
-          <div className="mt-8 sm:hidden">
-            <Link to="/films">
-              <Button className="w-full bg-transparent border border-[#f5f5f0]/20 text-[#f5f5f0] hover:bg-[#f5f5f0]/10 rounded-full py-6 font-mono text-xs tracking-wider uppercase">
+      {/* Featured Films. The whole section is a shopfront for /films, so it
+          goes when that page does rather than leaving cards that link nowhere. */}
+      {visible.films && (
+        <section className="py-24 lg:py-32 bg-[#0d0d0d]">
+          <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
+            <div className="flex items-end justify-between mb-12">
+              <div>
+                <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">{home.filmsKicker}</p>
+                <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">{home.filmsHeading}</h2>
+              </div>
+              <Link to="/films" className="hidden sm:inline-flex items-center gap-2 text-[#f5f5f0]/70 hover:text-amber-500 transition-colors font-mono text-xs tracking-wider uppercase">
                 View All Films
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {filmProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} type="film" onClick={() => setSelectedProject(project)} />
+              ))}
+            </div>
+
+            <div className="mt-8 sm:hidden">
+              <Link to="/films">
+                <Button className="w-full bg-transparent border border-[#f5f5f0]/20 text-[#f5f5f0] hover:bg-[#f5f5f0]/10 rounded-full py-6 font-mono text-xs tracking-wider uppercase">
+                  View All Films
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Featured Ads */}
-      <section className="py-24 lg:py-32 bg-[#0a0a0a]">
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
-          <div className="flex items-end justify-between mb-12">
-            <div>
-              <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">{home.adsKicker}</p>
-              <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">{home.adsHeading}</h2>
-            </div>
-            <Link to="/ads" className="hidden sm:inline-flex items-center gap-2 text-[#f5f5f0]/70 hover:text-amber-500 transition-colors font-mono text-xs tracking-wider uppercase">
-              View All Ads
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {adProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} type="ad" onClick={() => setSelectedProject(project)} />
-            ))}
-          </div>
-
-          <div className="mt-8 sm:hidden">
-            <Link to="/ads">
-              <Button className="w-full bg-transparent border border-[#f5f5f0]/20 text-[#f5f5f0] hover:bg-[#f5f5f0]/10 rounded-full py-6 font-mono text-xs tracking-wider uppercase">
+      {visible.ads && (
+        <section className="py-24 lg:py-32 bg-[#0a0a0a]">
+          <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
+            <div className="flex items-end justify-between mb-12">
+              <div>
+                <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-4">{home.adsKicker}</p>
+                <h2 className="font-display text-3xl lg:text-5xl text-[#f5f5f0]">{home.adsHeading}</h2>
+              </div>
+              <Link to="/ads" className="hidden sm:inline-flex items-center gap-2 text-[#f5f5f0]/70 hover:text-amber-500 transition-colors font-mono text-xs tracking-wider uppercase">
                 View All Ads
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              {adProjects.map((project) => (
+                <ProjectCard key={project.id} project={project} type="ad" onClick={() => setSelectedProject(project)} />
+              ))}
+            </div>
+
+            <div className="mt-8 sm:hidden">
+              <Link to="/ads">
+                <Button className="w-full bg-transparent border border-[#f5f5f0]/20 text-[#f5f5f0] hover:bg-[#f5f5f0]/10 rounded-full py-6 font-mono text-xs tracking-wider uppercase">
+                  View All Ads
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* CTA Section. Exists only to push visitors to /contact. */}
+      {visible.contact && (
+        <section className="py-24 lg:py-32 bg-gradient-to-br from-[#151515] to-[#0a0a0a]">
+          <div className="max-w-[1920px] mx-auto px-6 lg:px-12 text-center">
+            <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-6">{home.ctaKicker}</p>
+            <h2 className="font-display text-4xl lg:text-6xl xl:text-7xl text-[#f5f5f0] mb-6">
+              {home.ctaHeadingLine1}
+              <span className="block text-amber-500">{home.ctaHeadingLine2}</span>
+            </h2>
+            <p className="text-[#f5f5f0]/60 text-lg max-w-2xl mx-auto mb-10">
+              {home.ctaBody}
+            </p>
+            <Link to="/contact">
+              <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-10 py-6 font-mono text-sm tracking-wider uppercase">
+                {home.ctaButtonLabel}
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Button>
             </Link>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-24 lg:py-32 bg-gradient-to-br from-[#151515] to-[#0a0a0a]">
-        <div className="max-w-[1920px] mx-auto px-6 lg:px-12 text-center">
-          <p className="font-mono text-xs tracking-[0.3em] uppercase text-amber-500 mb-6">{home.ctaKicker}</p>
-          <h2 className="font-display text-4xl lg:text-6xl xl:text-7xl text-[#f5f5f0] mb-6">
-            {home.ctaHeadingLine1}
-            <span className="block text-amber-500">{home.ctaHeadingLine2}</span>
-          </h2>
-          <p className="text-[#f5f5f0]/60 text-lg max-w-2xl mx-auto mb-10">
-            {home.ctaBody}
-          </p>
-          <Link to="/contact">
-            <Button className="bg-amber-500 hover:bg-amber-400 text-[#0a0a0a] rounded-full px-10 py-6 font-mono text-sm tracking-wider uppercase">
-              {home.ctaButtonLabel}
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Button>
-          </Link>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Project Detail Modal */}
       <Dialog open={!!selectedProject} onOpenChange={() => { setSelectedProject(null); setPlayingTrack(null); }}>

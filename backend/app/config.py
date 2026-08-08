@@ -75,6 +75,15 @@ class Settings:
             o.strip() for o in os.environ.get("CORS_ORIGINS", "*").split(",") if o.strip()
         ]
 
+        # Absolute base for the URLs in sitemap.xml. Taken from configuration
+        # rather than the request's Host header on purpose: every Vercel preview
+        # deployment has its own hostname, and deriving it would publish those
+        # throwaway URLs to search engines. Keep in sync with the canonical link
+        # in frontend/public/index.html.
+        self.site_url: str = os.environ.get(
+            "SITE_URL", "https://manankmehta.com"
+        ).rstrip("/")
+
     @property
     def is_dev(self) -> bool:
         """Development is opted into, never assumed.

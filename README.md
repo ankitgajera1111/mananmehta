@@ -100,6 +100,7 @@ CLOUDINARY_API_SECRET  …
 RESEND_API_KEY         …
 MAIL_FROM              noreply@yourdomain.com
 CONTACT_NOTIFY_EMAIL   where enquiries should land
+SITE_URL               https://manankmehta.com  (only if the domain changes)
 ```
 
 Generate the secret with:

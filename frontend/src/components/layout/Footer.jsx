@@ -1,11 +1,27 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Instagram, Mail, Music, ArrowUpRight } from 'lucide-react';
-import { useSection } from '../../context/ContentContext';
+import { useSection, usePageVisibility } from '../../context/ContentContext';
+import { PUBLIC_PAGES } from '../../lib/pages';
+
+/**
+ * The "Work" column advertises categories rather than pages, so each entry
+ * names the page it actually links to and disappears with it.
+ */
+const WORK_LINKS = [
+  { label: 'Feature Films', path: '/films', key: 'films' },
+  { label: 'Documentaries', path: '/films', key: 'films' },
+  { label: 'Commercials', path: '/ads', key: 'ads' },
+  { label: 'Brand Campaigns', path: '/ads', key: 'ads' },
+];
 
 const Footer = () => {
   const composerInfo = useSection('settings');
+  const visible = usePageVisibility();
   const currentYear = new Date().getFullYear();
+
+  const navLinks = PUBLIC_PAGES.filter(({ key }) => visible[key]);
+  const workLinks = WORK_LINKS.filter(({ key }) => visible[key]);
 
   return (
     <footer className="bg-[#0a0a0a] border-t border-[#f5f5f0]/10">
@@ -26,44 +42,45 @@ const Footer = () => {
             </p>
           </div>
 
-          {/* Navigation */}
-          <div className="lg:col-span-2">
-            <h4 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500 mb-6">
-              Navigation
-            </h4>
-            <nav className="flex flex-col gap-3">
-              {['Films', 'Ads', 'About', 'Credits', 'Contact'].map((item) => (
-                <Link
-                  key={item}
-                  to={`/${item.toLowerCase()}`}
-                  className="text-[#f5f5f0]/70 hover:text-[#f5f5f0] transition-colors text-sm"
-                >
-                  {item}
-                </Link>
-              ))}
-            </nav>
-          </div>
+          {/* Navigation. Whole column goes if every page is switched off. */}
+          {navLinks.length > 0 && (
+            <div className="lg:col-span-2">
+              <h4 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500 mb-6">
+                Navigation
+              </h4>
+              <nav className="flex flex-col gap-3">
+                {navLinks.map(({ path, label }) => (
+                  <Link
+                    key={path}
+                    to={path}
+                    className="text-[#f5f5f0]/70 hover:text-[#f5f5f0] transition-colors text-sm"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          )}
 
           {/* Work */}
-          <div className="lg:col-span-2">
-            <h4 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500 mb-6">
-              Work
-            </h4>
-            <nav className="flex flex-col gap-3">
-              <Link to="/films" className="text-[#f5f5f0]/70 hover:text-[#f5f5f0] transition-colors text-sm">
-                Feature Films
-              </Link>
-              <Link to="/films" className="text-[#f5f5f0]/70 hover:text-[#f5f5f0] transition-colors text-sm">
-                Documentaries
-              </Link>
-              <Link to="/ads" className="text-[#f5f5f0]/70 hover:text-[#f5f5f0] transition-colors text-sm">
-                Commercials
-              </Link>
-              <Link to="/ads" className="text-[#f5f5f0]/70 hover:text-[#f5f5f0] transition-colors text-sm">
-                Brand Campaigns
-              </Link>
-            </nav>
-          </div>
+          {workLinks.length > 0 && (
+            <div className="lg:col-span-2">
+              <h4 className="font-mono text-xs tracking-[0.15em] uppercase text-amber-500 mb-6">
+                Work
+              </h4>
+              <nav className="flex flex-col gap-3">
+                {workLinks.map(({ label, path }) => (
+                  <Link
+                    key={label}
+                    to={path}
+                    className="text-[#f5f5f0]/70 hover:text-[#f5f5f0] transition-colors text-sm"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </nav>
+            </div>
+          )}
 
           {/* Contact */}
           <div className="lg:col-span-4">
