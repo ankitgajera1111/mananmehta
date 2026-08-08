@@ -18,8 +18,17 @@
             content="Manan Mehta is a Mumbai-based music composer and producer creating scores for films, documentaries and advertising campaigns."
         />
 
+        <!--
+          Icons. Modern browsers take the SVG; favicon.ico is the fallback for
+          older browsers and for crawlers that only ever request /favicon.ico.
+          apple-touch-icon must be an opaque PNG (iOS ignores SVG here), and the
+          manifest carries the Android / PWA install icons.
+          Sources and regeneration steps: see frontend/ICONS.md.
+        -->
         <link rel="icon" href="%PUBLIC_URL%/favicon.svg" type="image/svg+xml" />
-        <link rel="apple-touch-icon" href="%PUBLIC_URL%/favicon.svg" />
+        <link rel="icon" href="%PUBLIC_URL%/favicon.ico" sizes="16x16 32x32 48x48" />
+        <link rel="apple-touch-icon" sizes="180x180" href="%PUBLIC_URL%/apple-touch-icon.png" />
+        <link rel="manifest" href="%PUBLIC_URL%/site.webmanifest" />
         <link rel="canonical" href="https://manankmehta.com/" />
 
         <!-- Link previews (WhatsApp, iMessage, LinkedIn, X). -->
