@@ -1,5 +1,14 @@
 import React, { useState } from 'react';
-import { Mail, Instagram, MapPin, Send, CheckCircle, AlertCircle } from 'lucide-react';
+import {
+  Mail,
+  Phone,
+  MessageCircle,
+  Instagram,
+  MapPin,
+  Send,
+  CheckCircle,
+  AlertCircle,
+} from 'lucide-react';
 import { Button } from '../components/ui/button';
 import { Input } from '../components/ui/input';
 import { Textarea } from '../components/ui/textarea';
@@ -14,7 +23,60 @@ import {
 import { useSection } from '../context/ContentContext';
 import AccentHeading from '../components/AccentHeading';
 import { submitContact, errorMessage } from '../lib/api';
+import { telHref, whatsappHref } from '../lib/contact';
 import { cn } from '../lib/utils';
+
+/**
+ * One row in the contact list.
+ *
+ * Rendered as a link when there is somewhere to go and as a plain panel
+ * otherwise, so Location does not look clickable.
+ */
+const ContactCard = ({ icon: Icon, label, value, href, external }) => {
+  const body = (
+    <>
+      <div
+        className={cn(
+          'w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center transition-colors',
+          href && 'group-hover:bg-amber-500/20'
+        )}
+      >
+        <Icon className="w-5 h-5 text-amber-500" />
+      </div>
+      <div className="min-w-0">
+        <p className="font-mono text-xs text-[#f5f5f0]/50 uppercase tracking-wider mb-1">
+          {label}
+        </p>
+        <p
+          className={cn(
+            'text-[#f5f5f0] break-words',
+            href && 'group-hover:text-amber-500 transition-colors'
+          )}
+        >
+          {value}
+        </p>
+      </div>
+    </>
+  );
+
+  if (!href) {
+    return (
+      <div className="flex items-center gap-4 p-4 rounded-xl bg-[#151515]">
+        {body}
+      </div>
+    );
+  }
+
+  return (
+    <a
+      href={href}
+      {...(external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+      className="flex items-center gap-4 p-4 rounded-xl bg-[#151515] hover:bg-[#1a1a1a] transition-colors group"
+    >
+      {body}
+    </a>
+  );
+};
 
 const ContactPage = () => {
   const composerInfo = useSection('settings');
@@ -77,45 +139,57 @@ const ContactPage = () => {
                 {page.intro}
               </p>
 
-              {/* Contact Info */}
+              {/*
+                Contact info. Each card appears only once its field has a
+                value, so a detail the client has not filled in yet leaves no
+                empty panel behind - which is what used to happen.
+              */}
               <div className="space-y-6">
-                <a
-                  href={`mailto:${composerInfo.email}`}
-                  className="flex items-center gap-4 p-4 rounded-xl bg-[#151515] hover:bg-[#1a1a1a] transition-colors group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
-                    <Mail className="w-5 h-5 text-amber-500" />
-                  </div>
-                  <div>
-                    <p className="font-mono text-xs text-[#f5f5f0]/50 uppercase tracking-wider mb-1">Email</p>
-                    <p className="text-[#f5f5f0] group-hover:text-amber-500 transition-colors">{composerInfo.email}</p>
-                  </div>
-                </a>
+                {composerInfo.email && (
+                  <ContactCard
+                    icon={Mail}
+                    label="Email"
+                    value={composerInfo.email}
+                    href={`mailto:${composerInfo.email}`}
+                  />
+                )}
 
-                <a
-                  href={composerInfo.instagramUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-4 p-4 rounded-xl bg-[#151515] hover:bg-[#1a1a1a] transition-colors group"
-                >
-                  <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center group-hover:bg-amber-500/20 transition-colors">
-                    <Instagram className="w-5 h-5 text-amber-500" />
-                  </div>
-                  <div>
-                    <p className="font-mono text-xs text-[#f5f5f0]/50 uppercase tracking-wider mb-1">Instagram</p>
-                    <p className="text-[#f5f5f0] group-hover:text-amber-500 transition-colors">@{composerInfo.instagram}</p>
-                  </div>
-                </a>
+                {composerInfo.phone && (
+                  <ContactCard
+                    icon={Phone}
+                    label="Phone"
+                    value={composerInfo.phone}
+                    href={telHref(composerInfo.phone)}
+                  />
+                )}
 
-                <div className="flex items-center gap-4 p-4 rounded-xl bg-[#151515]">
-                  <div className="w-12 h-12 rounded-full bg-amber-500/10 flex items-center justify-center">
-                    <MapPin className="w-5 h-5 text-amber-500" />
-                  </div>
-                  <div>
-                    <p className="font-mono text-xs text-[#f5f5f0]/50 uppercase tracking-wider mb-1">Location</p>
-                    <p className="text-[#f5f5f0]">{composerInfo.location}</p>
-                  </div>
-                </div>
+                {composerInfo.whatsapp && (
+                  <ContactCard
+                    icon={MessageCircle}
+                    label="WhatsApp"
+                    value={composerInfo.whatsapp}
+                    href={whatsappHref(composerInfo.whatsapp)}
+                    external
+                  />
+                )}
+
+                {composerInfo.instagram && (
+                  <ContactCard
+                    icon={Instagram}
+                    label="Instagram"
+                    value={`@${composerInfo.instagram}`}
+                    href={composerInfo.instagramUrl}
+                    external
+                  />
+                )}
+
+                {composerInfo.location && (
+                  <ContactCard
+                    icon={MapPin}
+                    label="Location"
+                    value={composerInfo.location}
+                  />
+                )}
               </div>
             </div>
 

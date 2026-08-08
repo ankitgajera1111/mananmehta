@@ -125,7 +125,10 @@ const SettingsPage = () => {
           />
         </Section>
 
-        <Section title="Contact details">
+        <Section
+          title="Contact details"
+          description="These appear as cards on your Contact page. Leave one blank to keep it off the page."
+        >
           <div className="grid sm:grid-cols-2 gap-4">
             <TextField
               label="Email"
@@ -136,6 +139,18 @@ const SettingsPage = () => {
               label="Location"
               value={draft.location}
               onChange={(v) => setField('location', v)}
+            />
+            <TextField
+              label="Phone"
+              value={draft.phone}
+              onChange={(v) => setField('phone', v)}
+              hint="Shown exactly as you type it. Visitors on a phone can tap to call."
+            />
+            <TextField
+              label="WhatsApp"
+              value={draft.whatsapp}
+              onChange={(v) => setField('whatsapp', v)}
+              hint="Include the country code, e.g. +91 98765 43210 — without it the chat link will not open."
             />
           </div>
         </Section>

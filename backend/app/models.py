@@ -138,6 +138,11 @@ class SiteSettings(Base):
     tagline: str = ""
     shortBio: str = ""
     email: str = ""
+    # Free text, stored exactly as typed so the client controls the formatting
+    # visitors see. The Contact page derives tel: and wa.me links from the
+    # digits; both cards stay hidden while their field is blank.
+    phone: str = ""
+    whatsapp: str = ""
     instagram: str = ""
     instagramUrl: str = ""
     spotify: str = ""
