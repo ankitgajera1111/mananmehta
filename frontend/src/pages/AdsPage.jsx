@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Megaphone, Filter, Grid, List } from 'lucide-react';
 import { useSection, useCollection } from '../context/ContentContext';
+import { ALL, filterOptions, matchesFilter } from '../lib/filters';
 import AccentHeading from '../components/AccentHeading';
 import ProjectCard from '../components/cards/ProjectCard';
 import { cn } from '../lib/utils';
@@ -17,13 +18,25 @@ const AdsPage = () => {
   const adProjects = useCollection('ads');
   const [selectedProject, setSelectedProject] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState(ALL);
 
-  const brands = ['all', ...new Set(adProjects.map(p => p.brand))];
+  const brands = useMemo(
+    () => [ALL, ...filterOptions(adProjects, 'brand')],
+    [adProjects]
+  );
 
-  const filteredProjects = filter === 'all' 
-    ? adProjects 
-    : adProjects.filter(p => p.brand === filter);
+  // A brand can stop existing while someone is looking at the page - renamed or
+  // deleted in the admin panel, or its last ad unpublished. Fall back to All
+  // rather than leaving an empty grid with no button lit up.
+  useEffect(() => {
+    if (filter !== ALL && !brands.some((b) => matchesFilter(b, filter))) {
+      setFilter(ALL);
+    }
+  }, [brands, filter]);
+
+  const filteredProjects = adProjects.filter((p) =>
+    matchesFilter(p.brand, filter)
+  );
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24">
@@ -52,8 +65,10 @@ const AdsPage = () => {
         <div className="max-w-[1920px] mx-auto px-6 lg:px-12">
           <div className="flex items-center justify-center gap-8 lg:gap-16 opacity-50 flex-wrap">
             {/* Derived from the ads themselves, so adding a brand in the admin
-                panel surfaces it here with no extra step. */}
-            {[...new Set(adProjects.map((p) => p.brand).filter(Boolean))].map((brand) => (
+                panel surfaces it here with no extra step. Shares the filter
+                bar's de-duplication, or "Nike" and "NIKE" would render as two
+                identical-looking logos. */}
+            {filterOptions(adProjects, 'brand').map((brand) => (
               <span key={brand} className="font-display text-lg lg:text-2xl text-[#f5f5f0] tracking-wider">
                 {brand.toUpperCase()}
               </span>
@@ -69,7 +84,9 @@ const AdsPage = () => {
             {/* Filters */}
             <div className="flex items-center gap-2 overflow-x-auto pb-2 sm:pb-0">
               <Filter className="w-4 h-4 text-[#f5f5f0]/50 mr-2 hidden sm:block" />
-              {brands.slice(0, 6).map((b) => (
+              {/* Every brand gets a button. The row scrolls sideways rather
+                  than capping the list, which used to hide brands 6 and up. */}
+              {brands.map((b) => (
                 <button
                   key={b}
                   onClick={() => setFilter(b)}
@@ -80,7 +97,7 @@ const AdsPage = () => {
                       : 'bg-[#151515] text-[#f5f5f0]/70 hover:text-[#f5f5f0]'
                   )}
                 >
-                  {b === 'all' ? 'All Brands' : b}
+                  {b === ALL ? 'All Brands' : b}
                 </button>
               ))}
             </div>
