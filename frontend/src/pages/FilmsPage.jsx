@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { Film, Filter, Grid, List, Music, Play } from 'lucide-react';
 import { useSection, useCollection } from '../context/ContentContext';
+import { ALL, filterOptions, matchesFilter } from '../lib/filters';
 import AccentHeading from '../components/AccentHeading';
 import ProjectCard from '../components/cards/ProjectCard';
 import { cn } from '../lib/utils';
@@ -18,13 +19,27 @@ const FilmsPage = () => {
   const [selectedProject, setSelectedProject] = useState(null);
   const [playingTrack, setPlayingTrack] = useState(null);
   const [viewMode, setViewMode] = useState('grid');
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState(ALL);
 
-  const filters = ['all', 'Feature Film', 'Documentary', 'Short Film'];
+  // Built from the films themselves, so a type the client invents in the admin
+  // panel gets a button without anyone editing this file.
+  const filters = useMemo(
+    () => [ALL, ...filterOptions(filmProjects, 'type')],
+    [filmProjects]
+  );
 
-  const filteredProjects = filter === 'all' 
-    ? filmProjects 
-    : filmProjects.filter(p => p.type === filter);
+  // The selected type can stop existing while someone is looking at the page -
+  // renamed or deleted in the admin panel, or its last film unpublished. Fall
+  // back to All rather than leaving an empty grid with no button lit up.
+  useEffect(() => {
+    if (filter !== ALL && !filters.some((f) => matchesFilter(f, filter))) {
+      setFilter(ALL);
+    }
+  }, [filters, filter]);
+
+  const filteredProjects = filmProjects.filter((p) =>
+    matchesFilter(p.type, filter)
+  );
 
   return (
     <div className="min-h-screen bg-[#0a0a0a] pt-24">
@@ -66,7 +81,7 @@ const FilmsPage = () => {
                       : 'bg-[#151515] text-[#f5f5f0]/70 hover:text-[#f5f5f0]'
                   )}
                 >
-                  {f === 'all' ? 'All Projects' : f}
+                  {f === ALL ? 'All Projects' : f}
                 </button>
               ))}
             </div>
