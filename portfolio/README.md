@@ -30,6 +30,13 @@ tools/compose.mjs       Frames raw shots into the final images
    node portfolio/tools/compose.mjs 07  # just one composition
    ```
 
+   To shoot the public pages from the **live site** instead (real content and
+   artwork), set `PUBLIC_URL`; the admin panel and sample enquiries stay local:
+
+   ```bash
+   PUBLIC_URL=https://manankmehta.com node portfolio/tools/capture.mjs
+   ```
+
 `capture.mjs` posts three clearly labelled **sample** enquiries
 (“Sample: …”, `@example.com`) so the Messages screens aren't empty.
 

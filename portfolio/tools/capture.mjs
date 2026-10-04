@@ -2,6 +2,10 @@
 //
 // Prereqs: backend on :8001 (USE_MEMORY_DB=1) and `yarn start` on :3000.
 // Run:     node portfolio/tools/capture.mjs
+//          PUBLIC_URL=https://manankmehta.com node portfolio/tools/capture.mjs
+//            shoots the public pages from the live site (real content and
+//            artwork); the admin panel and sample enquiries stay local, so
+//            nothing is ever posted to production.
 //
 // Remote artwork (posters, YouTube thumbnails) is fetched normally. If a host
 // is unreachable, a neutral title card is served in its place and the shot is
@@ -11,6 +15,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 const BASE = process.env.BASE_URL || 'http://localhost:3000';
+const PUBLIC = (process.env.PUBLIC_URL || BASE).replace(/\/$/, '');
 const OUT = path.resolve('portfolio/screenshots/raw');
 const EMAIL = process.env.ADMIN_EMAIL || 'admin@manankmehta.com';
 const PASSWORD = process.env.ADMIN_PASSWORD || 'changeme123';
@@ -46,6 +51,7 @@ async function newContext(browser, viewport, scale = 2) {
   }
   await ctx.route(/^https?:\/\/(?!localhost|127\.0\.0\.1|local\.fonts|fonts\.googleapis)/, async (route) => {
     const req = route.request();
+    if (req.url().startsWith(PUBLIC)) return route.continue();
     if (req.resourceType() !== 'image') return route.abort();
     try {
       const res = await route.fetch({ timeout: 8000 });
@@ -79,7 +85,9 @@ async function shot(page, name, opts = {}) {
   console.log('captured', name);
 }
 
-const browser = await chromium.launch();
+// Chromium ignores HTTPS_PROXY; pass it through when the machine needs one.
+const proxy = process.env.HTTPS_PROXY || process.env.https_proxy;
+const browser = await chromium.launch(proxy ? { proxy: { server: proxy, bypass: 'localhost,127.0.0.1' } } : {});
 
 // ---------- Public site, desktop ----------
 {
@@ -90,13 +98,13 @@ const browser = await chromium.launch();
     ['about', '/about'], ['credits', '/credits'], ['contact', '/contact'],
   ];
   for (const [name, url] of pages) {
-    await page.goto(BASE + url);
+    await page.goto(PUBLIC + url);
     await settle(page);
     await shot(page, `public-${name}-hero`);
     await shot(page, `public-${name}-full`, { fullPage: true });
   }
   // Film detail modal with the track list.
-  await page.goto(BASE + '/films');
+  await page.goto(PUBLIC + '/films');
   await settle(page);
   const card = page.locator('[data-testid^="film-card"], article, .group').filter({ hasText: /jigra/i }).first();
   if (await card.count()) {
@@ -113,7 +121,7 @@ const browser = await chromium.launch();
   const ctx = await newContext(browser, { width: 390, height: 844 }, 3);
   const page = await ctx.newPage();
   for (const [name, url] of [['home', '/'], ['films', '/films'], ['ads', '/ads'], ['contact', '/contact']]) {
-    await page.goto(BASE + url);
+    await page.goto(PUBLIC + url);
     await settle(page);
     await shot(page, `mobile-${name}`);
   }
