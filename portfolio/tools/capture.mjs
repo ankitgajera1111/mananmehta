@@ -8,11 +8,13 @@
 //            nothing is ever posted to production.
 //
 // Remote artwork (posters, YouTube thumbnails) is fetched normally. If a host
-// is unreachable, a neutral title card is served in its place and the shot is
-// listed in raw/_placeholders.txt so it can be re-captured later.
+// is unreachable, a plain dark gradient is served in its place (no text, which
+// would read as a rendering bug) and the URL is listed in
+// raw/_placeholders.txt so it can be re-captured later.
 import { chromium } from 'playwright';
 import fs from 'node:fs';
 import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 
 const BASE = process.env.BASE_URL || 'http://localhost:3000';
 const PUBLIC = (process.env.PUBLIC_URL || BASE).replace(/\/$/, '');
@@ -37,14 +39,14 @@ const FONT_FILES = {
   'JetBrains Mono': ['jetbrains-mono', [400, 500]],
 };
 const localFontCss = () => Object.entries(FONT_FILES).flatMap(([family, [pkg, weights]]) =>
-  weights.map((w) => `@font-face{font-family:'${family}';font-style:normal;font-weight:${w};font-display:block;src:url(http://local.fonts/${pkg}/${pkg}-latin-${w}-normal.woff2) format('woff2');}`)
+  weights.map((w) => `@font-face{font-family:'${family}';font-style:normal;font-weight:${w};font-display:block;src:url(https://local.fonts/${pkg}/${pkg}-latin-${w}-normal.woff2) format('woff2');}`)
 ).join('\n');
 
 async function newContext(browser, viewport, scale = 2) {
   const ctx = await browser.newContext({ viewport, deviceScaleFactor: scale, colorScheme: 'dark' });
   if (LOCAL_FONTS) {
     await ctx.route(/fonts\.googleapis\.com/, (route) => route.fulfill({ contentType: 'text/css', body: localFontCss() }));
-    await ctx.route(/^http:\/\/local\.fonts\//, (route) => {
+    await ctx.route(/^https?:\/\/local\.fonts\//, (route) => {
       const [pkg, file] = new URL(route.request().url()).pathname.slice(1).split('/');
       route.fulfill({ contentType: 'font/woff2', body: fs.readFileSync(path.join(LOCAL_FONTS, 'node_modules/@fontsource', pkg, 'files', file)) });
     });
@@ -58,6 +60,12 @@ async function newContext(browser, viewport, scale = 2) {
       if (res.ok()) return route.fulfill({ response: res });
       throw new Error(String(res.status()));
     } catch {
+      // A browser without the proxy (the local admin one) can still get the
+      // image through curl, which honours HTTPS_PROXY.
+      try {
+        const body = execFileSync('curl', ['-sfL', '-m', '15', req.url()], { maxBuffer: 50 * 1024 * 1024 });
+        if (body.length) return route.fulfill({ status: 200, body });
+      } catch { /* fall through to the placeholder */ }
       placeholdered.add(req.url());
       return route.fulfill({ status: 200, contentType: 'image/svg+xml', body: placeholderSvg() });
     }
@@ -65,7 +73,23 @@ async function newContext(browser, viewport, scale = 2) {
   return ctx;
 }
 
+const ONLY = process.env.ONLY; // 'public' | 'admin' | unset for both
+
+// A hosted site can return a transient gateway error; reload a few times.
+async function open(page, url) {
+  for (let attempt = 0; attempt < 4; attempt++) {
+    await page.goto(url);
+    const text = await page.locator('body').innerText().catch(() => '');
+    if (!/upstream request failed|bad gateway|service unavailable/i.test(text) || text.length > 400) return;
+    await page.waitForTimeout(2000);
+  }
+}
+
 async function settle(page) {
+  await page.waitForLoadState('networkidle').catch(() => {});
+  // The site shows a loader until its content request returns, which can take
+  // a few seconds on a serverless cold start.
+  await page.locator('h1').first().waitFor({ state: 'visible', timeout: 30000 }).catch(() => {});
   await page.waitForLoadState('networkidle').catch(() => {});
   await page.evaluate(() => document.fonts.ready);
   // Pages fade/slide in on scroll; walk the page so every section is revealed.
@@ -85,10 +109,15 @@ async function shot(page, name, opts = {}) {
   console.log('captured', name);
 }
 
-// Chromium ignores HTTPS_PROXY; pass it through when the machine needs one.
+// Chromium ignores HTTPS_PROXY, so pass it through when the machine needs one.
+// Playwright proxies loopback too, so the local admin gets its own unproxied
+// browser.
 const proxy = process.env.HTTPS_PROXY || process.env.https_proxy;
-const browser = await chromium.launch(proxy ? { proxy: { server: proxy, bypass: 'localhost,127.0.0.1' } } : {});
+const remote = !/^https?:\/\/(localhost|127\.0\.0\.1)/.test(PUBLIC);
+const localBrowser = await chromium.launch();
+const browser = proxy && remote ? await chromium.launch({ proxy: { server: proxy } }) : localBrowser;
 
+if (ONLY !== 'admin') {
 // ---------- Public site, desktop ----------
 {
   const ctx = await newContext(browser, { width: 1440, height: 900 });
@@ -98,15 +127,17 @@ const browser = await chromium.launch(proxy ? { proxy: { server: proxy, bypass: 
     ['about', '/about'], ['credits', '/credits'], ['contact', '/contact'],
   ];
   for (const [name, url] of pages) {
-    await page.goto(PUBLIC + url);
+    await open(page, PUBLIC + url);
+    // A page switched off in Page Visibility redirects home; don't save that.
+    if (url !== '/' && new URL(page.url()).pathname === '/') { console.log('skipped (hidden)', name); continue; }
     await settle(page);
     await shot(page, `public-${name}-hero`);
     await shot(page, `public-${name}-full`, { fullPage: true });
   }
   // Film detail modal with the track list.
-  await page.goto(PUBLIC + '/films');
+  await open(page, PUBLIC + '/films');
   await settle(page);
-  const card = page.locator('[data-testid^="film-card"], article, .group').filter({ hasText: /jigra/i }).first();
+  const card = page.locator('[role="button"]').filter({ has: page.locator('img[alt="Jigra"]') }).first();
   if (await card.count()) {
     await card.click().catch(() => {});
     await page.waitForTimeout(1200);
@@ -121,25 +152,27 @@ const browser = await chromium.launch(proxy ? { proxy: { server: proxy, bypass: 
   const ctx = await newContext(browser, { width: 390, height: 844 }, 3);
   const page = await ctx.newPage();
   for (const [name, url] of [['home', '/'], ['films', '/films'], ['ads', '/ads'], ['contact', '/contact']]) {
-    await page.goto(PUBLIC + url);
+    await open(page, PUBLIC + url);
     await settle(page);
     await shot(page, `mobile-${name}`);
   }
   await ctx.close();
 }
-
-// ---------- Sample enquiries so the inbox is not empty ----------
-for (const m of [
-  { name: 'Sample: Riya Kapoor', email: 'riya@example.com', projectType: 'Short Film', message: 'We are a small team shooting a 20-minute drama in Pune this winter and would love an original score. Are you free from December?' },
-  { name: 'Sample: Northwind Studio', email: 'hello@example.com', projectType: 'Commercial / Advertising', message: 'Looking for a 30-second sonic logo and two cut-downs for a fintech launch campaign. Can you share your rates?' },
-  { name: 'Sample: Arjun Desai', email: 'arjun@example.com', projectType: 'Documentary', message: 'Feature-length wildlife documentary, rough cut is locked. Need ambient, orchestral textures. Happy to send a private link.' },
-]) {
-  await fetch(`${BASE}/api/contact`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(m) });
 }
 
 // ---------- Admin panel ----------
-{
-  const ctx = await newContext(browser, { width: 1440, height: 900 });
+if (ONLY !== 'public') {
+  // Sample enquiries so the inbox is not empty. Always sent to the local
+  // API (BASE), never to PUBLIC_URL.
+  for (const m of [
+    { name: 'Sample: Riya Kapoor', email: 'riya@example.com', projectType: 'Short Film', message: 'We are a small team shooting a 20-minute drama in Pune this winter and would love an original score. Are you free from December?' },
+    { name: 'Sample: Northwind Studio', email: 'hello@example.com', projectType: 'Commercial / Advertising', message: 'Looking for a 30-second sonic logo and two cut-downs for a fintech launch campaign. Can you share your rates?' },
+    { name: 'Sample: Arjun Desai', email: 'arjun@example.com', projectType: 'Documentary', message: 'Feature-length wildlife documentary, rough cut is locked. Need ambient, orchestral textures. Happy to send a private link.' },
+  ]) {
+    await fetch(`${BASE}/api/contact`, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(m) });
+  }
+
+  const ctx = await newContext(localBrowser, { width: 1440, height: 900 });
   const page = await ctx.newPage();
   await page.goto(BASE + '/admin/login');
   await settle(page);
@@ -186,5 +219,6 @@ for (const m of [
 }
 
 await browser.close();
+if (localBrowser !== browser) await localBrowser.close();
 fs.writeFileSync(path.join(OUT, '_placeholders.txt'), [...placeholdered].join('\n') + '\n');
 console.log(`\n${shots.length} shots; ${placeholdered.size} remote images replaced by placeholders.`);

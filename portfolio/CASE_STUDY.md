@@ -4,6 +4,10 @@ Ready-to-paste content for **ankitgajera.com → Admin → Portfolio → Project
 Fields are listed in the order the form shows them. Images live in
 `portfolio/screenshots/final/`.
 
+Public-site images are taken from the live site, https://manankmehta.com. Admin
+images come from a local copy of the CMS loaded with the live site's content
+(the real admin needs Manan's login), so the films, ads and text match.
+
 > Items marked **✎ confirm** are facts only you know (dates, scope). Change them
 > before publishing; your form's own rule is “never imply more than you did”.
 
@@ -25,14 +29,17 @@ A cinematic portfolio and custom CMS for Mumbai film composer Manan Mehta, so he
 
 | # | File | Why it's here |
 |---|---|---|
-| 1 | `01-cover.jpg` | Cover. Public site, CMS and phone in one frame. |
-| 2 | `06-admin-banner.jpg` | Strongest admin screen: the banner picker. |
-| 3 | `02-public-site.jpg` | Three public pages fanned out. |
-| 4 | `07-admin-edit-film.jpg` | The list and edit dialog: how content gets in. |
-| 5 | `04-enquiries.jpg` | Contact form → inbox, front and back together. |
-| 6 | `09-mobile.jpg` | Responsive proof. |
-| 7 | `05-admin-dashboard.jpg` | CMS overview. |
-| 8 | `08-admin-control.jpg` | Page visibility + settings. |
+| 1 | `01-cover.jpg` | Cover. Live hero (Jigra), CMS and phone in one frame. |
+| 2 | `03-home-work.jpg` | The posters — the most eye-catching frame. |
+| 3 | `06-admin-banner.jpg` | Strongest admin screen: the banner picker. |
+| 4 | `10-work-pages.jpg` | Films and Ads pages full of real artwork. |
+| 5 | `07-admin-edit-film.jpg` | The list and edit dialog: how content gets in. |
+| 6 | `04-enquiries.jpg` | Contact form → inbox, front and back together. |
+| 7 | `09-mobile.jpg` | Responsive proof. |
+| 8 | `05-admin-dashboard.jpg` | CMS overview. |
+
+`02-public-site.jpg`, `08-admin-control.jpg` and `11-film-detail.jpg` are used
+in the case-study body below.
 
 All are 2400 × 1500 (16:10) JPEGs, each showing a different screen, so the
 hover sequence never repeats itself.
@@ -112,7 +119,8 @@ word, image and track in his hands.
 
 The site uses a near-black canvas with a single amber accent, condensed Oswald
 headlines and monospaced captions, so the posters and video stills supply the
-colour. Six pages share one navigation:
+colour. Five pages are live, plus a sixth (Credits) that is built and
+currently switched off from the admin panel:
 
 - **Home** — a full-screen hero that rotates through hand-picked films and
   ads, then sections for film scores, advertising work and a closing call to
@@ -121,14 +129,18 @@ colour. Six pages share one navigation:
   grid and list views. Each film opens a detail view with the director, genre
   and SoundCloud tracks, so a visitor can hear the score without leaving the
   page.
-- **Ads** — a brand strip and brand filters, with each spot playing from YouTube in a pop-up player.
+- **Ads** — a strip of the brands he has scored for (Volvo, Samsung,
+  Squarespace, Lay's, Lakmé, Tropicana, Durex, Torrent Electricals and more)
+  and brand filters, with each spot playing from YouTube in a pop-up player.
 - **About** — biography, achievements, skills and a four-step process.
-- **Credits** — the filmography grouped by year, with counters at the top.
-- **Contact** — an enquiry form, direct contact cards and an FAQ.
+- **Contact** — an enquiry form, cards for email, phone, WhatsApp and
+  Instagram, and an FAQ.
+- **Credits** *(built, currently hidden)* — the filmography grouped by year,
+  with counters calculated from the rows.
 
-### 4 · Image — `11-film-detail.jpg`
+### 4 · Image — `03-home-work.jpg`
 
-### 5 · Image — `03-credits.jpg`
+### 5 · Image — `11-film-detail.jpg`
 
 ### 6 · Text — Why a custom CMS
 **Heading:** Every word on the site, editable
@@ -192,7 +204,9 @@ Rate limiting keeps spam bots from flooding it.
 
 ### 15 · Image — `09-mobile.jpg`
 
-### 16 · Text — Outcome
+### 16 · Image — `10-work-pages.jpg`
+
+### 17 · Text — Outcome
 **Heading:** Outcome
 
 manankmehta.com is live, and Manan maintains it himself: adding films and
@@ -230,34 +244,34 @@ and a fuller explanation for every image, so you can use whichever fits the
 block.
 
 ### 01-cover.jpg
-- **Caption:** The public site and its CMS, side by side.
-- **Alt:** Manan Mehta's portfolio home page in a browser, overlapped by the admin panel's banner editor and the mobile home page.
-- **Explanation:** The project in one frame. On the left, the public home page:
+- **Caption:** The live site and its CMS, side by side.
+- **Alt:** The manankmehta.com home page with the Jigra poster behind the composer's name, overlapped by the admin panel's banner editor and the mobile home page.
+- **Explanation:** The project in one frame. On the left, the live home page:
   the composer's name set large in Oswald over a rotating banner of his films
-  and ads. On the right, the admin screen that controls that banner, and the
-  same home page on a phone.
+  and ads, here the *Jigra* poster. On the right, the admin screen that
+  controls that banner, and the same home page on a phone.
 
 ### 02-public-site.jpg
-- **Caption:** About, Credits and Contact share one dark, amber-accented system.
-- **Alt:** Three pages of manankmehta.com — About, Credits and Contact — layered in browser windows on a warm background.
+- **Caption:** Films, Ads and About share one dark, amber-accented system.
+- **Alt:** Three pages of manankmehta.com — Film & TV, Advertising and About — layered in browser windows on a warm background.
 - **Explanation:** Each page opens the same way: a small amber label, a
-  condensed headline and a short introduction. That consistency is what makes
-  six very different pages (a biography, a data table, a form) feel like one
-  site.
+  condensed headline and a short introduction, then the work. That consistency
+  is what makes a poster grid, a brand reel and a biography feel like one site.
 
-### 03-credits.jpg
-- **Caption:** The filmography counts itself.
-- **Alt:** The Credits page showing totals for credits, feature films, commercials and active years above a year-by-year list.
-- **Explanation:** The four counters (15 credits, 3 feature films, 8
-  commercials, 4 active years) aren't typed in. They're calculated from the
-  rows in the admin panel, so adding a credit updates every number. Credits
-  are grouped by year in collapsible rows and filterable by type.
+### 03-home-work.jpg
+- **Caption:** Below the hero, the work does the talking.
+- **Alt:** The Film Scores section of the manankmehta.com home page showing posters for Jigra, Happy Patel: Khatarnak Jasoos, Raftaar, RBI Unlocked, Aakhri Ride and Bombay Mon Amour.
+- **Explanation:** The home page's "Film Scores" section shows each film as its
+  full poster with a role badge (e.g. *Additional Music*), type, year and a
+  one-line description, with "View all films" leading to the Films page. The
+  advertising section follows the same pattern with video stills.
 
 ### 04-enquiries.jpg
 - **Caption:** A visitor's brief, and where it lands.
 - **Alt:** The public contact form beside the admin Messages inbox showing an opened enquiry with Reply, Mark unread and Delete actions.
-- **Explanation:** The contact form asks for name, email, project type and a
-  brief. Each submission is saved to the admin inbox (unread ones get an amber
+- **Explanation:** The live Contact page pairs the form with cards for email,
+  phone, WhatsApp and Instagram, all edited from Settings. The form asks for
+  name, email, project type and a brief. Each submission is saved to the admin inbox (unread ones get an amber
   dot and a count in the sidebar) and emailed to the client. Opening a message
   shows the project type, and **Reply** opens a pre-addressed email. *The
   enquiries shown are sample data.*
@@ -266,7 +280,7 @@ block.
 - **Caption:** The admin dashboard: counts, unread enquiries and a quick guide.
 - **Alt:** The Manan Mehta content manager dashboard showing counts for films, ads, credits and unread messages, and a quick guide.
 - **Explanation:** The first screen after login. Four tiles link to Films &
-  TV, Ads, Credits and Messages and show how many of each exist. The quick
+  TV (7), Ads (9), Credits (15) and Messages and show how many of each exist. The quick
   guide below explains what every section controls, in one line each. The
   sidebar lists all ten screens: Dashboard, Home & Banner, Films, Ads, Credits,
   About Page, Contact Page, Messages, Page Visibility and Settings.
@@ -275,8 +289,9 @@ block.
 - **Caption:** Choosing which films and ads play behind the hero.
 - **Alt:** The Home page editor's Banner section, listing five selected projects with reorder arrows and a grid of all films and ads to add or remove.
 - **Explanation:** The **Banner** section lists the projects currently in
-  the hero (here Jigra, Happy Patel, a Volvo spot, a Squarespace spot and a
-  Fuwo World film), with up/down arrows to reorder and × to remove. Below,
+  the hero (Jigra, Happy Patel: Khatarnak Jasoos, Sports Bag – Fuwo World,
+  Aakhri Ride and the Volvo C40 Recharge spot), with up/down arrows to
+  reorder and × to remove. Below,
   every film and ad appears as a tile, and clicking one adds or removes it.
   “Seconds per slide” sets the rotation speed. Further down the same screen
   are **Hero text** (small heading, tagline, both button labels),
@@ -301,29 +316,30 @@ block.
 - **Explanation:** **Page Visibility** has one switch per page. Turning one
   off removes it from the menu, makes its URL redirect home and takes it out
   of the sitemap, while its content stays editable. The home page is always
-  on. **Settings** groups Identity (name, title, tagline), Contact details
+  on. It's in real use: Manan currently has Credits switched off, which is
+  why that page doesn't appear on the live site. **Settings** groups Identity (name, title, tagline), Contact details
   (email, location, phone, and WhatsApp with a country-code hint), Social links
   (Instagram, Spotify, IMDb), Search engines (page title and description) and
   Your login (change password).
 
 ### 09-mobile.jpg
 - **Caption:** The same site at phone width.
-- **Alt:** Three phones showing the Home, Advertising and Contact pages of manankmehta.com.
+- **Alt:** Three phones showing the Home, Film & TV and Contact pages of manankmehta.com.
 - **Explanation:** At 390 px the navigation collapses into a menu button, the
-  headlines scale down without losing their weight, the brand filters become a
-  swipeable row of chips, and the contact details stack into large cards
-  that are easy to tap.
+  headlines scale down without losing their weight, posters run full width,
+  the filters become a swipeable row of chips, and the contact details stack
+  into large cards: tap the phone number to call, or WhatsApp to chat.
 
-### 10-work-pages.jpg *(see note below)*
+### 10-work-pages.jpg
 - **Caption:** Films and Ads: filterable grids of posters and video stills.
-- **Alt:** The Films & TV page and the Advertising page of manankmehta.com in two browser windows.
+- **Alt:** The Films & TV poster grid and the Advertising page's brand strip and video stills on manankmehta.com.
 - **Explanation:** Films filter by type and switch between grid and list.
   Ads add a brand strip and brand filters, and each card opens its YouTube
   spot in a player without leaving the page.
 
-### 11-film-detail.jpg *(see note below)*
+### 11-film-detail.jpg
 - **Caption:** Each film opens with its score, ready to play.
-- **Alt:** The film detail dialog for Jigra showing type, year, genre, director, description and a two-track Original Score list.
+- **Alt:** The Jigra detail view on manankmehta.com: poster banner, type, year, genre, director, description and a two-track Original Score list.
 - **Explanation:** Clicking a film opens a detail view with its type, year,
   genre, director and description, followed by the **Original Score** track
   list and a link to the full SoundCloud playlist.
@@ -334,12 +350,8 @@ block.
 
 ---
 
-## ⚠ Note on images 10 and 11
+## Note
 
-The film posters and ad thumbnails on manankmehta.com are loaded from other
-sites (filmfare, IMDb/Amazon, TMDB, YouTube, Emergent's CDN). The environment
-that generated these screenshots couldn't reach those hosts, so poster areas
-show a dark amber gradient instead of the real artwork. Images 01–09 don't
-depend on posters and are final. Regenerate 10 and 11 (and, optionally, 01
-and 06 to show real thumbnails) from a machine with normal internet access;
-see `portfolio/README.md`.
+Every image is final. One ad ("Khushiyon Ka Check") has its thumbnail on
+Cloudinary, which the capture environment couldn't reach; that card isn't
+visible in any of the final crops.

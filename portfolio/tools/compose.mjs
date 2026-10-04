@@ -28,11 +28,14 @@ const fontCss = LOCAL_FONTS
 
 // ---------- building blocks ----------
 
-/** A desktop browser window showing `shot`, cropped to `ratio` from `pos`. */
-const browser = ({ shot, url, width, ratio = 1440 / 900, pos = 'top', style = '', dark = false }) => `
+/**
+ * A desktop browser window showing `shot`, cropped to `ratio`. `top` is where
+ * the crop starts, in CSS pixels of the 1440px-wide capture.
+ */
+const browser = ({ shot, url, width, ratio = 1440 / 900, top = 0, style = '', dark = false }) => `
 <div class="browser ${dark ? 'dark' : ''}" style="width:${width}px;${style}">
   <div class="bar"><i></i><i></i><i></i><span class="url">${url}</span></div>
-  <div class="view" style="aspect-ratio:${ratio};background-image:url('${raw(shot)}');background-position:center ${pos};"></div>
+  <div class="view" style="aspect-ratio:${ratio};background-image:url('${raw(shot)}');background-position:0 ${-(top * width) / 1440}px;"></div>
 </div>`;
 
 /** A phone outline showing a 390×844 shot. */
@@ -99,15 +102,15 @@ const comps = {
 
   // 2 — The public site, three pages fanned.
   '02-public-site': page(`
-    ${copy({ eyebrow: 'Public site', title: 'A dark, cinematic<br>stage for the score', body: 'Six pages — Home, Films, Ads, About, Credits, Contact — in black and amber, with condensed Oswald headlines and mono captions.', style: 'left:70px;top:90px' })}
-    ${browser({ shot: 'public-about-hero', url: `${SITE}/about`, width: 560, style: 'left:470px;top:60px' })}
-    ${browser({ shot: 'public-credits-hero', url: `${SITE}/credits`, width: 560, style: 'left:560px;top:250px' })}
-    ${browser({ shot: 'public-contact-hero', url: `${SITE}/contact`, width: 560, style: 'left:650px;top:440px' })}`),
+    ${copy({ eyebrow: 'Public site', title: 'A dark, cinematic<br>stage for the score', body: 'Black and amber, condensed Oswald headlines and mono captions, so the film posters and campaign stills supply the colour.', style: 'left:70px;top:90px' })}
+    ${browser({ shot: 'public-films-hero', url: `${SITE}/films`, width: 560, style: 'left:470px;top:60px' })}
+    ${browser({ shot: 'public-ads-hero', url: `${SITE}/ads`, width: 560, style: 'left:560px;top:250px' })}
+    ${browser({ shot: 'public-about-hero', url: `${SITE}/about`, width: 560, style: 'left:650px;top:440px' })}`),
 
-  // 3 — Credits page: counters computed from rows.
-  '03-credits': page(`
-    ${copy({ eyebrow: 'Credits', title: 'A filmography that<br>counts itself', body: 'The totals — credits, feature films, commercials, active years — are calculated from the rows in the CMS, so they never drift out of date.', style: 'left:70px;top:110px' })}
-    ${browser({ shot: 'public-credits-full', url: `${SITE}/credits`, width: 720, ratio: 1440 / 1300, style: 'left:430px;top:60px' })}`),
+  // 3 — Home page work sections.
+  '03-home-work': page(`
+    ${copy({ eyebrow: 'Home page', title: 'The work leads,<br>not the words', body: 'Below the hero, film scores appear as full posters with role badges, followed by the advertising work as video stills, so the first scroll is all work.', style: 'left:70px;top:110px' })}
+    ${browser({ shot: 'public-home-full', url: SITE, width: 720, ratio: 1440 / 1300, top: 1580, style: 'left:430px;top:60px' })}`),
 
   // 4 — Enquiry form to inbox.
   '04-enquiries': page(`
@@ -124,7 +127,7 @@ const comps = {
   // 6 — Home banner picker.
   '06-admin-banner': page(`
     ${copy({ eyebrow: 'Home & Banner', title: 'Choose what plays<br>behind the hero', body: 'Pick any film or ad for the rotating banner, reorder it with the arrows, and set seconds per slide. Slides reference projects, so edits flow through.', style: 'left:70px;top:110px' })}
-    ${browser({ shot: 'admin-home-full', url: `${SITE}/admin/home`, width: 760, ratio: 1440 / 1000, style: 'left:410px;top:90px', dark: true })}`),
+    ${browser({ shot: 'admin-home-full', url: `${SITE}/admin/home`, width: 760, ratio: 1440 / 975, style: 'left:410px;top:90px', dark: true })}`),
 
   // 7 — Editing a film.
   '07-admin-edit-film': page(`
@@ -142,15 +145,17 @@ const comps = {
 
   // 9 — Mobile.
   '09-mobile': page(`
-    ${copy({ eyebrow: 'Responsive', title: 'Built phone-first', body: 'The same pages at 390px: a collapsible menu, swipeable filter chips and stacked contact cards.', style: 'left:70px;top:110px' })}
+    ${copy({ eyebrow: 'Responsive', title: 'Built phone-first', body: 'The same pages at 390px: a collapsible menu, full-width posters, swipeable filter chips and tap-to-call contact cards.', style: 'left:70px;top:110px' })}
     ${phone({ shot: 'mobile-home', width: 200, style: 'left:420px;top:100px' })}
-    ${phone({ shot: 'mobile-ads', width: 200, style: 'left:640px;top:60px' })}
+    ${phone({ shot: 'mobile-films', width: 200, style: 'left:640px;top:60px' })}
     ${phone({ shot: 'mobile-contact', width: 200, style: 'left:860px;top:140px' })}`),
 
   // 10 — Films and Ads (need the real posters — see README).
   '10-work-pages': page(`
-    ${browser({ shot: 'public-films-full', url: `${SITE}/films`, width: 640, ratio: 1440 / 1100, style: 'left:60px;top:60px' })}
-    ${browser({ shot: 'public-ads-full', url: `${SITE}/ads`, width: 640, ratio: 1440 / 1100, style: 'left:500px;top:220px' })}`),
+    ${browser({ shot: 'public-films-full', url: `${SITE}/films`, width: 640, ratio: 1440 / 1100, top: 480, style: 'left:60px;top:60px' })}
+    ${browser({ shot: 'public-ads-full', url: `${SITE}/ads`, width: 640, ratio: 1440 / 1000, top: 520, style: 'left:500px;top:250px' })}
+    <span class="tag" style="left:60px;top:560px"><b>●</b> Films · filter by type, grid or list</span>
+    <span class="tag" style="left:500px;top:212px"><b>●</b> Ads · brand strip and brand filters</span>`),
 
   // 11 — Film detail dialog with tracklist.
   '11-film-detail': page(`
