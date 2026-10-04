@@ -10,3 +10,6 @@ memory/
 .emergent/
 frontend/node_modules/
 frontend/build/
+
+# Case-study screenshots and tooling, not part of the site.
+portfolio/
